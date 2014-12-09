@@ -1,10 +1,11 @@
 (function(){ 
   var app = angular.module('catalogo',['ui.bootstrap']),
       body = document.body,
+      form = document.getElementById('form')
       nivel = document.getElementById('nivel'),
       experiencia = document.getElementById('experiencia'),
       comentario = document.getElementById('comentario'),
-      height = angular.element(body).css('padding-bottom');
+      height = angular.element(form).css('height');
 
   app.controller('CatalogoCtrl', ['$scope','$http', function ($scope,$http) {
     $scope.answers = [];
@@ -23,7 +24,6 @@
     });
 
     $scope.loadForm = function(skillID,skillName) {
-      angular.element(body).css('padding-bottom', height);
       $scope.skillName = skillName;
       $scope.skillID = skillID;
       $scope.isVisible = true;
@@ -35,7 +35,6 @@
       angular.element(comentario).val(null);
       $scope.skillName = null;
       $scope.skillID = null;
-      angular.element(body).css('padding-bottom', '0px');
       $scope.isVisible = false;
     }
 
@@ -46,6 +45,11 @@
         comentario: angular.element(comentario).val(),
         skill_id: $scope.skillID
       }
+      $scope.answers.every(function(currentValue,index,array) {
+        if (currentValue.skill_id === answer.skill_id) {
+          array.splice(index);
+        }
+      });
       $scope.answers.push(answer);
       console.log(JSON.stringify($scope.answers));
     }
