@@ -1,14 +1,15 @@
 #PDCP1
 
-Vas a necesitar tener node y npm instalados en su máquina.
+Vas a necesitar tener Python y Node.js instalados en tu compu.
 
 ##Rodando
 Instale las dependencias.
 
     $ npm install
     $ node node_modules/bower/bin/bower install
+    $ cd public && python -m SimpleHTTPServer 8000
 
-Abra `public/index.html` en su navegador favorito.
+En su navegador favorito, acceda a http://localhost:8000.
 
 ##Extendendo
 
@@ -25,3 +26,4 @@ https://www.npmjs.org/package/gulp-inject
 https://www.npmjs.org/package/main-bower-files
 
 ###Prod
+Angular, Bootstrap

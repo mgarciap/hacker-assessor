@@ -1,12 +1,21 @@
 {
   "name": "PDCP1",
   "dependencies": {
-    "angular": "~1.3.6",
-    "bootstrap": "~3.3.1"
+    "angular": ">=1 <1.3.0",
+    "bootstrap": "~3.3.1",
+    "angular-bootstrap": "~0.12.0"
   },
   "overrides": {
     "bootstrap": {
-      "dependencies": null
+      "dependencies": null,
+      "main": [
+        "less/bootstrap.less",
+        "dist/css/bootstrap.css",
+        "dist/fonts/glyphicons-halflings-regular.eot",
+        "dist/fonts/glyphicons-halflings-regular.svg",
+        "dist/fonts/glyphicons-halflings-regular.ttf",
+        "dist/fonts/glyphicons-halflings-regular.woff"
+      ]
     }
   }
 }

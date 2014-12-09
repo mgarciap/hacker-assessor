@@ -1,17 +1,47 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app='catalogo'>
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
   <title>PDCP1</title>
   <!-- bower:css -->
   <link rel="stylesheet" href="vendor/bootstrap/dist/css/bootstrap.css">
   <!-- endinject -->
 </head>
 <body>
-  <h1>Categorias principales</h1>
+  <div class='container-fluid'>
+    <div class="row">
+      <div class="col-xs-12">
+        <h1 class='text-center'>Categorias</h1>
+      </div>
+    </div>
+    <br/>
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="input-group">
+          <span class="input-group-addon">
+            <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+          </span>
+          <input type="text" class="form-control" placeholder="Hace una búsqueda!">
+        </div>
+      </div>
+    </div>
+    <br/>
+    <div class="row">
+      <div class="col-xs-12" ng-controller="CatalogoCtrl as catalogo">
+        <accordion close-others="true">
+          <accordion-group heading="{{category.name}}" ng-repeat="category in categories">
+          </accordion-group>
+        </accordion>
+      </div>
+      <div class=col-xs-12></div> <!-- form -->
+    </div>
+  </div>
   <!-- bower:js -->
   <script src="vendor/angular/angular.js"></script>
-  <script src="vendor/bootstrap/dist/js/bootstrap.js"></script>
+  <script src="vendor/angular-bootstrap/ui-bootstrap-tpls.js"></script>
   <!-- endinject -->
+  <script src="app.js"></script>
 </body>
 </html>
