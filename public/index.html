@@ -29,7 +29,7 @@
     }
 
     body {
-      padding: 150px 0 400px 0;
+      padding: 150px 0 380px 0;
     }
   </style>
 </head>
@@ -56,9 +56,9 @@
     </div>
     <br/>
   </div>
-  <div class='container-fluid'>
+  <div class='container-fluid' ng-controller="CatalogoCtrl">
     <div class="row">
-      <div class="col-xs-12" ng-controller="CatalogoCtrl as catalogo">
+      <div class="col-xs-12">
         <accordion close-others="true">
           <accordion-group heading="{{category.name}}"
                            ng-repeat="category in categories">
@@ -66,7 +66,7 @@
               <li class="list-group-item"
                   ng-repeat="skill in skills | filter:busqueda"
                   ng-if="category.id === skill.category_id"
-                  ng-click=''>{{skill.name}}</li>
+                  ng-click='loadForm(skill.id,skill.name)'>{{skill.name}}</li>
             </ul>
           </accordion-group>
         </accordion>
@@ -74,34 +74,38 @@
     </div>
     <div class='row stick-to-bottom'>
       <div class=col-xs-12>
-        <br/>
-        <form role="form">
+        <form role="form" ng-show='isVisible'>
+          <button type="button"
+                  class="close pull-right" ng-click='closeForm()'>
+            <span aria-hidden="true">&times;</span>
+            <span class="sr-only">Close</span>
+          </button>
+          <h2><small>{{skillName}}</small></h2>
           <div class="form-group">
             <label for="nivel">Nivel de experiencia</label>
-            <select disabled class="form-control">
-              <option>No tengo conocimiento</option>
-              <option>Tengo conocimiento pero no lo he utilizado</option>
-              <option>Tengo conocimiento y experiencia</option>
+            <select id='nivel' class="form-control">
+              <option value='1'>No tengo conocimiento</option>
+              <option value='2'>Tengo conocimiento pero no lo he utilizado</option>
+              <option value='3'>Tengo conocimiento y experiencia</option>
             </select>
           </div>
           <div class="form-group">
             <label for="experiencia">Experiencia en años</label>
-            <input disabled
-                   type="number"
+            <input id='experiencia'
                    class="form-control"
                    placeholder="0">
           </div>
           <div class="form-group">
             <label for="comentario">Comentario</label>
-            <textarea disabled
+            <textarea id='comentario'
                       class="form-control"
                       rows="3"
                       style="resize:none;"
                       placeholder='Añade un comentario'></textarea>
           </div>
-          <button disabled
-                  type=""
-                  class="btn btn-primary btn-lg btn-block">Guardar</button>
+          <button id='guardar'
+                  class="btn btn-primary btn-lg btn-block"
+                  ng-click='saveExperience()'>Guardar</button>
         </form>
         <br/>
       </div> <!-- form -->
