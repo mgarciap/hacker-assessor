@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" ng-app='catalogo'>
+<html lang="en" data-ng-app='catalogo'>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -31,6 +31,12 @@
     body {
       padding-top: 110px;
     }
+
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
   </style>
 </head>
 <body>
@@ -49,33 +55,33 @@
           <input type="text"
                  class="form-control"
                  placeholder="Hace una búsqueda!"
-                 ng-model='busqueda'>
+                 data-ng-model='busqueda'>
         </div>
       </div>
     </div>
     <br/>
   </div>
-  <div class='container-fluid' ng-controller="CatalogoCtrl">
+  <div class='container-fluid' data-ng-controller="CatalogoCtrl">
     <div class="row">
       <div class="col-xs-12">
         <accordion close-others="true">
           <accordion-group heading="{{category.name}}"
-                           ng-repeat="category in categories | orderBy">
+                           data-ng-repeat="category in categories | orderBy:+name">
             <ul class="list-group">
               <li class="list-group-item"
-                  ng-repeat="skill in skills | filter:busqueda"
-                  ng-if="category.id === skill.category_id"
-                  ng-click='loadForm(skill.id,skill.name)'>{{skill.name}}</li>
+                  data-ng-repeat="skill in skills | filter:busqueda"
+                  data-ng-if="category.id === skill.category_id"
+                  data-ng-click='loadForm(skill.id,skill.name)'>{{skill.name}}</li>
             </ul>
           </accordion-group>
         </accordion>
       </div>
     </div>
-    <div id='form' class='row stick-to-bottom' ng-show='isVisible'>
+    <div id='form' class='row stick-to-bottom' data-ng-show='isVisible'>
       <div class=col-xs-12>
-        <form role="form">
+        <form data-ng-submit='saveExperience()'>
           <button type="button"
-                  class="close pull-right" ng-click='closeForm()'>
+                  class="close pull-right" data-ng-click='closeForm()'>
             <span aria-hidden="true">&times;</span>
             <span class="sr-only">Close</span>
           </button>
@@ -91,6 +97,8 @@
           <div class="form-group">
             <label for="experiencia">Experiencia en años</label>
             <input id='experiencia'
+                   type='number'
+                   min='0'
                    class="form-control"
                    placeholder="0">
           </div>
@@ -102,9 +110,9 @@
                       style="resize:none;"
                       placeholder='Añade un comentario'></textarea>
           </div>
-          <button id='guardar'
-                  class="btn btn-primary btn-lg btn-block"
-                  ng-click='saveExperience()'>Guardar</button>
+          <button type='submit'
+                  id='guardar'
+                  class="btn btn-primary btn-lg btn-block">Guardar</button>
         </form>
         <br/>
       </div> <!-- form -->
