@@ -1,5 +1,4 @@
-(function(){ 
-  var app = angular.module('catalogo',['ui.bootstrap']),
+angular.module('catalogo',['ui.bootstrap'])
       body = document.body,
       form = document.getElementById('form')
       nivel = document.getElementById('nivel'),
@@ -7,7 +6,7 @@
       comentario = document.getElementById('comentario'),
       height = angular.element(form).css('height');
 
-  app.controller('CatalogoCtrl', ['$scope','$http', function ($scope,$http) {
+  .controller('CatalogoCtrl', ['$scope','$http', function ($scope,$http) {
     $scope.answers = [];
     $scope.categories = [];
     $scope.skills = [];
