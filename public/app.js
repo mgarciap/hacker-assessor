@@ -23,7 +23,25 @@
       $scope.skills = data;
     });
 
+    function loadPreviousAnswer (skillID) {
+      var storage = JSON.parse(localStorage.getItem('skills')) || [];
+      var answer;
+      storage.forEach(function(item) {
+        if (item.skill_id == skillID) {
+          answer = item;
+        } 
+      })
+
+      return answer || {};
+    }
+
     $scope.loadForm = function(skillID,skillName) {
+      var answer = loadPreviousAnswer(skillID);
+      angular.element(nivel).val(answer.nivel);
+      angular.element(experiencia).val(answer.experiencia);
+      angular.element(comentario).val(answer.comentario);
+
+
       $scope.skillName = skillName;
       $scope.skillID = skillID;
       $scope.isVisible = true;
@@ -45,13 +63,35 @@
         comentario: angular.element(comentario).val(),
         skill_id: $scope.skillID
       }
-      $scope.answers.every(function(currentValue,index,array) {
+      $scope.answers.forEach(function(currentValue,index,array) {
         if (currentValue.skill_id === answer.skill_id) {
           array.splice(index);
         }
       });
+
       $scope.answers.push(answer);
-      console.log(JSON.stringify($scope.answers));
+      localStorage.setItem('skills', JSON.stringify($scope.answers))
+
+      // console.log(JSON.stringify($scope.answers));
     }
+
+
+    $scope.shouldDisplayCategory = function(category, busqueda){
+        var busca = new RegExp(busqueda, 'i');
+
+        var items_categoria = $scope.skills.filter(function(item){
+          return item.category_id === category.id;
+        });
+        
+        var match_skills = items_categoria.filter(function(item){
+          return item.name.match(busca);
+        });
+        
+        var match_category = !!category.name.match(busca);
+
+        return match_category || match_skills.length>0;
+    }
+
+
   }]);
 })();
