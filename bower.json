@@ -1,5 +1,5 @@
 {
-  "name": "PDCP1",
+  "name": "hacker-assessor",
   "dependencies": {
     "angular": ">=1 <1.3.0",
     "bootstrap": "~3.3.1",
