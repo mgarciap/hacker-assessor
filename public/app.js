@@ -1,12 +1,8 @@
 angular.module('catalogo',['ui.bootstrap'])
-      body = document.body,
-      form = document.getElementById('form')
-      nivel = document.getElementById('nivel'),
-      experiencia = document.getElementById('experiencia'),
-      comentario = document.getElementById('comentario'),
-      height = angular.element(form).css('height');
+  .controller('CatalogoCtrl', function ($scope,$http) {
+    var form = document.getElementById('form'),
+        height = angular.element(form).css('height');
 
-  .controller('CatalogoCtrl', ['$scope','$http', function ($scope,$http) {
     $scope.answers = [];
     $scope.categories = [];
     $scope.skills = [];
@@ -36,20 +32,18 @@ angular.module('catalogo',['ui.bootstrap'])
 
     $scope.loadForm = function(skillID,skillName) {
       var answer = loadPreviousAnswer(skillID);
-      angular.element(nivel).val(answer.nivel);
-      angular.element(experiencia).val(answer.experiencia);
-      angular.element(comentario).val(answer.comentario);
-
-
+      $scope.nivel = answer.nivel;
+      $scope.experiencia = answer.experiencia;
+      $scope.comentario = answer.comentario;
       $scope.skillName = skillName;
       $scope.skillID = skillID;
       $scope.isVisible = true;
     }
 
     $scope.closeForm = function() {
-      angular.element(nivel).val(1);
-      angular.element(experiencia).val(null);
-      angular.element(comentario).val(null);
+      $scope.nivel = 1;
+      $scope.experiencia = '';
+      $scope.comentario = '';
       $scope.skillName = null;
       $scope.skillID = null;
       $scope.isVisible = false;
@@ -57,11 +51,12 @@ angular.module('catalogo',['ui.bootstrap'])
 
     $scope.saveExperience = function() {
       var answer = {
-        nivel: angular.element(nivel).val(),
-        experiencia: angular.element(experiencia).val(),
-        comentario: angular.element(comentario).val(),
+        nivel: $scope.nivel,
+        experiencia: $scope.experiencia,
+        comentario: $scope.comentario,
         skill_id: $scope.skillID
       }
+      
       $scope.answers.forEach(function(currentValue,index,array) {
         if (currentValue.skill_id === answer.skill_id) {
           array.splice(index);
@@ -74,23 +69,23 @@ angular.module('catalogo',['ui.bootstrap'])
       // console.log(JSON.stringify($scope.answers));
     }
 
+    $scope.updateVisibleCategories = function(busqueda){
 
-    $scope.shouldDisplayCategory = function(category, busqueda){
-        var busca = new RegExp(busqueda, 'i');
-
-        var items_categoria = $scope.skills.filter(function(item){
-          return item.category_id === category.id;
-        });
-        
-        var match_skills = items_categoria.filter(function(item){
-          return item.name.match(busca);
-        });
-        
-        var match_category = !!category.name.match(busca);
-
-        return match_category || match_skills.length>0;
     }
 
+    $scope.shouldDisplayCategory = function(category, busqueda){
+      var busca = new RegExp(busqueda, 'i');
 
-  }]);
-})();
+      var items_categoria = $scope.skills.filter(function(item){
+        return item.category_id === category.id;
+      });
+      
+      var match_skills = items_categoria.filter(function(item){
+        return item.name.match(busca);
+      });
+      
+      var match_category = !!category.name.match(busca);
+
+      return match_category || match_skills.length>0;
+    }
+  });
