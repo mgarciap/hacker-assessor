@@ -1,24 +1,27 @@
-angular.module('catalogo',['ui.bootstrap'])
+angular.module('catalogo',['ui.bootstrap', 'ngRoute'])
+  .config(function($routeProvider) {
+    $routeProvider
+      .when('/', {
+        controller: CatalogoCtrl,
+        
+      })
+  })
   .controller('CatalogoCtrl', function ($scope,$http) {
-    var form = document.getElementById('form'),
-        height = angular.element(form).css('height');
+    
+    $http.get('api/1/categories.json').success(function(data){
+      $scope.categories = data;
+    });    
+    
+    $http.get('api/1/skills.json').success(function(data){
+      $scope.skills = data;
+    });    
 
-    $scope.answers = [];
-    $scope.categories = [];
-    $scope.skills = [];
     $scope.isVisible = false;
     $scope.skillName;
     $scope.skillID;
+    $scope.answers = [];
 
-    $http.get('api/1/categories.json').success(function(data){
-      $scope.categories = data;
-    });
-
-    $http.get('api/1/skills.json').success(function(data){
-      $scope.skills = data;
-    });
-
-    function loadPreviousAnswer (skillID) {
+    $scope.loadPreviousAnswer = function(skillID) {
       var storage = JSON.parse(localStorage.getItem('skills')) || [];
       var answer;
       storage.forEach(function(item) {
@@ -32,18 +35,18 @@ angular.module('catalogo',['ui.bootstrap'])
 
     $scope.loadForm = function(skillID,skillName) {
       var answer = loadPreviousAnswer(skillID);
-      $scope.nivel = answer.nivel;
-      $scope.experiencia = answer.experiencia;
-      $scope.comentario = answer.comentario;
+      $scope.experience.level = answer.experience_level;
+      $scope.experience.years = answer.experience_years;
+      $scope.comment = answer.comentario;
       $scope.skillName = skillName;
       $scope.skillID = skillID;
       $scope.isVisible = true;
     }
 
     $scope.closeForm = function() {
-      $scope.nivel = 1;
-      $scope.experiencia = '';
-      $scope.comentario = '';
+      $scope.experience.level = 1;
+      $scope.experience.years = 0;
+      $scope.comment = '';
       $scope.skillName = null;
       $scope.skillID = null;
       $scope.isVisible = false;
@@ -51,12 +54,12 @@ angular.module('catalogo',['ui.bootstrap'])
 
     $scope.saveExperience = function() {
       var answer = {
-        nivel: $scope.nivel,
-        experiencia: $scope.experiencia,
-        comentario: $scope.comentario,
+        experience_level: $scope.experience.level,
+        experience_years: $scope.experience.years,
+        comment: $scope.comment,
         skill_id: $scope.skillID
       }
-      
+
       $scope.answers.forEach(function(currentValue,index,array) {
         if (currentValue.skill_id === answer.skill_id) {
           array.splice(index);
@@ -69,23 +72,28 @@ angular.module('catalogo',['ui.bootstrap'])
       // console.log(JSON.stringify($scope.answers));
     }
 
-    $scope.updateVisibleCategories = function(busqueda){
+    $scope.updateVisibleCategories = function(search_term){
+      var match_expression = new RegExp(search_term, 'i');
+
+      $scope.category.filter(function(item) {
+        if (item.name.match(match_expression)) { item.visible = true; } 
+      })
 
     }
 
-    $scope.shouldDisplayCategory = function(category, busqueda){
-      var busca = new RegExp(busqueda, 'i');
-
-      var items_categoria = $scope.skills.filter(function(item){
+    $scope.assembleCategory = function(category, search_term){
+      var match_expression = new RegExp(search_term, 'i');
+      
+      var category_items = $scope.skills.filter(function(item){
         return item.category_id === category.id;
       });
       
-      var match_skills = items_categoria.filter(function(item){
-        return item.name.match(busca);
+      var matched_skills = category_items.filter(function(item){
+        return item.name.match(match_expression);
       });
       
-      var match_category = !!category.name.match(busca);
+      var matched_categories = !!category.name.match(match_expression);
 
-      return match_category || match_skills.length>0;
+      return matched_categories || matched_skills.length > 0;
     }
   });
