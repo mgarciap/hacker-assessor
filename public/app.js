@@ -1,96 +1,132 @@
-angular.module('catalogo',['ui.bootstrap'])
-      body = document.body,
-      form = document.getElementById('form')
-      nivel = document.getElementById('nivel'),
-      experiencia = document.getElementById('experiencia'),
-      comentario = document.getElementById('comentario'),
-      height = angular.element(form).css('height');
+"use strict";
 
-  .controller('CatalogoCtrl', ['$scope','$http', function ($scope,$http) {
-    $scope.answers = [];
-    $scope.categories = [];
-    $scope.skills = [];
-    $scope.isVisible = false;
-    $scope.skillName;
-    $scope.skillID;
-
-    $http.get('api/1/categories.json').success(function(data){
-      $scope.categories = data;
-    });
-
-    $http.get('api/1/skills.json').success(function(data){
-      $scope.skills = data;
-    });
-
-    function loadPreviousAnswer (skillID) {
-      var storage = JSON.parse(localStorage.getItem('skills')) || [];
-      var answer;
-      storage.forEach(function(item) {
-        if (item.skill_id == skillID) {
-          answer = item;
-        } 
-      })
-
-      return answer || {};
-    }
-
-    $scope.loadForm = function(skillID,skillName) {
-      var answer = loadPreviousAnswer(skillID);
-      angular.element(nivel).val(answer.nivel);
-      angular.element(experiencia).val(answer.experiencia);
-      angular.element(comentario).val(answer.comentario);
-
-
-      $scope.skillName = skillName;
-      $scope.skillID = skillID;
-      $scope.isVisible = true;
-    }
-
-    $scope.closeForm = function() {
-      angular.element(nivel).val(1);
-      angular.element(experiencia).val(null);
-      angular.element(comentario).val(null);
-      $scope.skillName = null;
-      $scope.skillID = null;
-      $scope.isVisible = false;
-    }
-
-    $scope.saveExperience = function() {
-      var answer = {
-        nivel: angular.element(nivel).val(),
-        experiencia: angular.element(experiencia).val(),
-        comentario: angular.element(comentario).val(),
-        skill_id: $scope.skillID
-      }
-      $scope.answers.forEach(function(currentValue,index,array) {
-        if (currentValue.skill_id === answer.skill_id) {
-          array.splice(index);
+angular.module('hacker-assessor',['ui.bootstrap', 'ngRoute'])
+  .config(function($routeProvider) {
+    $routeProvider
+      .when('/', {
+        templateUrl: "/main.html", 
+        controller: "AppCtrl",
+        controllerAs: 'controller',
+        resolve: {
+          categories: function(CategoryService, $q) {
+            return CategoryService.query().then(function(response){
+              console.log('resolve')
+              return response;
+            });
+          },
+          skills: function(DataLoaderService) {
+            return DataLoaderService.get('api/1/skills.json');
+          }
         }
-      });
-
-      $scope.answers.push(answer);
-      localStorage.setItem('skills', JSON.stringify($scope.answers))
-
-      // console.log(JSON.stringify($scope.answers));
+      })
+  })
+  .controller('AppCtrl', function ($scope, categories, skills, SearchService, AnswerFormService) {  
+    $scope.categories = categories.data;   
+    $scope.skills = skills.data;
+    $scope.answer = { experience: { level: 1, years: 0 }, comment: '' };
+    $scope.assembleCategory = SearchService.assembleCategory;
+    $scope.updateExpandedCategories = SearchService.updateExpandedCategories;
+  })
+  .service('DataLoaderService', function($http) { 
+    this.get = function(url) {
+      return $http({ url: url });
     }
+  })
+  .factory('CategoryService', function($q, DataLoaderService){
+    var cache = JSON.parse(localStorage.getItem('cache'));
+    return {
+      query: function (){
+        if(cache){
+          var deferred = $q.defer();
+          deferred.resolve(cache);
+          return deferred.promise;
+        }
+        else{
+          return DataLoaderService.get('api/1/categories.json').then(function(response){
+              console.log('query')
+            cache = response;
+            localStorage.setItem('cache', JSON.stringify(cache));
+            return response;
+          });
+        }
+      }
+    };
+  })
+  .factory('AnswerFormService', function(){
+    return {
+      loadPreviousAnswer: function(skill_id) {
+        var answers = JSON.parse(localStorage.getItem('skills')) || [];
+        answers.forEach(function(answer) {
+          return answer.skill_id == skill_id ? answer :  $scope.answer;
+        })
+      },
 
+      loadForm: function(skillID,skillName) {
+        var answer = loadPreviousAnswer(skillID);
+        $scope.experience.level = answer.experience_level;
+        $scope.experience.years = answer.experience_years;
+        $scope.comment = answer.comentario;
+        $scope.isVisible = true;
+      },
 
-    $scope.shouldDisplayCategory = function(category, busqueda){
-        var busca = new RegExp(busqueda, 'i');
+      closeForm: function() {
+        $scope.answer = { experience: { level: 1, years: 0 }, comment: '' };
+      },
 
-        var items_categoria = $scope.skills.filter(function(item){
-          return item.category_id === category.id;
+      saveExperience: function() {
+        $scope.answers.forEach(function(currentValue,index,array) {
+          if (currentValue.skill_id === answer.skill_id) {
+            array.splice(index);
+          }
+        });
+
+        $scope.answers.push(answer);
+        localStorage.setItem('skills', JSON.stringify($scope.answers));
+      }
+    }
+  })
+  .factory('SearchService', function(){
+    return {
+      updateExpandedCategories: function(search_term, skills, categories){
+        var search_expression;
+
+        if (search_term.length === 0) {
+          search_expression = /''/;
+        } else {
+          search_expression = new RegExp(search_term, 'i');
+        }
+
+        var matched_skills = skills.filter(function(skill) {
+            return skill.name.match(match_expression);
+        });
+
+        categories.forEach(function(category) {
+          category.expanded = false;
+          matched_skills.forEach(function(skill) {
+            if (skill.category_id == category.id) {
+              category.expanded = true;
+            }
+          });
+        });
+      },
+      assembleCategory: function(skills, categories, category, search_term){
+        var search_expression = new RegExp(search_term, 'i');
+        
+        var category_skills = skills.filter(function(skill){
+          return skill.category_id === category.id;
         });
         
-        var match_skills = items_categoria.filter(function(item){
-          return item.name.match(busca);
+        var searched_skills = category_skills.filter(function(skill){
+          return skill.name.match(search_expression);
         });
         
-        var match_category = !!category.name.match(busca);
+        var matched_category = category.name.match(search_expression);
 
-        return match_category || match_skills.length>0;
+        if (matched_category <= 0) {
+          return false;
+        } else {
+          return !matched_category || searched_skills.length > 0; 
+        }
+      }
     }
-
-
-  }]);
-})();
+  })

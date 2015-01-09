@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-ng-app='catalogo'>
+<html lang="en" ng-app='hacker-assessor'>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -8,7 +8,7 @@
                  initial-scale=1,
                  maximum-scale=1,
                  user-scalable=no">
-  <title>PDCP1</title>
+  <title>Hacker Assessor</title>
   <!-- bower:css -->
   <link rel="stylesheet" href="vendor/bootstrap/dist/css/bootstrap.css">
   <!-- endinject -->
@@ -42,87 +42,95 @@
   </style>
 </head>
 <body>
-  <div class='container-fluid stick-to-top'>
-    <div class="row">
-      <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-        <h3>Categorias y Habilidades</h3>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-        <div class="input-group">
-          <span class="input-group-addon">
-            <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-          </span>
-          <input type="text"
-                 class="form-control"
-                 placeholder="Hace una búsqueda!"
-                 data-ng-model='busqueda'
-                 ng-change="updateVisibleCategories(busqueda)">
+  <ng-view></ng-view>
+  <!-- bower:js -->
+  <script src="vendor/angular/angular.js"></script>
+  <script src="vendor/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+  <script src="vendor/angular-route/angular-route.js"></script>
+  <!-- endinject -->
+  <script src="app.js"></script>
+  <script type='text/ng-template' id='/main.html'>
+    <div class='container-fluid stick-to-top'>
+      <div class="row">
+        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+          <h3>Categorias y Habilidades</h3>
         </div>
       </div>
-    </div>
-    <br/>
-  </div>
-  <div class='container-fluid' data-ng-controller="CatalogoCtrl">
-    <div class="row">
-      <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-        <accordion close-others="true">
-          <accordion-group heading="{{category.name}}"
-                           data-ng-repeat="category in categories | orderBy:+name" data-ng-if="category.visible">
-            <ul class="list-group">
-              <li class="list-group-item"
-                  data-ng-repeat="skill in skills | filter:busqueda"
-                  data-ng-if="category.id === skill.category_id"
-                  data-ng-click='loadForm(skill.id,skill.name)'>{{skill.name}}</li>
-            </ul>
-          </accordion-group>
-        </accordion>
+      <div class="row">
+        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+          <div class="input-group">
+            <span class="input-group-addon">
+              <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+            </span>
+            <input type="text"
+                   class="form-control"
+                   placeholder="Hace una búsqueda!"
+                   autofocus
+                   ng-model='search_term'
+                   ng-change="updateExpandedCategories(search_term, skills, categories)">
+          </div>
+        </div>
       </div>
-      <div id='form' class='col-xs-12 col-sm-6 col-md-6 col-lg-6 stick-to-bottom' data-ng-show='isVisible'>
-        <form data-ng-submit='saveExperience()'>
+      <br/>
+    </div>
+    <div class='container-fluid'>
+      <div class="row">
+        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+          <accordion close-others="false">
+            <accordion-group ng-repeat="category in categories | orderBy:+name"
+                             ng-if='assembleCategory(skills, categories, category, search_term)' 
+                             is-open="category.expanded">
+              <accordion-heading>{{category.name}}</accordion-heading>
+              <ul class="list-group">
+                <li class="list-group-item"
+                    ng-repeat="skill in skills | filter:search_term"
+                    ng-if="category.id === skill.category_id">{{skill.name}}</li>
+              </ul>
+            </accordion-group>
+          </accordion>
+        </div>
+        <div id='form' 
+             class='col-xs-12 col-sm-6 col-md-6 col-lg-6 stick-to-bottom' 
+             ng-show='true'>
           <button type="button"
-                  class="close pull-right" data-ng-click='closeForm()'>
+                  class="close pull-right" 
+                  ng-click='closeForm()'>
             <span aria-hidden="true">&times;</span>
             <span class="sr-only">Close</span>
           </button>
           <h2><small>{{skillName}}</small></h2>
-          <div class="form-group">
-            <label for="nivel">Nivel de experiencia</label>
-            <select id='nivel' class="form-control">
-              <option value='1'>No tengo conocimiento</option>
-              <option value='2'>Tengo conocimiento pero no lo he utilizado</option>
-              <option value='3'>Tengo conocimiento y experiencia</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label for="experiencia">Experiencia en años</label>
-            <input id='experiencia'
-                   type='number'
-                   min='0'
-                   class="form-control"
-                   placeholder="0">
-          </div>
-          <div class="form-group">
-            <label for="comentario">Comentario</label>
-            <textarea id='comentario'
-                      class="form-control"
-                      rows="3"
-                      style="resize:none;"
-                      placeholder='Añade un comentario'></textarea>
-          </div>
-          <button type='submit'
-                  id='guardar'
-                  class="btn btn-primary btn-lg btn-block">Guardar</button>
-        </form>
-        <br/>
-      </div> <!-- form -->
+          <form ng-submit='saveExperience()'>
+            <div class="form-group">
+              <label for="experience_level">Nivel de experiencia</label>
+              <select class="form-control" ng-model='answer.experience.level'>
+                <option value='1'>No tengo conocimiento</option>
+                <option value='2'>Tengo conocimiento pero no lo he utilizado</option>
+                <option value='3'>Tengo conocimiento y experiencia</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="experience_years">Experiencia en años</label>
+              <input type='number'
+                     min='0'
+                     class="form-control"
+                     placeholder="0"
+                     ng-model='answer.experience.years'>
+            </div>
+            <div class="form-group">
+              <label for="comment">Comentario</label>
+              <textarea class="form-control"
+                        rows="3"
+                        style="resize:none;"
+                        placeholder='Añade un comentario'
+                        ng-model='answer.comment'></textarea>
+            </div>
+            <button type='submit'
+                    class="btn btn-primary btn-lg btn-block">Guardar</button>
+          </form>
+          <br/>
+        </div> <!-- form -->
+      </div>
     </div>
-  </div>
-  <!-- bower:js -->
-  <script src="vendor/angular/angular.js"></script>
-  <script src="vendor/angular-bootstrap/ui-bootstrap-tpls.js"></script>
-  <!-- endinject -->
-  <script src="app.js"></script>
+  </script>
 </body>
 </html>
