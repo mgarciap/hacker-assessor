@@ -3,11 +3,10 @@
   "devDependencies": {
     "gulp": "^3.8.10",
     "gulp-inject": "^1.0.2",
-    "http-server": "^0.7.4",
     "main-bower-files": "^2.4.1"
   },
   "scripts": {
-    "start": "node node_modules/http-server/bin/http-server public/ -p 8000",
+    "start": "browser-sync start --files 'public/*.html, public/*.js' --server 'public'",
     "test": "protractor test/config.js"
   }
 }

@@ -9,9 +9,8 @@ angular.module('hacker-assessor',['ui.bootstrap', 'ngRoute'])
         controllerAs: 'controller',
         resolve: {
           categories: function(CategoryService, $q) {
-            return CategoryService.query().then(function(response){
-              console.log('resolve')
-              return response;
+            return CategoryService.query().then(function(data){
+              return data;
             });
           },
           skills: function(DataLoaderService) {
@@ -21,11 +20,33 @@ angular.module('hacker-assessor',['ui.bootstrap', 'ngRoute'])
       })
   })
   .controller('AppCtrl', function ($scope, categories, skills, SearchService, AnswerFormService) {  
-    $scope.categories = categories.data;   
+    $scope.categories = categories;   
     $scope.skills = skills.data;
-    $scope.answer = { experience: { level: 1, years: 0 }, comment: '' };
+    $scope.answers = [];
+
+    $scope.answer = {
+      form: {
+        config: {
+          visible: false
+        }
+      },
+      data: {
+        skill_name: undefined,
+        skill_id: undefined,
+        experience: { 
+          level: 1, 
+          years: 0 
+        },
+        comment: undefined
+      }
+    };
+
     $scope.assembleCategory = SearchService.assembleCategory;
     $scope.updateExpandedCategories = SearchService.updateExpandedCategories;
+    $scope.loadForm = AnswerFormService.loadForm;
+    $scope.unloadForm = AnswerFormService.unloadForm;
+    $scope.saveAnswer = AnswerFormService.saveAnswer; 
+ 
   })
   .service('DataLoaderService', function($http) { 
     this.get = function(url) {
@@ -33,72 +54,101 @@ angular.module('hacker-assessor',['ui.bootstrap', 'ngRoute'])
     }
   })
   .factory('CategoryService', function($q, DataLoaderService){
+    
     var cache = JSON.parse(localStorage.getItem('cache'));
+    
     return {
       query: function (){
-        if(cache){
+        if (cache) {
+
           var deferred = $q.defer();
           deferred.resolve(cache);
           return deferred.promise;
-        }
-        else{
+
+        } else {
+
           return DataLoaderService.get('api/1/categories.json').then(function(response){
-              console.log('query')
-            cache = response;
+            cache = response.data;
             localStorage.setItem('cache', JSON.stringify(cache));
             return response;
+
           });
         }
       }
     };
   })
   .factory('AnswerFormService', function(){
+
+    var unloadAnswer = function(answer) {
+      answer.data = {
+        skill_name: undefined,
+        skill_id: undefined,
+        experience: { 
+          level: 1, 
+          years: 0 
+        },
+        comment: undefined
+      };
+    };
+
+    var loadAnswer = function(answers, skill) {
+      var answers = JSON.parse(localStorage.getItem('answers')) || answers;
+      var _answer = {
+        skill_id: skill.id,
+        skill_name: skill.name,
+        experience: {
+          level: 1,
+          years: 0
+        },
+        comment: undefined
+      };
+
+      answers.forEach(function(answer) {
+        if (answer.skill_id == skill.id) {
+          _answer = answer;
+          return;
+        }
+      });
+
+      return _answer;
+    };
+
     return {
-      loadPreviousAnswer: function(skill_id) {
-        var answers = JSON.parse(localStorage.getItem('skills')) || [];
-        answers.forEach(function(answer) {
-          return answer.skill_id == skill_id ? answer :  $scope.answer;
-        })
+      loadForm: function(answer, answers, skill) {
+        answer.data = loadAnswer(answers, skill);
+        answer.form.config.visible = true;
       },
 
-      loadForm: function(skillID,skillName) {
-        var answer = loadPreviousAnswer(skillID);
-        $scope.experience.level = answer.experience_level;
-        $scope.experience.years = answer.experience_years;
-        $scope.comment = answer.comentario;
-        $scope.isVisible = true;
+      unloadForm: function(answer) {
+        unloadAnswer(answer);
+        answer.form.config.visible = false;
       },
 
-      closeForm: function() {
-        $scope.answer = { experience: { level: 1, years: 0 }, comment: '' };
-      },
-
-      saveExperience: function() {
-        $scope.answers.forEach(function(currentValue,index,array) {
-          if (currentValue.skill_id === answer.skill_id) {
-            array.splice(index);
+      saveAnswer: function(answers, answer) {
+        answers.forEach(function(_answer,index) {          
+          if (_answer.skill_id === answer.skill_id) {
+            answers.splice(index);
           }
-        });
 
-        $scope.answers.push(answer);
-        localStorage.setItem('skills', JSON.stringify($scope.answers));
+        });
+        answer.experience.level = parseInt(answer.experience.level);
+        answers.push(angular.copy(answer));
+        localStorage.setItem('answers', JSON.stringify(answers));
       }
     }
   })
   .factory('SearchService', function(){
     return {
       updateExpandedCategories: function(search_term, skills, categories){
-        var search_expression;
+        var search_expression,
+            matched_skills = [];
 
-        if (search_term.length === 0) {
-          search_expression = /''/;
-        } else {
+        if (search_term.length){
           search_expression = new RegExp(search_term, 'i');
+          matched_skills = skills.filter(function(skill) {
+            return skill.name.match(search_expression);
+          });
         }
-
-        var matched_skills = skills.filter(function(skill) {
-            return skill.name.match(match_expression);
-        });
 
         categories.forEach(function(category) {
           category.expanded = false;
@@ -122,11 +172,7 @@ angular.module('hacker-assessor',['ui.bootstrap', 'ngRoute'])
         
         var matched_category = category.name.match(search_expression);
 
-        if (matched_category <= 0) {
-          return false;
-        } else {
-          return !matched_category || searched_skills.length > 0; 
-        }
+        return matched_category === [''] || searched_skills.length > 0;
       }
     }
   })

@@ -39,6 +39,14 @@
       -webkit-appearance: none;
       margin: 0;
     }
+
+    .list-group-item span {
+      cursor: pointer;
+    }
+
+    .list-group-item span:hover {
+      text-decoration: underline;
+    }
   </style>
 </head>
 <body>
@@ -84,25 +92,27 @@
               <ul class="list-group">
                 <li class="list-group-item"
                     ng-repeat="skill in skills | filter:search_term"
-                    ng-if="category.id === skill.category_id">{{skill.name}}</li>
+                    ng-if="category.id === skill.category_id"
+                    ng-click="loadForm(answer, answers, skill)">
+                  <span>{{skill.name}}</span>
+                </li>
               </ul>
             </accordion-group>
           </accordion>
         </div>
-        <div id='form' 
-             class='col-xs-12 col-sm-6 col-md-6 col-lg-6 stick-to-bottom' 
-             ng-show='true'>
+        <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6 stick-to-bottom' 
+             ng-show='answer.form.config.visible'>
           <button type="button"
                   class="close pull-right" 
-                  ng-click='closeForm()'>
+                  ng-click='unloadForm(answer)'>
             <span aria-hidden="true">&times;</span>
             <span class="sr-only">Close</span>
           </button>
-          <h2><small>{{skillName}}</small></h2>
-          <form ng-submit='saveExperience()'>
+          <h2><small>{{answer.data.skill_name}}</small></h2>
+          <form ng-submit='saveAnswer(answers, answer.data)'>
             <div class="form-group">
               <label for="experience_level">Nivel de experiencia</label>
-              <select class="form-control" ng-model='answer.experience.level'>
+              <select class="form-control" ng-model='answer.data.experience.level'>
                 <option value='1'>No tengo conocimiento</option>
                 <option value='2'>Tengo conocimiento pero no lo he utilizado</option>
                 <option value='3'>Tengo conocimiento y experiencia</option>
@@ -114,7 +124,7 @@
                      min='0'
                      class="form-control"
                      placeholder="0"
-                     ng-model='answer.experience.years'>
+                     ng-model='answer.data.experience.years'>
             </div>
             <div class="form-group">
               <label for="comment">Comentario</label>
@@ -122,7 +132,7 @@
                         rows="3"
                         style="resize:none;"
                         placeholder='Añade un comentario'
-                        ng-model='answer.comment'></textarea>
+                        ng-model='answer.data.comment'></textarea>
             </div>
             <button type='submit'
                     class="btn btn-primary btn-lg btn-block">Guardar</button>

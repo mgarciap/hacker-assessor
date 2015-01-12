@@ -4,11 +4,12 @@
 Instale las dependencias.
 
     $ npm install -g bower
+    $ npm install -g browser-sync
     $ npm install
     $ bower install
     $ npm start
 
-En su navegador favorito, acceda a http://localhost:8000.
+En su navegador favorito, acceda a http://localhost:3000.
 
 ###Extendendo
 Vas a necesitar tener alguna versión del [Java Development Kit (JDK)](http://www.oracle.com/technetwork/java/javase/downloads/index.html) instalado para poder instalar Protractor y rodar las pruebas. Fíjate si lo tenéis ejecutando el siguiente comando `java -version`
