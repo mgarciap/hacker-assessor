@@ -8,20 +8,40 @@ angular.module('hacker-assessor',['ui.bootstrap', 'ngRoute'])
         controller: "AppCtrl",
         controllerAs: 'controller',
         resolve: {
-          categories: function(CategoryService, $q) {
-            return CategoryService.query().then(function(data){
+          
+          categories: function(DataService) {
+            var options = {
+                  resource: 'categories',
+                  url: 'api/1/categories.json'
+                },
+
+            return DataService.query(options).then(function(data){
               return data;
             });
+
           },
-          skills: function(DataLoaderService) {
-            return DataLoaderService.get('api/1/skills.json');
+
+          skills: function(DataService) {
+            var options = {
+                  resource: 'skills',
+                  url: 'api/1/skills.json'
+                },
+
+            return DataService.query(options).then(function(data){
+              return data;
+            });
           }
+
         }
       })
   })
-  .controller('AppCtrl', function ($scope, categories, skills, SearchService, AnswerFormService) {  
+  .controller('AppCtrl', function ($scope, 
+                                   categories,
+                                   skills,
+                                   SearchService,
+                                   AnswerFormService) {  
     $scope.categories = categories;   
-    $scope.skills = skills.data;
+    $scope.skills = skills;
     $scope.answers = [];
 
     $scope.answer = {
@@ -48,33 +68,34 @@ angular.module('hacker-assessor',['ui.bootstrap', 'ngRoute'])
     $scope.saveAnswer = AnswerFormService.saveAnswer; 
  
   })
-  .service('DataLoaderService', function($http) { 
-    this.get = function(url) {
-      return $http({ url: url });
-    }
-  })
-  .factory('CategoryService', function($q, DataLoaderService){
-    
-    var cache = JSON.parse(localStorage.getItem('cache'));
-    
-    return {
-      query: function (){
-        if (cache) {
+  .factory('DataService', function($http, $q){
 
-          var deferred = $q.defer();
+    
+    var answers = [];
+
+    return {
+      
+
+      // options: {
+      //   resurce: String,
+      //   url: String
+      // }
+      query: function (options){
+        var cache = JSON.parse(localStorage.getItem(options.resource)),
+            deferred = $q.defer();
+
+        if (cache) {
           deferred.resolve(cache);
           return deferred.promise;
-
         } else {
-
-          return DataLoaderService.get('api/1/categories.json').then(function(response){
+          return $http({ url: options.url }).then(function(response){
             cache = response.data;
-            localStorage.setItem('cache', JSON.stringify(cache));
-            return response;
-
+            localStorage.setItem(options.resource, JSON.stringify(cache));
+            return cache;
           });
         }
       }
+    
     };
   })
   .factory('AnswerFormService', function(){
