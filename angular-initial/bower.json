@@ -1,0 +1,12 @@
+{
+  "name": "angular-initial",
+  "version": "0.0.1",
+  "authors": [
+    "leolower@gmail.com"
+  ],
+  "license": "GPL",
+  "dependencies": {
+    "angular": "~1.3.0",
+    "angular-ui-router": "~0.2.11"
+  }
+}
