@@ -1,8 +1,8 @@
 // Group by module
-describe('angular-initial.common', function() {
+describe('hacker-assessor-legacy', function() {
 
     // Initialise the module for each test
-    beforeEach(module('angular-initial.common'));
+    beforeEach(module('hacker-assessor-legacy'));
 
     // Group by service  
     describe('CommonService', function() {

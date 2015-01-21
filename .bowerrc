@@ -1,4 +1,4 @@
 { 
   "analytics": false,
-  "directory": "public/vendor"
+  "directory": "vendor"
 }
