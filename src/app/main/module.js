@@ -1,14 +1,5 @@
-angular.module('main', [])
-
-/////////////////
-// CONTROLLERS //
-/////////////////
-.controller('FormController', FormController)
-
-
-//////////////
-// SERVICES //
-//////////////
-.factory('SkillService', SkillService)
-.factory('CategoryService', CategoryService)
-.factory('QuestionService', QuestionService);
+angular.module('hackerAssessor.main', [])
+  .controller('FormController', FormController)
+  .factory('SkillService', SkillService)
+  .factory('CategoryService', CategoryService)
+  .factory('QuestionService', QuestionService)

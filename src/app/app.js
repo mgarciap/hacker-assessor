@@ -1,2 +1,2 @@
-angular.module('hacker-assessor', ['ui.router', 'main'])
+angular.module('hackerAssessor', ['ui.router', 'hackerAssessor.main'])
   .config(ConfigFn);

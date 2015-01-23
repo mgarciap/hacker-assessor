@@ -62,7 +62,7 @@ gulp.task('build', 'Builds the application on the build directory.', ['clean'], 
     es.merge(
         gulp.src(config.app.partials)
         .pipe(templateCache({
-            module: 'hacker-assessor'
+            module: 'hackerAssessor'
         }))
         .pipe(gulp.dest('build/js/')),
 
@@ -87,6 +87,9 @@ gulp.task('build', 'Builds the application on the build directory.', ['clean'], 
             return path.base === path.cwd + '/vendor/bootstrap/dist/fonts/'; 
         }))
         .pipe(gulp.dest('build/fonts')),
+
+        gulp.src('api/**')
+        .pipe(gulp.dest('build/api')),
 
         gulp.src(config.app.less)
         .pipe(less())

@@ -1,11 +1,11 @@
 // Group by module
-describe('hacker-assessor-legacy', function() {
+describe('haMain', function() {
 
     // Initialise the module for each test
-    beforeEach(module('hacker-assessor-legacy'));
+    beforeEach(module('haMain'));
 
     // Group by service  
-    describe('CommonService', function() {
+    describe('SampleService', function() {
         var CommonService;
 
         // Setup for each test  
@@ -24,7 +24,7 @@ describe('hacker-assessor-legacy', function() {
     ////////////////
     // CONTROLLER //
     ////////////////
-    describe('CommonController', function() {
+    describe('SampleController', function() {
         var ctrl, scope, CommonService;
 
         beforeEach(inject(function($controller, $rootScope, _CommonService_) {

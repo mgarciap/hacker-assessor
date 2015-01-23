@@ -15,5 +15,5 @@ function ConfigFn($stateProvider, $urlRouterProvider) {
           return QuestionService.loadQuestions();
         }
       }
-    })
+    });
 }
