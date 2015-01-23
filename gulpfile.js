@@ -96,6 +96,9 @@ gulp.task('build', 'Builds the application on the build directory.', ['clean'], 
         gulp.src(config.img)
         .pipe(gulp.dest('build/')),
 
+        gulp.src('api/**')
+        .pipe(gulp.dest('build/api')),
+
         gulp.src('*', {
             read: false
         })
