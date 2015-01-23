@@ -5,15 +5,24 @@ function ConfigFn($stateProvider, $urlRouterProvider) {
     .state('index', {
       url: '/',
       templateUrl: "main/partials/index.html", 
-      controller: "FormController as FormController",
+      controller: "FormController",
       resolve: {
-        categories: function(CategoryService) {
+        categories: function categories(CategoryService) {
           return CategoryService.getCategories();
         },
 
-        questions: function(QuestionService) {
+        questions: function questions(QuestionService) {
           return QuestionService.loadQuestions();
         }
       }
     });
+}
+
+function FirstRun($rootScope){
+
+  $rootScope.$on('$stateChangeError', function(){
+    attributes[0].preventDefault();
+    console.error(attributes[5]); 
+  });
+
 }
