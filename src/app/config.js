@@ -4,31 +4,15 @@ function ConfigFn($stateProvider, $urlRouterProvider) {
   $stateProvider
     .state('index', {
       url: '/',
-      templateUrl: "hacker-assessor-legacy/partials/index.html", 
-      controller: "AppController as AppController",
+      templateUrl: "main/partials/index.html", 
+      controller: "FormController as FormController",
       resolve: {
-        
-        categories: function(DataService) {
-          var options = {
-                resource: 'categories',
-                url: 'api/1/categories.json'
-              };
-
-          return DataService.query(options).then(function(data){
-            return data;
-          });
-
+        categories: function(CategoryService) {
+          return CategoryService.getCategories();
         },
 
-        skills: function(DataService) {
-          var options = {
-                resource: 'skills',
-                url: 'api/1/skills.json'
-              };
-
-          return DataService.query(options).then(function(data){
-            return data;
-          });
+        questions: function(QuestionService) {
+          return QuestionService.loadQuestions();
         }
       }
     })
