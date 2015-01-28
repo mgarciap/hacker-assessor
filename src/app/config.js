@@ -4,25 +4,22 @@ function ConfigFn($stateProvider, $urlRouterProvider) {
   $stateProvider
     .state('index', {
       url: '/',
-      templateUrl: "main/partials/index.html", 
-      controller: "FormController",
+      templateUrl: "main/partials/index.html",
+      controller: "FormController as FormController",
       resolve: {
-        categories: function categories(CategoryService) {
-          return CategoryService.getCategories();
-        },
-
-        questions: function questions(QuestionService) {
-          return QuestionService.loadQuestions();
+        init: function init($q, CategoryService, SkillService) {
+          var skillPromise = SkillService.fetchSkills(),
+              categoryPromise = CategoryService.fetchCategories();
+          
+          return $q.all([skillPromise, categoryPromise]);
         }
       }
     });
 }
 
 function FirstRun($rootScope){
-
   $rootScope.$on('$stateChangeError', function(){
-    attributes[0].preventDefault();
-    console.error(attributes[5]); 
+    arguments[0].preventDefault();
+    console.error(arguments[5]);
   });
-
 }

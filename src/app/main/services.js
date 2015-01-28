@@ -1,68 +1,31 @@
-function QuestionService(SkillService, HackerService) {
-
-	return {
-			loadQuestions: function loadQuestions(hacker) {
-
-					return SkillService.getSkills()
-							.then(function(skills) {
-									var questions = [];
-
-									skills.forEach(function(skill) {
-
-											var question = {
-													skill: skill,
-													experience: {
-															level: 1,
-															years: 0
-													},
-													comment: null
-											};
-
-											if(hacker) {
-													var hacker = HackerService.getHacker(hacker);
-													hacker.answers.forEach(function(answer) {
-															if (answer.skill === skill.id) {
-																	question.experience = answer.experience;
-																	question.comment = answer.comment;
-															}
-													});
-											}
-
-											questions.push(question);
-									});
-
-									return questions;
-							})
-			},
-	};
-}
-
 function SkillService($http) {
+    var service = {
+        skills: [],
+        fetchSkills: function fetchSkills() {
+            return $http.get('api/1/skills.json')
+                        .then(function(res) {
+                            res.data.forEach(function(item) {
+                                service.skills.push(item);
+                            });
+                        });
+        }
+    };
 
-	return {
-			getSkills: function getSkills() {
-					return $http.get('api/1/skills.json').then(function(response) {
-							return response.data;
-					});
-			}
-	};
+    return service;
 }
 
 function CategoryService($http) {
+    var service = {
+        categories: [],
+        fetchCategories: function fetchCategories() {
+            return $http.get('api/1/categories.json')
+                        .then(function(res) {
+                            res.data.forEach(function(item) {
+                                service.categories.push(item);
+                            });
+                        });
+        }
+    };
 
-	return {
-			getCategories: function getCategories() {
-					return $http.get('api/1/categories.json').then(function(response) {
-							return response.data;
-					});
-			}
-	};
-}
-
-function HackerService() {
-	// Write HackerService.
-
-	return {
-
-	};
+    return service;
 }

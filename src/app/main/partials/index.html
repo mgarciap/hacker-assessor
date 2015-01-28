@@ -1,20 +1,23 @@
-<div class='container-fluid'>
-  <div class="row">
-    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-      <h3>Hacker Assessor</h3>
-    </div>
-  </div>
-  <br/>
-  <div class="row">
-    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-      <div ng-repeat='category in categories'>
-        <h5>{{category.name}}</h5>
-        <div ng-repeat='question in category.questions'>
-          
-          <h6>{{question.skill.name}}</h6>
+<div layout="row" layout-padding>
+  <h1>Hacker Assessor</h1>
+</div>
 
-        </div>
-      </div>
-    </div>
-  </div>
+<div ng-repeat='category in FormController.categories'>
+  <md-toolbar class="md-theme-light">
+    <h1 class="md-toolbar-tools">
+      <span>{{category.name}}</span>
+    </h1>
+  </md-toolbar>
+  <md-content>
+    <md-list>
+      <md-item ng-repeat='skill in category.skills'>
+        <md-item-content>
+          <div class="md-tile-content">
+            <h3>{{skill.name}}</h3>
+          </div>
+        </md-item-content>
+        <md-divider ng-if="!$last"></md-divider>
+      </md-item>
+    </md-list>
+  </md-content>
 </div>

@@ -66,7 +66,6 @@ gulp.task('build', 'Builds the application on the build directory.', ['clean'], 
         }))
         .pipe(gulp.dest('build/js/')),
 
-
         gulp.src(bower_files)
         .pipe(filter('*.js'))
         .pipe(concat('vendor.js'))
@@ -82,14 +81,13 @@ gulp.task('build', 'Builds the application on the build directory.', ['clean'], 
         gulp.src(config.app.index)
         .pipe(gulp.dest('build')),
 
-        gulp.src(bower_files)
-        .pipe(filter(function(path) {
-            return path.base === path.cwd + '/vendor/bootstrap/dist/fonts/'; 
-        }))
-        .pipe(gulp.dest('build/fonts')),
-
         gulp.src('api/**')
         .pipe(gulp.dest('build/api')),
+
+        gulp.src(bower_files)
+        .pipe(filter('*.css'))
+        .pipe(concat('vendor.css'))
+        .pipe(gulp.dest('build/css')),
 
         gulp.src(config.app.less)
         .pipe(less())

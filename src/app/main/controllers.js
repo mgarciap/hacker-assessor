@@ -1,15 +1,22 @@
-function FormController($scope, categories, questions) {
-  $scope.categories = categories;
-  // $scope.questions = questions;
-  questions.forEach(function (question) {
-    categories.forEach(function (category) {
-      if(question.skill.category_id === category.id){
-        category.questions = category.questions || [];
-        category.questions.push(question);
-      }
-      
-      
-    })
-    
-  })
+function FormController($scope, CategoryService, SkillService) {
+
+    function assembleFormCategories() {
+        var categories = [];
+        
+        CategoryService.categories.forEach(function(category) {
+            category.skills = [];
+
+            SkillService.skills.forEach(function(skill) {
+                if (skill.category_id === category.id) {
+                    category.skills.push(skill);
+                }
+            });
+            if (category.skills.length) categories.push(category);
+        });
+
+        return categories;
+    }
+
+    this.categories = assembleFormCategories();
+
 }

@@ -1,3 +1,3 @@
-angular.module('hackerAssessor', ['ui.router', 'hackerAssessor.main'])
+angular.module('hackerAssessor', ['ui.router', 'hackerAssessor.main', 'ngMaterial'])
   .run(FirstRun)
   .config(ConfigFn);
