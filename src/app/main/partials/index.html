@@ -1,23 +1,20 @@
-<div layout="row" layout-padding>
-  <h1>Hacker Assessor</h1>
-</div>
-
-<div ng-repeat='category in FormController.categories'>
-  <md-toolbar class="md-theme-light">
-    <h1 class="md-toolbar-tools">
-      <span>{{category.name}}</span>
-    </h1>
+<div class="main" layout="column">
+  <md-toolbar class="md-tall">
+    <span class="md-toolbar-tools">Hacker Assessor</span>
   </md-toolbar>
+
   <md-content>
-    <md-list>
-      <md-item ng-repeat='skill in category.skills'>
-        <md-item-content>
-          <div class="md-tile-content">
-            <h3>{{skill.name}}</h3>
-          </div>
-        </md-item-content>
-        <md-divider ng-if="!$last"></md-divider>
-      </md-item>
-    </md-list>
+    <md-content style='max-height: 880px;'>
+      <section ng-repeat='category in FormController.categories'>
+        <md-subheader class="md-primary">{{category.name}}</md-subheader>
+        <md-list layout="column">
+          <md-item ng-repeat='skill in category.skills'>
+            <md-item-content>
+                <span class="md-tile-content">{{skill.name}}</span>
+            </md-item-content>
+          </md-item>
+        </md-list>
+      </section>
+    </md-content>
   </md-content>
 </div>
