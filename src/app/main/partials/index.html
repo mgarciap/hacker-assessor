@@ -1,20 +1,15 @@
-<div class="main" layout="column">
-  <md-toolbar class="md-tall">
-    <span class="md-toolbar-tools">Hacker Assessor</span>
-  </md-toolbar>
-
-  <md-content>
-    <md-content style='max-height: 880px;'>
-      <section ng-repeat='category in FormController.categories'>
-        <md-subheader class="md-primary">{{category.name}}</md-subheader>
-        <md-list layout="column">
-          <md-item ng-repeat='skill in category.skills'>
-            <md-item-content>
-                <span class="md-tile-content">{{skill.name}}</span>
-            </md-item-content>
-          </md-item>
-        </md-list>
-      </section>
-    </md-content>
-  </md-content>
-</div>
+<md-toolbar class="md-tall">
+  <span class="md-toolbar-tools">Hacker Assessor</span>
+</md-toolbar>
+<md-content>
+  <section ng-repeat='category in FormController.categories'>
+    <md-subheader class="md-primary">{{category.name}}</md-subheader>
+    <md-list layout="column">
+      <md-item ng-repeat='skill in category.skills'>
+        <md-item-content>
+            <span class="md-tile-content">{{skill.name}}</span>
+        </md-item-content>
+      </md-item>
+    </md-list>
+  </section>
+</md-content>

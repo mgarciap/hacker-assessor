@@ -1,5 +1,3 @@
-function FormController(HelperService,categories,skills) {
-
-    this.categories = HelperService.assembleFormCategories(categories, skills);
-
+function FormController(categories) {
+    this.categories = categories;
 }
