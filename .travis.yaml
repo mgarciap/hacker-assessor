@@ -6,3 +6,4 @@ before_script:
   - bower install
   - npm install
   - gulp build
+script: gulp test
