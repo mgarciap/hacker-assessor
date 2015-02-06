@@ -13,11 +13,8 @@ var mainBowerFiles = require('main-bower-files');
 var spawn = require('child_process').spawn;
 var templateCache = require('gulp-angular-templatecache');
 var karma = require('gulp-karma');
-
 var gulp = require('gulp-help')(require('gulp'));
-
 var bower_files = mainBowerFiles();
-
 var testFiles = bower_files.concat([
     'node_modules/angular-mocks/angular-mocks.js',
 
