@@ -1,18 +1,22 @@
 describe('hackerAssessor', function() {
+    
+    if (!module('hackerAssessor')) return;
 
-    describe('Router', function() {
+    beforeEach(function() {
+        module('hackerAssessor');
+    });
 
+    describe('States', function() {
+    
         var $state;
 
         beforeEach(function() {
-            module('hackerAssessor');
-
             inject(function(_$state_) {
                 $state = _$state_;
             });
         });
 
-        it('should check for routes existence', function() {
+        it('should have an index state', function() {
             expect($state.get('index')).toBeDefined();
         });
 

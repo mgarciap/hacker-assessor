@@ -52,6 +52,8 @@ function CategoryService(HelperService, SkillService) {
 function HelperService($http) {
     var service = {
         fetchData: function fetchData(options) {
+            options.cache = true;
+
             return $http.get(options.url)
                         .then(function(res) {
 
@@ -59,7 +61,7 @@ function HelperService($http) {
                              *  Clever way to empty an Array.
                              */
                             options.collection.length = 0;
-                    
+
                             res.data.forEach(function(item) {
                                 options.collection.push(item);
                             });
