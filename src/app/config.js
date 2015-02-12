@@ -1,11 +1,35 @@
 function ConfigFn($stateProvider, $urlRouterProvider, $mdThemingProvider) {
-	$urlRouterProvider.otherwise('/hacker/1');
+	$urlRouterProvider.otherwise('/');
 
 	$stateProvider
-		.state('index', {
+		.state('list', {
+			url:'/',
+			templateUrl: "main/partials/list.html",
+			controller: "ListController as ListController",
+			resolve: {
+				hackers: function hackers(HackerService) {
+					return HackerService.getHackers();
+				}
+			}
+		})
+		.state('create', {
+			url: '/hacker/new/:id',
+			templateUrl: 'main/partials/create.html',
+			controller: 'CreateController as CreateController',
+			resolve: {
+				categories: function categories(CategoryService) {
+					return CategoryService.fetchCategories();
+				},
+
+				skills: function skills(SkillService) {
+					return SkillService.fetchSkills();
+				}
+			}
+		})
+		.state('update', {
 			url: '/hacker/:id',
-			templateUrl: "main/partials/index.html",
-			controller: "FormController as FormController",
+			templateUrl: "main/partials/update.html",
+			controller: "UpdateController as UpdateController",
 			resolve: {
 				categories: function categories(CategoryService) {
 					return CategoryService.fetchCategories();

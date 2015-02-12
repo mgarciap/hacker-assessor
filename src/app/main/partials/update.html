@@ -6,24 +6,21 @@
 			layout='row' 
 			layout-align='space-between'>
 			<div flex="50">
-				<h4><span>Hacker Assessor</span></h1>
+				<a ui-sref='list'><h4><span>Hacker Assessor</span></h1></a>
 			</div>			
-			<div flex="35">
+			<div flex="50">
 				<md-input-container>
 				  <label>Hacker Name</label>
-				  <input ng-model="FormController.hacker.name" type="text">
+				  <input ng-model="UpdateController.hacker.name" type="text">
 				</md-input-container>
-			</div>
-			<div flex="15" layout='row' layout-align='center'>
-				<md-button class='md-raised' flex='70'>Save</md-button>
-			</div>		
+			</div>	
 		</div>
 	</div>
 </md-toolbar>
 <md-content>
 
   <section 
-  	ng-repeat='category in FormController.questions' 
+  	ng-repeat='category in UpdateController.questions' 
   	ng-show='category.items.length'>
 
 	<md-subheader class="md-primary">
@@ -41,7 +38,7 @@
 	
 			<ha-question 
 				question='item' 
-				save='FormController.addSkill(states)'>
+				save='UpdateController.addSkill(states)'>
 			</ha-question>
 		</div>
 	</md-list>

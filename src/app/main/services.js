@@ -1,6 +1,6 @@
-function HackerService($q) {
-    var hackers = [
-        {
+function HackerService($q, $state) {
+    var hackers = {
+        1: {
             name: 'Ryan Dahl',
             skills: [
                 {
@@ -19,14 +19,39 @@ function HackerService($q) {
                 }
             ]
         }
-    ];
+    };
 
     return {
         getHacker: function getHacker(id) {
-            id--;
             return $q(function(resolve, reject) {
                 resolve(hackers[id]);
             });
+        },
+        getHackers: function getHackers() {
+            return $q(function(resolve, reject) {
+                resolve(hackers);
+            });
+        },
+        create: function add(hacker) {
+
+            /*
+             * Returns a random integer between min (included) and max (excluded)
+             * Using Math.round() will give you a non-uniform distribution!
+             */
+            function getRandomInt(min, max) {
+              return Math.floor(Math.random() * (max - min)) + min;
+            }
+
+            var uid = getRandomInt(0, 1000);
+            
+            if (hacker.skills.length && hacker.name) {
+                hackers[uid] = hacker;
+                $state.go('list');
+            } else {
+                $state.reload();
+                console.log('Not saved!');
+            }
+
         }
     };
 }
