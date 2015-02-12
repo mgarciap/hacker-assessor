@@ -82,7 +82,11 @@ gulp.task('build', 'Builds the application on the build directory.', ['clean'], 
         .pipe(gulp.dest('build/api')),
 
         gulp.src(bower_files)
-        .pipe(filter('*.css'))
+        .pipe(filter(['*sprite*']))
+        .pipe(gulp.dest('build/icons/')),
+
+        gulp.src(bower_files)
+        .pipe(filter(['*.css', '!*sprite*']))
         .pipe(concat('vendor.css'))
         .pipe(gulp.dest('build/css')),
 

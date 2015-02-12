@@ -1,15 +1,49 @@
-<md-toolbar class="md-tall">
-  <span class="md-toolbar-tools">Hacker Assessor</span>
+<md-toolbar class="md-hue-1">
+	<div>
+		<div 
+			class="md-toolbar-tools" 
+			style='padding-top: 15px;' 
+			layout='row' 
+			layout-align='space-between'>
+			<div flex="50">
+				<h4><span>Hacker Assessor</span></h1>
+			</div>			
+			<div flex="35">
+				<md-input-container>
+				  <label>Hacker Name</label>
+				  <input ng-model="FormController.hacker.name" type="text">
+				</md-input-container>
+			</div>
+			<div flex="15" layout='row' layout-align='center'>
+				<md-button class='md-raised' flex='70'>Save</md-button>
+			</div>		
+		</div>
+	</div>
 </md-toolbar>
 <md-content>
-  <section ng-repeat='category in FormController.categories'>
-    <md-subheader class="md-primary">{{category.name}}</md-subheader>
-    <md-list layout="column">
-      <md-item ng-repeat='skill in category.skills'>
-        <md-item-content>
-            <span class="md-tile-content">{{skill.name}}</span>
-        </md-item-content>
-      </md-item>
-    </md-list>
+
+  <section 
+  	ng-repeat='category in FormController.questions' 
+  	ng-show='category.items.length'>
+
+	<md-subheader class="md-primary">
+		<md-content>
+			<div layout='row' layout-align='space-between'>
+				<span flex='50'>{{category.name}}</span>
+				<span flex='25'>Level</span>
+				<span flex='25'>Years</span>
+			</div>
+		</md-content>
+	</md-subheader>
+	<md-list layout="column" style='overflow: hidden; padding-top: 10px;'>
+
+		<div ng-repeat='item in category.items' style='padding-top: 10px;'>
+	
+			<ha-question 
+				question='item' 
+				save='FormController.addSkill(states)'>
+			</ha-question>
+		</div>
+	</md-list>
   </section>
 </md-content>

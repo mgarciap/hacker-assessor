@@ -1,3 +1,36 @@
+function HackerService($q) {
+    var hackers = [
+        {
+            name: 'Ryan Dahl',
+            skills: [
+                {
+                    skill: 1,
+                    experience: {
+                        level: 2,
+                        years: 4
+                    }
+                },
+                {
+                    skill: 2,
+                    experience: {
+                        level: 3,
+                        years: 2
+                    }
+                }
+            ]
+        }
+    ];
+
+    return {
+        getHacker: function getHacker(id) {
+            id--;
+            return $q(function(resolve, reject) {
+                resolve(hackers[id]);
+            });
+        }
+    };
+}
+
 function SkillService(HelperService) {
     var service = {
         skills: [],
@@ -25,24 +58,6 @@ function CategoryService(HelperService, SkillService) {
             };
 
             return HelperService.fetchData(options);
-        },
-
-        mergeSkills: function mergeSkills(categories, skills) {
-            categories.forEach(function(category, i) {
-                category.skills = [];
-
-                skills.forEach(function(skill) {
-                    if (skill.category_id === category.id) {
-                        category.skills.push(skill);
-                    }
-                });
-            });
-        },
-
-        destroyEmptyCategories: function destroyEmptyCategories(categories) {
-            categories.forEach(function(category, index) {
-                if (!category.skills.length) categories.splice(index, 1);
-            });
         }
     };
 
@@ -57,9 +72,7 @@ function HelperService($http) {
             return $http.get(options.url)
                         .then(function(res) {
 
-                            /**
-                             *  Clever way to empty an Array.
-                             */
+                            // Clever way to empty an Array.
                             options.collection.length = 0;
 
                             res.data.forEach(function(item) {
@@ -72,4 +85,80 @@ function HelperService($http) {
     };
 
     return service;
+}
+
+function QuestionService() {
+    return {
+        assembleQuestions: function assembleQuestions(categories, skills, hacker) {
+            var questions = [],
+                counter;
+
+            categories.forEach(function(category, index) {
+                questions.push(category);
+
+                questions[index].items = [];
+
+                skills.forEach(function(skill) {
+                    if (questions[index].id === skill.category_id) {
+
+                        // Save array length state for future check.
+                        counter = questions[index].items.length;
+                        
+                        if (hacker && hacker.skills.length) {
+                            
+                            hacker.skills.forEach(function(item) {
+                                if (item.skill === skill.id) {
+                                    questions[index].items.push({
+                                        skill: skill,
+                                        experience: item.experience
+                                    });
+                                }
+                            });
+
+                        } else {
+                            console.error('You must pass a hacker argument!');
+                        }
+
+                        // Checks array state and modify it if isn't changed.
+                        if (counter === questions[index].items.length) {
+                            questions[index].items.push({
+                                skill: skill,
+                                experience: { level: 0, years: 0 }
+                            });
+                        }
+                    }
+                });
+            });
+            
+            return questions;
+        },
+
+        addSkill: function addSkill(states) {
+            var newAnswer;
+
+            if (states[0] !== states[1]) {
+                newAnswer = {
+                    skill: states[0].skill.id,
+                    experience: states[0].experience
+                };
+                
+                /*
+                 * If hacker has skills, iterate through and compare
+                 * against the new answer. If there is a match, remove
+                 * the old answer. 
+                 */
+                if (this.hacker.skills.length) {
+
+                    this.hacker.skills.forEach(function(oldAnswer, index) {
+                        if (oldAnswer.skill === newAnswer.skill){
+                            this.hacker.skills.splice(index, 1);
+                        }
+                    }, this);
+                }
+
+                this.hacker.skills.push(newAnswer);
+
+            }
+        }
+    };
 }
