@@ -1,7 +1,8 @@
 angular.module('hackerAssessor', [
     'ui.router',
-    'hackerAssessor.main',
+    'ngAnimate',
     'ngMaterial',
+    'hackerAssessor.main',
     'hackerAssessor.directives'])
   .run(runnable)
   .config(ConfigFn);

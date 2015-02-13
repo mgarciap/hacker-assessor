@@ -1,12 +1,13 @@
 <md-item>
     <md-item-content layout='row' layout-align="space-between center">
-        <div flex="50" class="md-tile-content">
+        <div flex="50" class="md-tile-content" style='padding-right: 5em;'>
             <span>{{question.skill.name}}</span>
         </div>
-        <div flex="25">
+    <div flex="50" layout='row' layout-align="space-between center">
+        <div flex="45" >
             <ha-stars level="question.experience.level"></ha-stars>
         </div>
-        <div flex='25' layout='row'>
+        <div flex='45' layout='row'>
             <div flex="90">
                 <md-slider 
                     md-discrete 
@@ -17,5 +18,6 @@
                 </md-slider>
             </div>
         </div>
+    </div>
     </md-item-content>
 </md-item>

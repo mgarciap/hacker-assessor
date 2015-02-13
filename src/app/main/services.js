@@ -1,4 +1,4 @@
-function HackerService($q, $state) {
+function HackerService($q, $state, $mdToast) {
     var hackers = {
         1: {
             name: 'Ryan Dahl',
@@ -21,6 +21,31 @@ function HackerService($q, $state) {
         }
     };
 
+    function showAlert(message) {
+        var toast;
+
+        if (!message) message = 'Please fill in some data';
+
+        toast = $mdToast.simple().content(message);
+
+        $mdToast.show(toast)
+            .then(function() {
+                console.log('Toasted!');
+                console.log(arguments);
+            }, function() {
+                console.log('Fire! $mdToast failed.');
+                console.error(arguments);
+            });
+    }
+    
+    /*
+     * Returns a random integer between min (included) and max (excluded)
+     * Using Math.round() will give you a non-uniform distribution!
+     */
+    function getRandomInt(min, max) {
+      return Math.floor(Math.random() * (max - min)) + min;
+    }
+
     return {
         getHacker: function getHacker(id) {
             return $q(function(resolve, reject) {
@@ -32,65 +57,52 @@ function HackerService($q, $state) {
                 resolve(hackers);
             });
         },
-        create: function add(hacker) {
-
-            /*
-             * Returns a random integer between min (included) and max (excluded)
-             * Using Math.round() will give you a non-uniform distribution!
-             */
-            function getRandomInt(min, max) {
-              return Math.floor(Math.random() * (max - min)) + min;
-            }
-
+        create: function create(hacker) {
             var uid = getRandomInt(0, 1000);
-            
+
             if (hacker.skills.length && hacker.name) {
                 hackers[uid] = hacker;
                 $state.go('list');
+            } else if (!hacker.name) {
+                showAlert('Please add a name.');
             } else {
-                $state.reload();
-                console.log('Not saved!');
+                showAlert();
             }
-
         }
     };
 }
 
 function SkillService(HelperService) {
-    var service = {
+    return  {
         skills: [],
         fetchSkills: function fetchSkills() {
             var options = {
-                collection: service.skills,
+                collection: this.skills,
                 url: 'api/1/skills.json'
             };
 
             return HelperService.fetchData(options);
         }
     };
-
-    return service;
 }
 
 function CategoryService(HelperService, SkillService) {
-    var service = {
+    return {
         categories: [],
         
         fetchCategories: function fetchCategories() {
             var options = {
-                collection: service.categories,
+                collection: this.categories,
                 url: 'api/1/categories.json'
             };
 
             return HelperService.fetchData(options);
         }
     };
-
-    return service;
 }
 
 function HelperService($http) {
-    var service = {
+    return {
         fetchData: function fetchData(options) {
             options.cache = true;
 
@@ -108,12 +120,18 @@ function HelperService($http) {
                         });
         }
     };
-
-    return service;
 }
 
 function QuestionService() {
     return {
+        
+        /**
+         * [assembleQuestions description]
+         * @param  {[type]} categories [description]
+         * @param  {[type]} skills     [description]
+         * @param  {[type]} hacker     [description]
+         * @return {[type]}            [description]
+         */
         assembleQuestions: function assembleQuestions(categories, skills, hacker) {
             var questions = [],
                 counter;
@@ -140,8 +158,6 @@ function QuestionService() {
                                 }
                             });
 
-                        } else {
-                            console.error('You must pass a hacker argument!');
                         }
 
                         // Checks array state and modify it if isn't changed.

@@ -23,7 +23,7 @@
   	ng-repeat='category in UpdateController.questions' 
   	ng-show='category.items.length'>
 
-	<md-subheader class="md-primary">
+	<md-subheader class="md-primary" ng-show='category.items.length'>
 		<md-content>
 			<div layout='row' layout-align='space-between'>
 				<span flex='50'>{{category.name}}</span>

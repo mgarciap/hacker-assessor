@@ -1,5 +1,20 @@
 #Hacker Assessor
 
+## Requerimientos
+**Desarrollar una SPA que se utilizará para especificar la experiencia laboral durante entrevistas de trabajo a programadores.**
+
+La misma debe contar con:
+* Lista de categorías o secciones de interés con una sub-lista de sus items.
+* Para cada ítem se debe poder seleccionar:
+    * Nivel. Opciones:
+        * No tengo conocimiento
+        * Tengo conocimiento pero no lo he utilizado
+        * Tengo conocimiento y experiencia
+    * Experiencia en años (input)
+    * Comentario (textarea, opcional)
+* Filtrado de categorías por nombre.
+* Filtrado de items de las categorías visibles. 
+
 ## Directory Structure
 ```
 angular-initial/
