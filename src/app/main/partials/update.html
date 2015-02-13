@@ -25,10 +25,12 @@
 
 	<md-subheader class="md-primary" ng-show='category.items.length'>
 		<md-content>
-			<div layout='row' layout-align='space-between'>
+			<div layout='row' layout-align='space-between' style='overflow: hidden;'>
 				<span flex='50'>{{category.name}}</span>
-				<span flex='25'>Level</span>
-				<span flex='25'>Years</span>
+				<div flex='50' layout='row' layout-align='space-between'>
+					<span flex='45'>Level</span>
+					<span flex='45'>Years</span>
+				</div>
 			</div>
 		</md-content>
 	</md-subheader>
