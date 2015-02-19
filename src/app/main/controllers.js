@@ -1,8 +1,12 @@
 function ListController(hackers) {
+    'use strict';
+
     this.hackers = hackers;
 }
 
 function UpdateController(QuestionService, hacker, categories, skills) {
+    'use strict';
+
     this.hacker = hacker;
 
     this.questions = QuestionService.assembleQuestions(categories, skills, this.hacker);
@@ -11,6 +15,8 @@ function UpdateController(QuestionService, hacker, categories, skills) {
 }
 
 function CreateController(categories, skills, HackerService, QuestionService) {
+    'use strict';
+
     this.hacker = { name: null, skills: [] };
 
     this.questions = QuestionService.assembleQuestions(categories, skills);

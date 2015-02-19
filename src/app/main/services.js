@@ -1,67 +1,73 @@
-function HackerService($q, $state, $mdToast) {
-    var hackers = {
-        1: {
-            name: 'Ryan Dahl',
-            skills: [
-                {
-                    skill: 1,
-                    experience: {
-                        level: 2,
-                        years: 4
+function HackerService($q, $state, $mdToast, $firebase) {
+    'use strict';
+
+    var ref = new Firebase("https://hacker-assessor.firebaseio.com/hackers"),
+        hackers = {
+            1: {
+                name: 'Ryan Dahl',
+                skills: [
+                    {
+                        skill: 1,
+                        experience: {
+                            level: 2,
+                            years: 4
+                        }
+                    },
+                    {
+                        skill: 2,
+                        experience: {
+                            level: 3,
+                            years: 2
+                        }
                     }
-                },
-                {
-                    skill: 2,
-                    experience: {
-                        level: 3,
-                        years: 2
-                    }
-                }
-            ]
+                ]
         }
     };
+
 
     function showAlert(message) {
         var toast;
 
-        if (!message) message = 'Please fill in some data';
+        if (!message) { message = 'Please fill in some data'; }
 
         toast = $mdToast.simple().content(message);
 
-        $mdToast.show(toast)
-            .then(function() {
-                console.log('Toasted!');
-                console.log(arguments);
-            }, function() {
-                console.log('Fire! $mdToast failed.');
-                console.error(arguments);
-            });
+        $mdToast.show(toast).then(function success() {
+            console.log('Toasted!');
+            console.log(arguments);
+        }, function error() {
+            console.log('Fire! $mdToast failed.');
+            console.error(arguments);
+        });
     }
-    
+
     /*
      * Returns a random integer between min (included) and max (excluded)
      * Using Math.round() will give you a non-uniform distribution!
      */
     function getRandomInt(min, max) {
-      return Math.floor(Math.random() * (max - min)) + min;
+        return Math.floor(Math.random() * (max - min)) + min;
     }
 
     return {
         getHacker: function getHacker(id) {
-            return $q(function(resolve, reject) {
-                resolve(hackers[id]);
-            });
+            var hacker = $firebase(ref.child(id));
+            return hacker.$asObject().$loaded();
         },
+
         getHackers: function getHackers() {
-            return $q(function(resolve, reject) {
-                resolve(hackers);
-            });
+            var hackers = $firebase(ref);
+            return hackers.$asObject().$loaded();
         },
+
         create: function create(hacker) {
-            var uid = getRandomInt(0, 1000);
+            var hackers = $firebase(ref);
 
             if (hacker.skills.length && hacker.name) {
-                hackers[uid] = hacker;
+                hackers.$push(hacker).then(function(newChildRef) {
+                    console.log("added record with id " + newChildRef.key());
+                });
+
                 $state.go('list');
             } else if (!hacker.name) {
                 showAlert('Please add a name.');
@@ -73,7 +79,9 @@ function HackerService($q, $state, $mdToast) {
 }
 
 function SkillService(HelperService) {
-    return  {
+    'use strict';
+
+    return {
         skills: [],
         fetchSkills: function fetchSkills() {
             var options = {
@@ -86,10 +94,12 @@ function SkillService(HelperService) {
     };
 }
 
-function CategoryService(HelperService, SkillService) {
+function CategoryService(HelperService) {
+    'use strict';
+
     return {
         categories: [],
-        
+
         fetchCategories: function fetchCategories() {
             var options = {
                 collection: this.categories,
@@ -102,54 +112,51 @@ function CategoryService(HelperService, SkillService) {
 }
 
 function HelperService($http) {
+    'use strict';
+
     return {
         fetchData: function fetchData(options) {
             options.cache = true;
 
             return $http.get(options.url)
-                        .then(function(res) {
+                        .then(function (res) {
 
                             // Clever way to empty an Array.
-                            options.collection.length = 0;
+                    options.collection.length = 0;
 
-                            res.data.forEach(function(item) {
-                                options.collection.push(item);
-                            });
-                    
-                            return options.collection;
-                        });
+                    res.data.forEach(function (item) {
+                        options.collection.push(item);
+                    });
+
+                    return options.collection;
+                });
         }
     };
 }
 
 function QuestionService() {
+    'use strict';
+
     return {
-        
-        /**
-         * [assembleQuestions description]
-         * @param  {[type]} categories [description]
-         * @param  {[type]} skills     [description]
-         * @param  {[type]} hacker     [description]
-         * @return {[type]}            [description]
-         */
+
         assembleQuestions: function assembleQuestions(categories, skills, hacker) {
             var questions = [],
                 counter;
 
-            categories.forEach(function(category, index) {
+            categories.forEach(function (category, index) {
                 questions.push(category);
 
                 questions[index].items = [];
 
-                skills.forEach(function(skill) {
+                skills.forEach(function (skill) {
                     if (questions[index].id === skill.category_id) {
 
                         // Save array length state for future check.
                         counter = questions[index].items.length;
-                        
+
                         if (hacker && hacker.skills.length) {
-                            
-                            hacker.skills.forEach(function(item) {
+
+                            hacker.skills.forEach(function (item) {
                                 if (item.skill === skill.id) {
                                     questions[index].items.push({
                                         skill: skill,
@@ -170,7 +177,7 @@ function QuestionService() {
                     }
                 });
             });
-            
+
             return questions;
         },
 
@@ -182,16 +189,16 @@ function QuestionService() {
                     skill: states[0].skill.id,
                     experience: states[0].experience
                 };
-                
+
                 /*
                  * If hacker has skills, iterate through and compare
                  * against the new answer. If there is a match, remove
-                 * the old answer. 
+                 * the old answer.
                  */
                 if (this.hacker.skills.length) {
 
-                    this.hacker.skills.forEach(function(oldAnswer, index) {
-                        if (oldAnswer.skill === newAnswer.skill){
+                    this.hacker.skills.forEach(function (oldAnswer, index) {
+                        if (oldAnswer.skill === newAnswer.skill) {
                             this.hacker.skills.splice(index, 1);
                         }
                     }, this);
