@@ -1,29 +1,8 @@
-function HackerService($q, $state, $mdToast, $firebase) {
+function HackerService($state, $mdToast, $firebase) {
     'use strict';
 
     var ref = new Firebase("https://hacker-assessor.firebaseio.com/hackers"),
-        hackers = {
-            1: {
-                name: 'Ryan Dahl',
-                skills: [
-                    {
-                        skill: 1,
-                        experience: {
-                            level: 2,
-                            years: 4
-                        }
-                    },
-                    {
-                        skill: 2,
-                        experience: {
-                            level: 3,
-                            years: 2
-                        }
-                    }
-                ]
-        }
-    };
-
+        hackers = $firebase(ref);
 
     function showAlert(message) {
         var toast;
@@ -41,14 +20,6 @@ function HackerService($q, $state, $mdToast, $firebase) {
         });
     }
 
-    /*
-     * Returns a random integer between min (included) and max (excluded)
-     * Using Math.round() will give you a non-uniform distribution!
-     */
-    function getRandomInt(min, max) {
-        return Math.floor(Math.random() * (max - min)) + min;
-    }
-
     return {
         getHacker: function getHacker(id) {
             var hacker = $firebase(ref.child(id));
@@ -56,24 +27,22 @@ function HackerService($q, $state, $mdToast, $firebase) {
         },
 
         getHackers: function getHackers() {
-            var hackers = $firebase(ref);
             return hackers.$asObject().$loaded();
         },
 
         create: function create(hacker) {
-            var hackers = $firebase(ref);
-
             if (hacker.skills.length && hacker.name) {
-                hackers.$push(hacker).then(function(newChildRef) {
-                    console.log("added record with id " + newChildRef.key());
-                });
-
+                hackers.$push(hacker);
                 $state.go('list');
             } else if (!hacker.name) {
                 showAlert('Please add a name.');
             } else {
                 showAlert();
             }
+        },
+
+        update: function update(hacker) {
+            hacker.$save();
         }
     };
 }
@@ -83,6 +52,7 @@ function SkillService(HelperService) {
 
     return {
         skills: [],
+
         fetchSkills: function fetchSkills() {
             var options = {
                 collection: this.skills,

@@ -89,6 +89,6 @@ function runnable($rootScope) {
         'use strict';
 
         arguments[0].preventDefault();
-        console.error(arguments[5]);
+        console.error(arguments[5].stack);
     });
 }
