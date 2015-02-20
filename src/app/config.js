@@ -16,8 +16,8 @@ function ConfigFn($stateProvider, $urlRouterProvider, $mdThemingProvider) {
         })
         .state('create', {
             url: '/hacker/new/:id',
-            templateUrl: 'main/partials/create.html',
-            controller: 'CreateController as CreateController',
+            templateUrl: 'main/partials/hacker.html',
+            controller: 'HackerController as HackerController',
             resolve: {
                 categories: function categories(CategoryService) {
                     return CategoryService.fetchCategories();
@@ -25,13 +25,17 @@ function ConfigFn($stateProvider, $urlRouterProvider, $mdThemingProvider) {
 
                 skills: function skills(SkillService) {
                     return SkillService.fetchSkills();
+                },
+
+                hacker: function hacker() {
+                    return { name: null, skills: [] };
                 }
             }
         })
         .state('update', {
             url: '/hacker/:id',
-            templateUrl: "main/partials/update.html",
-            controller: "UpdateController as UpdateController",
+            templateUrl: "main/partials/hacker.html",
+            controller: "HackerController as HackerController",
             resolve: {
                 categories: function categories(CategoryService) {
                     return CategoryService.fetchCategories();
@@ -78,13 +82,13 @@ function ConfigFn($stateProvider, $urlRouterProvider, $mdThemingProvider) {
 }
 
 function runnable($rootScope) {
+
     /**
      * Pelase refer to the official documentation for more
      * on the argument list passed to the callback.
      *
      * https://github.com/angular-ui/ui-router/wiki#state-change-events
      */
-
     $rootScope.$on('$stateChangeError', function() {
         'use strict';
 

@@ -11,21 +11,27 @@
             <div flex="35">
                 <md-input-container>
                     <label>Hacker Name</label>
-                    <input ng-model="CreateController.hacker.name" type="text">
+                    <input ng-model="HackerController.hacker.name" type="text">
                 </md-input-container>
             </div>
             <div flex="15" layout='row' layout-align='center'>
                 <md-button
+                    ng-show='!HackerController.isCreate'
                     class='md-raised'
                     flex='70'
-                    ng-click='CreateController.save()'>Save</md-button>
+                    ng-click='HackerController.update()'>Update</md-button>
+                <md-button
+                    ng-show='HackerController.isCreate'
+                    class='md-raised'
+                    flex='70'
+                    ng-click='HackerController.save()'>Save</md-button>
             </div>
         </div>
     </div>
 </md-toolbar>
 <md-content>
     <div
-        ng-repeat='category in CreateController.questions'
+        ng-repeat='category in HackerController.questions'
         ng-show='category.items.length'>
         <section>
             <md-subheader class="md-primary" ng-show='category.items.length'>
@@ -43,7 +49,7 @@
                 <div ng-repeat='item in category.items' style='padding-top: 10px;'>
                     <ha-question
                         question='item'
-                        save='CreateController.addSkill(states)'>
+                        save='HackerController.addSkill(states)'>
                     </ha-question>
                 </div>
             </md-list>
