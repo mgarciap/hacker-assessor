@@ -15,17 +15,11 @@ var templateCache = require('gulp-angular-templatecache');
 var karma = require('gulp-karma');
 var gulp = require('gulp-help')(require('gulp'));
 var bower_files = mainBowerFiles();
-var testFiles = bower_files.concat([
+var testFiles = [
+    'build/js/vendor.js',
     'node_modules/angular-mocks/angular-mocks.js',
-
-    "src/app/**/!(app|module)*.js",
-    "src/app/config.js",
-    "src/app/**/module.js",
-    "src/app/app.js",
-
-    'build/js/templates.js',
     'src/app/**/*.spec.js'
-]);
+].concat(config.app.js);
 
 gulp.task('default', 'DEFAULT TASK: dev.', ['dev']);
 
@@ -142,7 +136,7 @@ gulp.task('dist', 'Builds the app and prepares it for deployment.', ['build'], f
 
 
 gulp.task('test', function() {
-    return gulp.src(testFiles)
+    return gulp.src([])
         .pipe(karma({
             configFile: 'karma.conf.js',
             action: 'run'

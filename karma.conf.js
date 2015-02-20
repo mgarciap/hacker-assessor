@@ -1,5 +1,6 @@
 // Karma configuration
 // Generated on Mon Jan 19 2015 10:40:31 GMT-0300 (ART)
+var conf = require('./gulp.conf');
 
 module.exports = function(config) {
     config.set({
@@ -17,15 +18,8 @@ module.exports = function(config) {
         files: [
             'build/js/vendor.js',
             'node_modules/angular-mocks/angular-mocks.js',
-
-            "src/app/**/!(app|module)*.js",
-            "src/app/config.js",
-            "src/app/**/module.js",
-            "src/app/app.js",
-
-            'build/js/templates.js',
             'src/app/**/*.spec.js'
-        ],
+        ].concat(conf.app.js),
 
 
         // list of files to exclude

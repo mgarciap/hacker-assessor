@@ -32,6 +32,6 @@
   },
   "scripts": {
     "start": "browser-sync start --files 'public/*.html, public/*.js' --server 'public'",
-    "test": "protractor test/config.js"
+    "test": "protractor test/e2e/conf.js && gulp test"
   }
 }
