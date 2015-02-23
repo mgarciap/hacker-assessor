@@ -1,25 +1,28 @@
 <md-toolbar class="md-hue-1">
     <div>
-        <div 
-            class="md-toolbar-tools" 
-            style='padding-top: 15px;' 
-            layout='row' 
+        <div
+            class="md-toolbar-tools"
+            style='padding-top: 15px;'
+            layout='row'
             layout-align='space-between'>
             <div flex="50">
-                <a href="/"><h4><span>Hacker Assessor</span></h1></a>
+                <a ui-sref='list'><h4><span>Hacker Assessor</span></h1></a>
             </div>
-            <div flex="35"></div>
-            <div flex="15" layout='row' layout-align='center'>
-                <md-button 
-                    class='md-raised' 
-                    flex='70'
+            <div flex="20" layout='row' layout-align='space-between center'>
+                <md-button
+                    class='md-raised'
+                    flex='45'
                     ui-sref='create'>New</md-button>
-            </div>         
+                <md-button
+                    class='md-raised'
+                    flex='45'
+                    ng-click='HackerListController.logout()'>Logout</md-button>
+            </div>
         </div>
     </div>
 </md-toolbar>
 <md-content class='md-padding'>
-    <div ng-repeat='(hackerKey, hackerValue) in ListController.hackers'>
+    <div ng-repeat='(hackerKey, hackerValue) in HackerListController.hackers'>
         <a href="#/hacker/{{hackerKey}}"><h4>{{hackerValue.name}}</h4></a>
     </div>
 </md-content>

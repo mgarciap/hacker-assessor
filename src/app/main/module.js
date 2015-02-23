@@ -1,6 +1,7 @@
 angular.module('hackerAssessor.main', [])
-    
-    .controller('ListController', ListController)
+
+    .controller('HomeController', HomeController)
+    .controller('HackerListController', HackerListController)
     .controller('HackerController', HackerController)
 
     .factory('HackerService', HackerService)

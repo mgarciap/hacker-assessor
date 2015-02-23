@@ -81,7 +81,7 @@ function CategoryService(HelperService) {
     };
 }
 
-function HelperService($http) {
+function HelperService($http, $firebaseAuth, $state) {
     'use strict';
 
     return {
@@ -91,7 +91,7 @@ function HelperService($http) {
             return $http.get(options.url)
                         .then(function (res) {
 
-                            // Clever way to empty an Array.
+                    // Clever way to empty an Array.
                     options.collection.length = 0;
 
                     res.data.forEach(function (item) {
@@ -100,6 +100,38 @@ function HelperService($http) {
 
                     return options.collection;
                 });
+        },
+
+        auth: function auth() {
+            var ref = new Firebase('https://hacker-assessor.firebaseio.com/'),
+                authObj = $firebaseAuth(ref);
+
+            var offAuth = authObj.$onAuth(function(authData) {
+                if (authData) {
+                    console.log("Logged in as:", authData.uid);
+                } else {
+                    offAuth();
+                    $state.go('home');
+                    console.log("Logged out");
+                }
+            });
+
+            return authObj;
+        },
+
+        login: function login() {
+            this.auth().$authWithOAuthPopup("github")
+                .then(function(authData) {
+                    console.log("Logged in as:", authData.uid);
+                    $state.go('list');
+                }).catch(function(error) {
+                    console.error("Authentication failed:", error);
+                });
+        },
+
+        logout: function logout() {
+            console.log('logout');
+            this.auth().$unauth();
         }
     };
 }
