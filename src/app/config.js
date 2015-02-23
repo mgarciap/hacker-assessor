@@ -4,13 +4,22 @@ function ConfigFn($stateProvider, $urlRouterProvider, $mdThemingProvider) {
     $urlRouterProvider.otherwise('/');
 
     $stateProvider
-        .state('list', {
+        .state('home', {
             url: '/',
+            templateUrl: "main/partials/home.html",
+            controller: "HomeController as HomeController"
+        })
+        .state('list', {
+            url: '/hackers',
             templateUrl: "main/partials/list.html",
-            controller: "ListController as ListController",
+            controller: "HackerListController as HackerListController",
             resolve: {
                 hackers: function hackers(HackerService) {
                     return HackerService.getHackers();
+                },
+
+                authentic: function authentic(HelperService) {
+                    return HelperService.auth().$requireAuth();
                 }
             }
         })
@@ -29,6 +38,10 @@ function ConfigFn($stateProvider, $urlRouterProvider, $mdThemingProvider) {
 
                 hacker: function hacker() {
                     return { name: null, skills: [] };
+                },
+
+                authentic: function authentic(HelperService) {
+                    return HelperService.auth().$requireAuth();
                 }
             }
         })
@@ -47,6 +60,10 @@ function ConfigFn($stateProvider, $urlRouterProvider, $mdThemingProvider) {
 
                 hacker: function hacker(HackerService, $stateParams) {
                     return HackerService.getHacker($stateParams.id);
+                },
+
+                authentic: function authentic(HelperService) {
+                    return HelperService.auth().$requireAuth();
                 }
             }
         });
@@ -93,6 +110,15 @@ function runnable($rootScope) {
         'use strict';
 
         arguments[0].preventDefault();
+
+        /**
+         * Catch the error thrown when the $requireAuth promise is
+         * rejected and redirect the user back to the home page.
+         */
+        if (arguments[5] === "AUTH_REQUIRED") {
+            $state.go("home");
+        }
+
         console.error(arguments[5].stack);
     });
 }

@@ -1,7 +1,19 @@
-function ListController(hackers) {
+function HomeController(HelperService) {
+    'use strict';
+
+    this.login = function login() {
+        HelperService.login();
+    }
+}
+
+function HackerListController(HelperService, hackers) {
     'use strict';
 
     this.hackers = hackers;
+
+    this.logout = function logout() {
+        HelperService.logout();
+    }
 }
 
 function HackerController($state, QuestionService, HackerService, hacker, categories, skills) {
