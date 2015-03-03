@@ -32,12 +32,13 @@ function haQuestion() {
         restrict: 'E',
         templateUrl: 'directives/partials/ha-question.html',
         scope: {
+            skill: '=',
             question: '=',
             save: '&'
         },
         controller: function QuestionController($scope) {
             $scope.$watch('question', function() {
-                $scope.save({states: arguments});
+                $scope.save({ states: arguments, id: $scope.skill});
             }, true);
         }
     };

@@ -1,7 +1,7 @@
 <md-item>
     <md-item-content layout='row' layout-align="space-between center">
         <div flex="50" class="md-tile-content" style='padding-right: 5em;'>
-            <span>{{question.skill.name}}</span>
+            <span>{{question.name}}</span>
         </div>
     <div flex="50" layout='row' layout-align="space-between center">
         <div flex="45" >
@@ -11,7 +11,7 @@
             <div flex="90">
                 <md-slider
                     md-discrete
-                    aria-label="" 
+                    aria-label=""
                     min="0"
                     max="5"
                     ng-model='question.experience.years'>

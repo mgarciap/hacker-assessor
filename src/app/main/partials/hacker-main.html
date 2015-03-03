@@ -1,0 +1,24 @@
+<div>
+    <section ng-repeat='(key, question) in HackerController.questions'>
+        <md-subheader class="md-primary">
+            <md-content>
+                <div layout='row' layout-align='space-between' style='overflow: hidden;'>
+                    <span flex='50'>{{question.name}}</span>
+                    <div flex='50' layout='row' layout-align='space-between'>
+                        <span flex='45'>Level</span>
+                        <span flex='45'>Years</span>
+                    </div>
+                </div>
+            </md-content>
+        </md-subheader>
+        <md-list layout="column" style='overflow: hidden; padding-top: 10px;'>
+            <div ng-repeat='(key, data) in question.items' style='padding-top: 10px;'>
+                <ha-question
+                    skill='key'
+                    question='data'
+                    save='HackerController.hacker.addSkill(states, id)'>
+                </ha-question>
+            </div>
+        </md-list>
+    </section>
+</div>

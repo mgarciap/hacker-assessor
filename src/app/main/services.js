@@ -1,109 +1,117 @@
-function HackerService($state, $mdToast, $firebase) {
+function HackerService($firebase, $FirebaseObject, BASE_PATH, HelperService) {
     'use strict';
 
-    var ref = new Firebase("https://hacker-assessor.firebaseio.com/hackers"),
-        hackers = $firebase(ref);
+    var ref = new Firebase(BASE_PATH + "hackers"),
 
-    function showAlert(message) {
-        var toast;
+        HackerMethods = $FirebaseObject.$extendFactory({
+            addSkill: function addSkill(states, id) {
+                var newAnswer;
+                if (states[0] !== states[1]) {
+                    newAnswer = {
+                        skill: id,
+                        experience: states[0].experience
+                    };
 
-        if (!message) { message = 'Please fill in some data'; }
+                    /**
+                     * If hacker has skills, iterate through and compare
+                     * against the new answer. If there is a match, remove
+                     * the old answer.
+                     */
+                    if (this.answers) {
+                        this.answers.forEach(function(answer, index) {
+                            if (answer.skill === newAnswer.skill) {
+                                this.answers.splice(index, 1);
+                            }
+                        }, this);
+                    } else {
+                        this.answers = [];
+                    }
 
-        toast = $mdToast.simple().content(message);
+                    this.answers.push(newAnswer);
+                }
+            },
 
-        $mdToast.show(toast).then(function success() {
-            console.log('Toasted!');
-            console.log(arguments);
-        }, function error() {
-            console.log('Fire! $mdToast failed.');
-            console.error(arguments);
+            save: function save() {
+                this.$save().then(function success() {
+                    HelperService.showAlert('Your changes have been saved.');
+                });
+            }
+        }),
+
+        HackersMethods = $FirebaseObject.$extendFactory({
+            create: function create(hacker) {
+                this.$inst().$push(hacker);
+            }
         });
-    }
 
     return {
-        getHacker: function getHacker(id) {
-            var hacker = $firebase(ref.child(id));
+        hackers: null,
+
+        getOne: function getOne(id) {
+            var hacker = $firebase(ref.child(id), { objectFactory: HackerMethods });
             return hacker.$asObject().$loaded();
         },
 
-        getHackers: function getHackers() {
-            return hackers.$asObject().$loaded();
-        },
+        getAll: function getAll() {
+            var hackers = $firebase(ref, { objectFactory: HackersMethods });
 
-        create: function create(hacker) {
-            if (hacker.skills.length && hacker.name) {
-                hackers.$push(hacker);
-                $state.go('list');
-            } else if (!hacker.name) {
-                showAlert('Please add a name.');
-            } else {
-                showAlert();
+            function loaded(hackers){
+                this.hackers = hackers;
+                return this.hackers;
             }
-        },
 
-        update: function update(hacker) {
-            hacker.$save();
+            return hackers.$asObject()
+                        .$loaded(loaded.call(this));
         }
     };
 }
 
-function SkillService(HelperService) {
+function SkillService($firebase, BASE_PATH) {
     'use strict';
 
+    var ref = new Firebase(BASE_PATH + "skills");
+
     return {
-        skills: [],
+        skills: null,
 
-        fetchSkills: function fetchSkills() {
-            var options = {
-                collection: this.skills,
-                url: 'api/1/skills.json'
-            };
+        getAll: function getAll() {
+            function loaded(skills) {
+                this.skills = skills;
+                return this.skills;
+            }
 
-            return HelperService.fetchData(options);
+            return $firebase(ref).$asObject()
+                        .$loaded(loaded.call(this));
         }
     };
 }
 
-function CategoryService(HelperService) {
+function CategoryService($firebase, BASE_PATH) {
     'use strict';
 
+    var ref = new Firebase(BASE_PATH + "categories");
+
     return {
-        categories: [],
+        categories: null,
 
-        fetchCategories: function fetchCategories() {
-            var options = {
-                collection: this.categories,
-                url: 'api/1/categories.json'
-            };
+        getAll: function getAll() {
+            function loaded(categories) {
+                this.categories = categories;
+                return this.categories;
+            }
 
-            return HelperService.fetchData(options);
+            return $firebase(ref).$asObject()
+                        .$loaded(loaded.call(this));
         }
     };
 }
 
-function HelperService($http, $firebaseAuth, $state) {
+function AuthService($firebaseAuth, BASE_PATH, $state) {
     'use strict';
 
     return {
-        fetchData: function fetchData(options) {
-            options.cache = true;
-
-            return $http.get(options.url)
-                        .then(function (res) {
-
-                    // Clever way to empty an Array.
-                    options.collection.length = 0;
-
-                    res.data.forEach(function (item) {
-                        options.collection.push(item);
-                    });
-
-                    return options.collection;
-                });
-        },
-
         auth: function auth() {
-            var ref = new Firebase('https://hacker-assessor.firebaseio.com/'),
+            var ref = new Firebase(BASE_PATH),
                 authObj = $firebaseAuth(ref);
 
             var offAuth = authObj.$onAuth(function(authData) {
@@ -139,76 +147,52 @@ function HelperService($http, $firebaseAuth, $state) {
 function QuestionService() {
     'use strict';
 
-    return {
+    function Questions() {}
 
-        assembleQuestions: function assembleQuestions(categories, skills, hacker) {
-            var questions = [],
-                counter;
+    Questions.prototype.make = function make(categories, skills) {
+        angular.forEach(categories, function(cVal, cKey) {
+            var items;
 
-            categories.forEach(function (category, index) {
-                questions.push(category);
+            this[cKey] = { items: {}, name: cVal.name };
 
-                questions[index].items = [];
-
-                skills.forEach(function (skill) {
-                    if (questions[index].id === skill.category_id) {
-
-                        // Save array length state for future check.
-                        counter = questions[index].items.length;
-
-                        if (hacker && hacker.skills.length) {
-
-                            hacker.skills.forEach(function (item) {
-                                if (item.skill === skill.id) {
-                                    questions[index].items.push({
-                                        skill: skill,
-                                        experience: item.experience
-                                    });
-                                }
-                            });
-
-                        }
-
-                        // Checks array state and modify it if isn't changed.
-                        if (counter === questions[index].items.length) {
-                            questions[index].items.push({
-                                skill: skill,
-                                experience: { level: 0, years: 0 }
-                            });
-                        }
-                    }
-                });
-            });
-
-            return questions;
-        },
-
-        addSkill: function addSkill(states) {
-            var newAnswer;
-
-            if (states[0] !== states[1]) {
-                newAnswer = {
-                    skill: states[0].skill.id,
-                    experience: states[0].experience
-                };
-
-                /*
-                 * If hacker has skills, iterate through and compare
-                 * against the new answer. If there is a match, remove
-                 * the old answer.
-                 */
-                if (this.hacker.skills.length) {
-
-                    this.hacker.skills.forEach(function (oldAnswer, index) {
-                        if (oldAnswer.skill === newAnswer.skill) {
-                            this.hacker.skills.splice(index, 1);
-                        }
-                    }, this);
+            angular.forEach(skills, function(sVal, sKey) {
+                if (cKey === sVal.category) {
+                    sVal.experience = { level: 0, years: 0 };
+                    this[cKey].items[sKey] = sVal;
                 }
+            }, this);
 
-                this.hacker.skills.push(newAnswer);
+            items = Object.keys.call(this, this[cKey].items);
 
-            }
+            // Remove empty categories.
+            if (items.length <= 0) { delete this[cKey] };
+        }, this);
+
+        return this;
+    }
+
+    Questions.prototype.addAnswers = function addAnswers(hacker) {
+        angular.forEach(this, function (qVal, qKey) {
+            angular.forEach(qVal.items, function(iVal, iKey) {
+                if (hacker.answers) {
+                    hacker.answers.forEach(function (answer) {
+                        if (iKey === answer.skill) { iVal.experience = answer.experience };
+                    });
+                }
+            });
+        });
+    }
+
+    return { Questions: Questions };
+}
+
+function HelperService($document, $mdToast) {
+    return {
+        showAlert: function showAlert(message) {
+            $mdToast.show({
+                parent: angular.element($document[0].body),
+                template: "<md-toast>" + message + "</md-toast>"
+            });
         }
-    };
+    }
 }

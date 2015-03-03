@@ -1,11 +1,15 @@
 angular.module('hackerAssessor.main', [])
 
-    .controller('HomeController', HomeController)
-    .controller('HackerListController', HackerListController)
-    .controller('HackerController', HackerController)
+    .constant('BASE_PATH', 'https://hacker-assessor.firebaseio.com/')
 
+    .controller('HomeController', HomeController)
+    .controller('HackersController', HackersController)
+    .controller('HackerController', HackerController)
+    .controller('HackerNameDialogController', HackerNameDialogController)
+
+    .factory('SkillService', SkillService)
+    .factory('CategoryService', CategoryService)
     .factory('HackerService', HackerService)
     .factory('QuestionService', QuestionService)
-    .factory('HelperService', HelperService)
-    .factory('SkillService', SkillService)
-    .factory('CategoryService', CategoryService);
+    .factory('AuthService', AuthService)
+    .factory('HelperService', HelperService);

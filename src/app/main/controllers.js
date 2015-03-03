@@ -1,34 +1,63 @@
-function HomeController(HelperService) {
+function HomeController(AuthService) {
     'use strict';
 
     this.login = function login() {
-        HelperService.login();
+        AuthService.login();
     }
 }
 
-function HackerListController(HelperService, hackers) {
+function HackersController(AuthService, $document, $mdDialog, hackers) {
     'use strict';
 
     this.hackers = hackers;
 
     this.logout = function logout() {
-        HelperService.logout();
+        AuthService.logout();
+    }
+
+    this.create = function create(hacker) {
+        $mdDialog.show({
+            parent: angular.element($document[0].body),
+            templateUrl: 'main/partials/hacker-name-dialog.html',
+            controller: 'HackerNameDialogController',
+            controllerAs: 'HackerNameDialogController',
+            resolve: {
+              hackers: function () {
+                  return hackers;
+              }
+            }
+        });
     }
 }
 
-function HackerController($state, QuestionService, HackerService, hacker, categories, skills) {
+function HackerNameDialogController(HelperService, $mdDialog, hackers) {
+    'use strict';
+
+    this.hackers = hackers;
+
+    this.hacker = {};
+
+    this.confirm = function confirm() {
+        if (this.hacker.name) {
+            this.hackers.create(this.hacker);
+            $mdDialog.hide();
+        } else {
+            HelperService.showAlert('Please, give a name to the new hacker!');
+        }
+    }
+
+    this.cancel = function cancel() {
+        $mdDialog.hide();
+    }
+}
+
+function HackerController(QuestionService, hacker, hackers, categories, skills) {
     'use strict';
 
     this.hacker = hacker;
 
-    this.isCreate = $state.is('create');
-
-    this.questions = QuestionService.assembleQuestions(categories, skills, this.hacker);
-
-    this.addSkill = QuestionService.addSkill;
-
-    this.save = function save() {
-        HackerService.create(this.hacker);
+    this.create = function create() {
+        hackers.create(this.hacker);
     };
 
     /**
@@ -36,7 +65,11 @@ function HackerController($state, QuestionService, HackerService, hacker, catego
      * For more details, please refer to the discussion linked below.
      * https://groups.google.com/d/topic/firebase-angular/zd0bV2brXtY/discussion
      */
-    this.update = function update() {
-        HackerService.update(this.hacker);
+    this.save = function save() {
+        this.hacker.save();
     };
+
+    this.questions = new QuestionService.Questions();
+    this.questions.make(categories, skills);
+    this.questions.addAnswers(this.hacker);
 }

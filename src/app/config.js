@@ -6,64 +6,94 @@ function ConfigFn($stateProvider, $urlRouterProvider, $mdThemingProvider) {
     $stateProvider
         .state('home', {
             url: '/',
-            templateUrl: "main/partials/home.html",
-            controller: "HomeController as HomeController"
+            views: {
+                "body": {
+                    templateUrl: "main/partials/body.html",
+                    controller: "HomeController as HomeController"
+                },
+                "header@home": {
+                    templateUrl: "main/partials/header.html"
+                },
+                "title@home": {
+                    templateUrl: "main/partials/home-header-title.html"
+                },
+                "controls@home": {
+                    templateUrl: "main/partials/home-header-controls.html"
+                }
+            }
         })
         .state('list', {
             url: '/hackers',
-            templateUrl: "main/partials/list.html",
-            controller: "HackerListController as HackerListController",
+            views: {
+                "body": {
+                    templateUrl: "main/partials/body.html",
+                    controller: "HackersController as HackersController"
+                },
+                "header@list": {
+                    templateUrl: "main/partials/header.html"
+                },
+                "title@list": {
+                    templateUrl: "main/partials/hacker-header-title.html"
+                },
+                "controls@list": {
+                    templateUrl: "main/partials/list-header-controls.html"
+                },
+                "main@list": {
+                    templateUrl: "main/partials/list-main.html"
+                }
+            },
             resolve: {
                 hackers: function hackers(HackerService) {
-                    return HackerService.getHackers();
+                    return HackerService.getAll();
                 },
 
-                authentic: function authentic(HelperService) {
-                    return HelperService.auth().$requireAuth();
+                authentic: function authentic(AuthService) {
+                    return AuthService.auth().$requireAuth();
                 }
             }
         })
-        .state('create', {
-            url: '/hacker/new/:id',
-            templateUrl: 'main/partials/hacker.html',
-            controller: 'HackerController as HackerController',
-            resolve: {
-                categories: function categories(CategoryService) {
-                    return CategoryService.fetchCategories();
-                },
-
-                skills: function skills(SkillService) {
-                    return SkillService.fetchSkills();
-                },
-
-                hacker: function hacker() {
-                    return { name: null, skills: [] };
-                },
-
-                authentic: function authentic(HelperService) {
-                    return HelperService.auth().$requireAuth();
-                }
-            }
-        })
-        .state('update', {
+        .state('edit', {
             url: '/hacker/:id',
-            templateUrl: "main/partials/hacker.html",
-            controller: "HackerController as HackerController",
+            views: {
+                "body": {
+                    templateUrl: "main/partials/body.html",
+                    controller: "HackerController as HackerController"
+                },
+                "header@edit": {
+                    templateUrl: "main/partials/header.html"
+                },
+                "title@edit": {
+                    templateUrl: "main/partials/hacker-header-title.html"
+                },
+                "input@edit": {
+                    templateUrl: "main/partials/hacker-header-controls-input.html"
+                },
+                "controls@edit": {
+                    templateUrl: "main/partials/hacker-header-controls.html"
+                },
+                "main@edit": {
+                    templateUrl: "main/partials/hacker-main.html"
+                }
+            },
             resolve: {
                 categories: function categories(CategoryService) {
-                    return CategoryService.fetchCategories();
+                    return CategoryService.getAll();
                 },
 
                 skills: function skills(SkillService) {
-                    return SkillService.fetchSkills();
+                    return SkillService.getAll();
                 },
 
                 hacker: function hacker(HackerService, $stateParams) {
-                    return HackerService.getHacker($stateParams.id);
+                    return HackerService.getOne($stateParams.id);
                 },
 
-                authentic: function authentic(HelperService) {
-                    return HelperService.auth().$requireAuth();
+                hackers: function hackers(HackerService) {
+                    return HackerService.getAll();
+                },
+
+                authentic: function authentic(AuthService) {
+                    return AuthService.auth().$requireAuth();
                 }
             }
         });
