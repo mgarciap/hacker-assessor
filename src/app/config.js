@@ -128,7 +128,7 @@ function ConfigFn($stateProvider, $urlRouterProvider, $mdThemingProvider) {
         .accentPalette('blue-grey');
 }
 
-function runnable($rootScope) {
+function runnable($rootScope, $state) {
 
     /**
      * Pelase refer to the official documentation for more

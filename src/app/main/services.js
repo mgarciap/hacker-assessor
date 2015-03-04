@@ -109,26 +109,16 @@ function CategoryService($firebase, BASE_PATH) {
 function AuthService($firebaseAuth, BASE_PATH, $state) {
     'use strict';
 
+    var ref = new Firebase(BASE_PATH),
+        authObj = $firebaseAuth(ref);
+
     return {
         auth: function auth() {
-            var ref = new Firebase(BASE_PATH),
-                authObj = $firebaseAuth(ref);
-
-            var offAuth = authObj.$onAuth(function(authData) {
-                if (authData) {
-                    console.log("Logged in as:", authData.uid);
-                } else {
-                    offAuth();
-                    $state.go('home');
-                    console.log("Logged out");
-                }
-            });
-
             return authObj;
         },
 
         login: function login() {
-            this.auth().$authWithOAuthPopup("github")
+            authObj.$authWithOAuthPopup("github")
                 .then(function(authData) {
                     console.log("Logged in as:", authData.uid);
                     $state.go('list');
@@ -138,8 +128,9 @@ function AuthService($firebaseAuth, BASE_PATH, $state) {
         },
 
         logout: function logout() {
-            console.log('logout');
-            this.auth().$unauth();
+            authObj.$unauth();
+            console.log("Logged out");
+            $state.go('home');
         }
     };
 }
