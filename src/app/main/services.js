@@ -1,4 +1,4 @@
-function HackerService($firebase, $FirebaseObject, BASE_PATH, HelperService) {
+function HackerService($firebase, $FirebaseObject, $state, BASE_PATH, HelperService) {
     'use strict';
 
     var ref = new Firebase(BASE_PATH + "hackers"),
@@ -40,7 +40,9 @@ function HackerService($firebase, $FirebaseObject, BASE_PATH, HelperService) {
 
         HackersMethods = $FirebaseObject.$extendFactory({
             create: function create(hacker) {
-                this.$inst().$push(hacker);
+                this.$inst().$push(hacker).then(function success(ref) {
+                    $state.go('edit', { id: ref.key() });
+                });
             }
         });
 
