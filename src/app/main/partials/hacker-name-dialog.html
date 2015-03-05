@@ -1,13 +1,12 @@
 <md-dialog>
   <md-content>
-    <md-input-container flex>
+    <md-input-container>
         <label>Hacker Name</label>
         <input ng-model="HackerNameDialogController.hacker.name" type="text">
     </md-input-container>
-  </md-content>
   <div class="md-actions" layout="row">
-    <span flex></span>
-    <md-button class='md-warn' ng-click="HackerNameDialogController.cancel()">Cancel</md-button>
-    <md-button ng-click="HackerNameDialogController.confirm()" class="md-primary">Confirm</md-button>
+    <md-button class="md-warn" ng-click="HackerNameDialogController.cancel()">Cancel</md-button>
+    <md-button ng-click="HackerNameDialogController.confirm()">Confirm</md-button>
   </div>
+  </md-content>
 </md-dialog>
