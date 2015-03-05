@@ -6,59 +6,25 @@ function HomeController(AuthService) {
     }
 }
 
-function HackersController(AuthService, $document, $mdDialog, hackers) {
+function HackersController(AuthService, HelperService, hackers) {
     'use strict';
 
     this.hackers = hackers;
+
 
     this.logout = function logout() {
         AuthService.logout();
     }
 
-    this.create = function create(hacker) {
-        $mdDialog.show({
-            parent: angular.element($document[0].body),
-            templateUrl: 'main/partials/hacker-name-dialog.html',
-            controller: 'HackerNameDialogController',
-            controllerAs: 'HackerNameDialogController',
-            resolve: {
-              hackers: function () {
-                  return hackers;
-              }
-            }
-        });
+    this.create = function create() {
+        this.hackers.create();
     }
 }
 
-function HackerNameDialogController(HelperService, $mdDialog, hackers) {
-    'use strict';
-
-    this.hackers = hackers;
-
-    this.hacker = {};
-
-    this.confirm = function confirm() {
-        if (this.hacker.name) {
-            this.hackers.create(this.hacker);
-            $mdDialog.hide();
-        } else {
-            HelperService.showAlert('Please, give a name to the new hacker!');
-        }
-    }
-
-    this.cancel = function cancel() {
-        $mdDialog.hide();
-    }
-}
-
-function HackerController(QuestionService, hacker, hackers, categories, skills) {
+function HackerController(QuestionService, hacker, categories, skills) {
     'use strict';
 
     this.hacker = hacker;
-
-    this.create = function create() {
-        hackers.create(this.hacker);
-    };
 
     /**
      * Manually updated because it isn't possible to use $bindTo() without $scope.
@@ -72,4 +38,26 @@ function HackerController(QuestionService, hacker, hackers, categories, skills) 
     this.questions = new QuestionService.Questions();
     this.questions.make(categories, skills);
     this.questions.addAnswers(this.hacker);
+}
+
+function HackerNameDialogController(HelperService, $state, hackers) {
+    'use strict';
+
+    this.hacker = {};
+
+    this.confirm = function confirm() {
+        if (this.hacker.name) {
+            hackers.$inst().$push(this.hacker)
+                .then(function success(ref) {
+                    HelperService.dialogs.createHacker.hide();
+                    $state.go('edit', { id: ref.key() });
+                });
+        } else {
+            HelperService.showAlert('Please, give a name to the new hacker!');
+        }
+    }
+
+    this.cancel = function cancel() {
+        HelperService.dialogs.createHacker.hide();
+    }
 }

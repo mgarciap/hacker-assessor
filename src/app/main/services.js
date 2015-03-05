@@ -1,4 +1,4 @@
-function HackerService($firebase, $FirebaseObject, $state, BASE_PATH, HelperService) {
+function HackerService($firebase, $FirebaseObject, BASE_PATH, HelperService) {
     'use strict';
 
     var ref = new Firebase(BASE_PATH + "hackers"),
@@ -39,10 +39,8 @@ function HackerService($firebase, $FirebaseObject, $state, BASE_PATH, HelperServ
         }),
 
         HackersMethods = $FirebaseObject.$extendFactory({
-            create: function create(hacker) {
-                this.$inst().$push(hacker).then(function success(ref) {
-                    $state.go('edit', { id: ref.key() });
-                });
+            create: function create() {
+                HelperService.dialogs.createHacker.show(this);
             }
         });
 
@@ -179,13 +177,33 @@ function QuestionService() {
     return { Questions: Questions };
 }
 
-function HelperService($document, $mdToast) {
+function HelperService($document, $mdToast, $mdDialog) {
     return {
         showAlert: function showAlert(message) {
             $mdToast.show({
                 parent: angular.element($document[0].body),
                 template: "<md-toast>" + message + "</md-toast>"
             });
+        },
+
+        dialogs: {
+            createHacker: {
+                show: function show(hackers) {
+                    $mdDialog.show({
+                        parent: angular.element($document[0].body),
+                        templateUrl: 'main/partials/hacker-name-dialog.html',
+                        controller: 'HackerNameDialogController',
+                        controllerAs: 'HackerNameDialogController',
+                        locals: {
+                          hackers: hackers
+                        }
+                    });
+                },
+
+                hide: function hide() {
+                    $mdDialog.hide();
+                }
+            }
         }
     }
 }
