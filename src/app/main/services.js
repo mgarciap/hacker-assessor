@@ -1,4 +1,4 @@
-function HackerService($firebase, $FirebaseObject, BASE_PATH, HelperService) {
+function HackerService($firebase, $FirebaseObject, HelperService, BASE_PATH) {
     'use strict';
 
     var ref = new Firebase(BASE_PATH + "hackers"),
@@ -18,8 +18,8 @@ function HackerService($firebase, $FirebaseObject, BASE_PATH, HelperService) {
                      * the old answer.
                      */
                     if (this.answers) {
-                        this.answers.forEach(function(answer, index) {
-                            if (answer.skill === newAnswer.skill) {
+                        this.answers.forEach(function(oldAnswer, index) {
+                            if (oldAnswer.skill === newAnswer.skill) {
                                 this.answers.splice(index, 1);
                             }
                         }, this);
@@ -106,7 +106,27 @@ function CategoryService($firebase, BASE_PATH) {
     };
 }
 
-function AuthService($firebaseAuth, BASE_PATH, $state) {
+function SeniorityService($firebase, BASE_PATH) {
+    'use strict';
+
+    var ref = new Firebase(BASE_PATH + "seniorities");
+
+    return {
+        seniorities: null,
+
+        getAll: function getAll() {
+            function loaded(seniorities) {
+                this.seniorities = seniorities;
+                return this.seniorities;
+            }
+
+            return $firebase(ref).$asObject()
+                        .$loaded(loaded.call(this));
+        }
+    };
+}
+
+function AuthService($firebaseAuth, $state, BASE_PATH) {
     'use strict';
 
     var ref = new Firebase(BASE_PATH),

@@ -6,7 +6,7 @@ function HomeController(AuthService) {
     }
 }
 
-function HackersController(AuthService, HelperService, hackers, HackerService) {
+function HackersController(AuthService, HelperService, HackerService, hackers) {
     'use strict';
 
     this.hackers = hackers;
