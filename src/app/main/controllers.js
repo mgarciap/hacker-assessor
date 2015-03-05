@@ -6,11 +6,17 @@ function HomeController(AuthService) {
     }
 }
 
-function HackersController(AuthService, HelperService, hackers) {
+function HackersController(AuthService, HelperService, hackers, HackerService) {
     'use strict';
 
     this.hackers = hackers;
 
+    this.destroy = function destroy(id) {
+        HackerService.getOne(id)
+            .then(function success(hacker) {
+                hacker.$remove();
+            });
+    }
 
     this.logout = function logout() {
         AuthService.logout();
