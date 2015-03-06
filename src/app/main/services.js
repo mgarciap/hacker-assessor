@@ -1,9 +1,9 @@
-function HackerService($firebase, $FirebaseObject, HelperService, BASE_PATH) {
+function HackerService($firebaseObject, HelperService, BASE_PATH) {
     'use strict';
 
     var ref = new Firebase(BASE_PATH + "hackers"),
 
-        HackerMethods = $FirebaseObject.$extendFactory({
+        Hacker = $firebaseObject.$extend({
             addSkill: function addSkill(states, id) {
                 var newAnswer;
                 if (states[0] !== states[1]) {
@@ -38,7 +38,7 @@ function HackerService($firebase, $FirebaseObject, HelperService, BASE_PATH) {
             }
         }),
 
-        HackersMethods = $FirebaseObject.$extendFactory({
+        Hackers = $firebaseObject.$extend({
             create: function create() {
                 HelperService.dialogs.createHacker.show(this);
             }
@@ -48,25 +48,25 @@ function HackerService($firebase, $FirebaseObject, HelperService, BASE_PATH) {
         hackers: null,
 
         getOne: function getOne(id) {
-            var hacker = $firebase(ref.child(id), { objectFactory: HackerMethods });
-            return hacker.$asObject().$loaded();
+            var hacker = new Hacker(ref.child(id));
+
+            return hacker.$loaded();
         },
 
         getAll: function getAll() {
-            var hackers = $firebase(ref, { objectFactory: HackersMethods });
+            var hackers = new Hackers(ref);
 
             function loaded(hackers){
                 this.hackers = hackers;
                 return this.hackers;
             }
 
-            return hackers.$asObject()
-                        .$loaded(loaded.call(this));
+            return hackers.$loaded(loaded.call(this));
         }
     };
 }
 
-function SkillService($firebase, BASE_PATH) {
+function SkillService($firebaseObject, BASE_PATH) {
     'use strict';
 
     var ref = new Firebase(BASE_PATH + "skills");
@@ -80,13 +80,12 @@ function SkillService($firebase, BASE_PATH) {
                 return this.skills;
             }
 
-            return $firebase(ref).$asObject()
-                        .$loaded(loaded.call(this));
+            return $firebaseObject(ref).$loaded(loaded.call(this));
         }
     };
 }
 
-function CategoryService($firebase, BASE_PATH) {
+function CategoryService($firebaseObject, BASE_PATH) {
     'use strict';
 
     var ref = new Firebase(BASE_PATH + "categories");
@@ -100,13 +99,12 @@ function CategoryService($firebase, BASE_PATH) {
                 return this.categories;
             }
 
-            return $firebase(ref).$asObject()
-                        .$loaded(loaded.call(this));
+            return $firebaseObject(ref).$loaded(loaded.call(this));
         }
     };
 }
 
-function SeniorityService($firebase, BASE_PATH) {
+function SeniorityService($firebaseObject, BASE_PATH) {
     'use strict';
 
     var ref = new Firebase(BASE_PATH + "seniorities");
@@ -120,8 +118,7 @@ function SeniorityService($firebase, BASE_PATH) {
                 return this.seniorities;
             }
 
-            return $firebase(ref).$asObject()
-                        .$loaded(loaded.call(this));
+            return $firebaseObject(ref).$loaded(loaded.call(this));
         }
     };
 }

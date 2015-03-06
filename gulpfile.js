@@ -36,18 +36,6 @@ gulp.task('serve', 'Runs the server with sync between browsers.', function() {
     });
 });
 
-gulp.task('watch', 'Watches for changes on the source and runs the build task.', ['build'], function() {
-    gulp.src(testFiles)
-        .pipe(karma({
-            configFile: 'karma.conf.js',
-            action: 'watch'
-        }));
-
-    return gulp
-        .watch('src/**', ['build']);
-});
-
-
 gulp.task('build', 'Builds the application on the build directory.', ['clean'], function(cb) {
 
     es.merge(
@@ -128,6 +116,16 @@ gulp.task('dist', 'Builds the app and prepares it for deployment.', ['build'], f
 
 });
 
+gulp.task('watch', 'Watches for changes on the source and runs the build task.', ['build'], function() {
+    gulp.src([])
+        .pipe(karma({
+            configFile: 'karma.conf.js',
+            action: 'watch'
+        }));
+
+    return gulp
+        .watch('src/**', ['build']);
+});
 
 gulp.task('test', function() {
     return gulp.src([])
