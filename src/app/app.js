@@ -1,10 +1,5 @@
-angular.module('hackerAssessor',
-    [
+angular.module('hackerAssessor', [
 
-        'ui.router',
-        'ngAnimate',
-        'firebase',
-        'ngMaterial',
         'hackerAssessor.main',
         'hackerAssessor.directives'
 
