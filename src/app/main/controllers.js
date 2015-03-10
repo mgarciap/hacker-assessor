@@ -3,28 +3,25 @@ function HomeController(AuthService) {
 
     this.login = function login() {
         AuthService.login();
-    }
+    };
 }
 
-function HackersController(AuthService, HelperService, HackerService, hackers) {
+function HackersController(AuthService, HelperService, hackers) {
     'use strict';
 
     this.hackers = hackers;
 
     this.destroy = function destroy(id) {
-        HackerService.getOne(id)
-            .then(function success(hacker) {
-                hacker.$remove();
-            });
-    }
+        this.hackers.destroy(id);
+    };
 
     this.logout = function logout() {
         AuthService.logout();
-    }
+    };
 
     this.create = function create() {
-        this.hackers.create();
-    }
+        HelperService.dialogs.createHacker.show(hackers);
+    };
 }
 
 function HackerController(QuestionService, hacker, categories, skills) {
@@ -42,22 +39,20 @@ function HackerController(QuestionService, hacker, categories, skills) {
     };
 
     this.questions = new QuestionService.Questions();
+
     this.questions.make(categories, skills);
+
     this.questions.addAnswers(this.hacker);
 }
 
-function HackerNameDialogController(HelperService, $state, hackers) {
+function HackerNameDialogController(HelperService, HackerService, hackers) {
     'use strict';
 
-    this.hacker = {};
+    this.hackerTemplate = HackerService.makeHackerTemplate();
 
     this.confirm = function confirm() {
-        if (this.hacker.name) {
-            hackers.$inst().$push(this.hacker)
-                .then(function success(ref) {
-                    HelperService.dialogs.createHacker.hide();
-                    $state.go('edit', { id: ref.key() });
-                });
+        if (this.hackerTemplate.name) {
+            hackers.create(this.hackerTemplate);
         } else {
             HelperService.showAlert('Please, give a name to the new hacker!');
         }

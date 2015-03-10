@@ -84,6 +84,10 @@ function ConfigFn($stateProvider, $urlRouterProvider, $mdThemingProvider) {
                     return SkillService.getAll();
                 },
 
+                seniorities: function seniorities(SeniorityService) {
+                    return SeniorityService.getAll();
+                },
+
                 hacker: function hacker(HackerService, $stateParams) {
                     return HackerService.getOne($stateParams.id);
                 },

@@ -1,8 +1,8 @@
 <md-content class='md-padding'>
     <div ng-repeat='(key, hacker) in HackersController.hackers'>
         <div flex layout='row'>
-            <div flex="80">
-                <h3><small>{{hacker.name}}</small></h3>
+            <div flex="80" layout='row'>
+                <h4>{{hacker.name}} - [{{hacker.seniority.actual.name}}]</h4>
             </div>
             <div flex="20" layout="row" layout-align="space-between center">
                 <md-button flex="45" class='md-warn' ng-click='HackersController.destroy(key)'>Destroy</md-button>
