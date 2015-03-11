@@ -31,7 +31,7 @@
     "main-bower-files": "^2.5.0"
   },
   "scripts": {
-    "start": "browser-sync start --files 'public/*.html, public/*.js' --server 'public'",
+    "start": "gulp serve",
     "pretest": "webdriver-manager update && nohup bash -c \"webdriver-manager start 2>&1 &\" && sleep 9 && nohup bash -c \"gulp serve & \" ",
     "test": "protractor test/e2e/conf.js && gulp test"
   }
