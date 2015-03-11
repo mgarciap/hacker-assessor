@@ -31,31 +31,46 @@ function HackerService($firebaseObject, HelperService, SeniorityService, SkillSe
                 }
             },
 
-            calculateSeniorities: function calculateSeniorities(skills, seniorities) {
-                var seniors = {};
+            /**
+             * Checks if hacker has any ore some seniority.
+             *
+             * @param  {Object.<string, object>} skills              A Firebase skills reference synced as object.
+             * @param  {Object.<string, object>} seniorities         A Firebase seniorities reference synced object.
+             * @return {Object.<string, object>} checked_seniorities
+             */
+            checkSeniorities: function checkSeniorities(skills_obj, seniorities_obj) {
+                var checked_seniorities = {};
 
-                angular.forEach(seniorities, function(val, key) {
-                    seniors[key] = SeniorityService.is(this, key, skills);
+                angular.forEach(seniorities_obj, function(seniority_obj, seniority_id) {
+                    checked_seniorities[seniority_id] = SeniorityService.is(this.answers, seniority_id, skills_obj);
                 }, this);
 
-                return seniors;
+                return checked_seniorities;
             },
 
             fetchSeniority: function fetchSeniority() {
 
-                var current = SeniorityService.getOne(this.seniority.current),
+                var current = null,
+                    next = null;
+
+                current = SeniorityService.getOne(this.seniority.current.id);
+
+                if (this.seniority.next) {
                     next = SeniorityService.getOne(this.seniority.next.id);
+                }
 
                 function success(settled) {
-                    var currentSeniority = settled[0],
-                        nextSeniority = settled[1];
+                    var current_seniority = settled[0],
+                        next_seniority = settled[1];
 
                     this.seniority.current = {
                         id: this.seniority.current,
-                        name: currentSeniority.name
+                        name: current_seniority.name
                     };
 
-                    this.seniority.next.name = nextSeniority.name;
+                    if (this.seniority.next) {
+                        this.seniority.next.name = next_seniority.name;
+                    }
                 }
 
                 return $q.all([current,next]).then(success.bind(this));
@@ -64,7 +79,7 @@ function HackerService($firebaseObject, HelperService, SeniorityService, SkillSe
             save: function save() {
                 var skills,
                     seniorities,
-                    calculated_seniorities;
+                    checked_seniorities;
 
                 skills = SkillService.skills;
                 seniorities = SeniorityService.seniorities;
@@ -74,16 +89,26 @@ function HackerService($firebaseObject, HelperService, SeniorityService, SkillSe
                     }
                 }, this);
 
-                calculated_seniorities = this.calculateSeniorities(skills, seniorities);
-                angular.forEach(calculated_seniorities, function(val, key) {
-                    if (val.is) {
-                        this.seniority.current = key;
+                checked_seniorities = this.checkSeniorities(skills, seniorities);
+                var current_set = false,
+                    next_set = false;
+
+                angular.forEach(checked_seniorities, function(checked_obj, seniority_id) {
+                    if (!current_set || !next_set) {
+                        if (checked_obj.is) {
+                            this.seniority.current.id = seniority_id;
+                            current_set = true;
+                        } else {
+                            this.seniority.next = {
+                                id: seniority_id,
+                                requires: checked_obj.requires
+                            };
+                            next_set = true;
+                        }
                     }
-                    else {
-                        this.seniority.next = {
-                            id: key,
-                            requires: val.requires
-                        };
+
+                    if(this.seniority.current.id === "-Jj_DBAikma6ZDJmAUMe") {
+                        this.seniority.next = null;
                     }
                 }, this);
 
@@ -100,11 +125,13 @@ function HackerService($firebaseObject, HelperService, SeniorityService, SkillSe
                 }
 
                 function alertNext() {
-                    HelperService.alert.show('His next step is the ' + this.seniority.current.name + ' level.');
+                    if (this.seniority.next) {
+                        HelperService.alert.show('His next step is the ' + this.seniority.next.name + ' level.');
+                    }
                 }
 
                 this.$save().then(fetched.bind(this))
-                    .finally(alertSaved) // Notice that it doesn't require to be bound.
+                    .finally(alertSaved) // Notice that alertSaved doesn't require to passed with bind.
                     .finally(alertCurrent.bind(this))
                     .finally(alertNext.bind(this));
             }
@@ -117,10 +144,10 @@ function HackerService($firebaseObject, HelperService, SeniorityService, SkillSe
 
                 function fetchSeniorities(hackers) {
                     angular.forEach(hackers, function(val, key) {
-                        var hacker_obj = new Hacker(ref.child(key));
-                        hacker_obj.$loaded(function loaded(hacker) {
-                            hacker.fetchSeniority();
-                            hackers[key] = hacker;
+                        var hacker = new Hacker(ref.child(key));
+                        hacker.$loaded(function loaded(hacker_obj) {
+                            hacker_obj.fetchSeniority();
+                            hackers[key] = hacker_obj;
                         });
                     });
                 }
@@ -175,7 +202,9 @@ function HackerService($firebaseObject, HelperService, SeniorityService, SkillSe
 
             hackerTemplate = {
                 seniority: {
-                    current: '-JjzOnCYG8x6xGjdZYkh',
+                    current: {
+                        id: '-Jk8wy2M_BfCZXtagqKC'
+                    },
                     next: {
                         id: '-Jj_DTkfRMVNJl4qQq20',
                         requires: requires
@@ -263,36 +292,32 @@ function SeniorityService($firebaseObject, BASE_PATH) {
          * Tells if a hacker has a seniority and the skills that the hacker
          * requires for the seniority.
          *
-         * @param  {Object}  hacker
-         * @param  {String}  seniority_id  Firebase UID
-         * @param  {Object}  all_skills    Firebase Collection
-         * @return {Object}  {is: true/false, requires: [...]}
+         * @param  {Object}  answers       A Firebase hacker reference synced as an object.
+         * @param  {Object}  skills_obj       A Firebase skills reference synced as an object.
+         * @param  {String}  seniority_id     A Firebase seniority child reference key.
+         * @return {Object.<boolean, object>}
          */
-        is: function is(hacker, seniority_id, all_skills) {
-            var skills_needed = [],
-                hacker_skills = [],
-                does_not_have = [],
-                index = 0;
+        is: function is(answers, seniority_id, skills_obj) {
+            var is = null,
+                requires = [],
+                answers_skills = [];
 
-            angular.forEach(hacker.answers, function(val, key) {
-                hacker_skills.push(val.skill);
+            answers.forEach(function(answer, index) {
+                answers_skills.push(answer.skill);
             });
 
-            angular.forEach(all_skills, function(val, key) {
-                if(val.seniority === seniority_id){
-                    skills_needed.push(key);
-                }
+            angular.forEach(skills_obj, function(obj, id) {
+                var A = obj.seniority === seniority_id,
+                    B = answers_skills.indexOf(id) === -1;
+
+                if(A && B) { requires.push(id) };
             });
 
-            for (index; index < skills_needed.length; index++) {
-                if(hacker_skills.indexOf(skills_needed[index]) < 0) {
-                    does_not_have.push(skills_needed[index]);
-                }
-            }
+            is = requires.length === 0;
 
             return {
-                is: ( does_not_have.length === 0 ),
-                requires: does_not_have
+                is: is,
+                requires: requires
             };
         }
     };
