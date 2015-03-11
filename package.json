@@ -32,6 +32,7 @@
   },
   "scripts": {
     "start": "browser-sync start --files 'public/*.html, public/*.js' --server 'public'",
+    "pretest": "webdriver-manager update && nohup bash -c \"webdriver-manager start 2>&1 &\" && sleep 9",
     "test": "protractor test/e2e/conf.js && gulp test"
   }
 }

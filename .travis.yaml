@@ -2,8 +2,8 @@ language: node_js
 node_js:
   - "0.10"
 before_script:
-  - npm install -g bower gulp phantomjs karma protractor
-  - bower install
+  - npm install -g bower gulp karma protractor
   - npm install
-  - gulp build
-script: gulp test
+  - bower install
+  - gulp clean && gulp build
+script: npm test

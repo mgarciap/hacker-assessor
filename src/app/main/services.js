@@ -1,4 +1,4 @@
-function HackerService($firebaseObject, HelperService, SeniorityService, SkillService, $state, BASE_PATH) {
+function HackerService($firebaseObject, HelperService, SeniorityService, SkillService, $state, BASE_PATH, $q) {
     'use strict';
 
     var ref = new Firebase(BASE_PATH + "hackers"),
@@ -42,22 +42,23 @@ function HackerService($firebaseObject, HelperService, SeniorityService, SkillSe
             },
 
             fetchSeniority: function fetchSeniority() {
-                    function successActual(actualSeniority) {
-                        this.seniority.actual = {
-                            id: this.seniority.actual,
-                            name: actualSeniority.name
-                        };
-                    }
 
-                    function successNext(nextSeniority) {
-                        this.seniority.next.name = nextSeniority.name;
-                    }
+                var current = SeniorityService.getOne(this.seniority.current),
+                    next = SeniorityService.getOne(this.seniority.next.id);
 
-                    SeniorityService.getOne(this.seniority.actual)
-                        .then(successActual.bind(this));
+                function success(settled) {
+                    var currentSeniority = settled[0],
+                        nextSeniority = settled[1];
 
-                    SeniorityService.getOne(this.seniority.next.id)
-                        .then(successNext.bind(this));
+                    this.seniority.current = {
+                        id: this.seniority.current,
+                        name: currentSeniority.name
+                    };
+
+                    this.seniority.next.name = nextSeniority.name;
+                }
+
+                return $q.all([current,next]).then(success.bind(this));
             },
 
             save: function save() {
@@ -76,7 +77,7 @@ function HackerService($firebaseObject, HelperService, SeniorityService, SkillSe
                 calculated_seniorities = this.calculateSeniorities(skills, seniorities);
                 angular.forEach(calculated_seniorities, function(val, key) {
                     if (val.is) {
-                        this.seniority.actual = key;
+                        this.seniority.current = key;
                     }
                     else {
                         this.seniority.next = {
@@ -86,10 +87,26 @@ function HackerService($firebaseObject, HelperService, SeniorityService, SkillSe
                     }
                 }, this);
 
-                this.$save().then(function success() {
-                    HelperService.showAlert('Your changes have been saved.');
-                    HelperService.dialogs.createHacker.hide();
-                });
+                function fetched() {
+                    return this.fetchSeniority();
+                }
+
+                function alertSaved() {
+                    return HelperService.alert.show('Your changes have been saved.');
+                }
+
+                function alertCurrent() {
+                    return HelperService.alert.show('This hacker is at a ' + this.seniority.current.name + ' level.');
+                }
+
+                function alertNext() {
+                    HelperService.alert.show('His next step is the ' + this.seniority.current.name + ' level.');
+                }
+
+                this.$save().then(fetched.bind(this))
+                    .finally(alertSaved) // Notice that it doesn't require to be bound.
+                    .finally(alertCurrent.bind(this))
+                    .finally(alertNext.bind(this));
             }
         }),
 
@@ -158,7 +175,7 @@ function HackerService($firebaseObject, HelperService, SeniorityService, SkillSe
 
             hackerTemplate = {
                 seniority: {
-                    actual: '-JjzOnCYG8x6xGjdZYkh',
+                    current: '-JjzOnCYG8x6xGjdZYkh',
                     next: {
                         id: '-Jj_DTkfRMVNJl4qQq20',
                         requires: requires
@@ -294,17 +311,13 @@ function AuthService($firebaseAuth, $state, BASE_PATH) {
 
         login: function login() {
             authObj.$authWithOAuthPopup("github")
-                .then(function(authData) {
-                    console.log("Logged in as:", authData.uid);
+                .then(function success(authData) {
                     $state.go('list');
-                }).catch(function(error) {
-                    console.error("Authentication failed:", error);
                 });
         },
 
         logout: function logout() {
             authObj.$unauth();
-            console.log("Logged out");
             $state.go('home');
         }
     };
@@ -356,17 +369,20 @@ function QuestionService() {
 
 function HelperService($document, $mdToast, $mdDialog) {
     return {
-        showAlert: function showAlert(message) {
-            $mdToast.show({
-                parent: angular.element($document[0].body),
-                template: "<md-toast>" + message + "</md-toast>"
-            });
+        alert: {
+            show: function show(message) {
+                return $mdToast.show({
+                    parent: angular.element($document[0].body),
+                    template: "<md-toast>" + message + "</md-toast>",
+                    hideDelay: 500
+                });
+            }
         },
 
         dialogs: {
             createHacker: {
                 show: function show(hackers) {
-                    $mdDialog.show({
+                    return $mdDialog.show({
                         parent: angular.element($document[0].body),
                         templateUrl: 'main/partials/hacker-name-dialog.html',
                         controller: 'HackerNameDialogController',
