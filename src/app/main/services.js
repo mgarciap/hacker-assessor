@@ -1,4 +1,4 @@
-function HackerService($firebaseObject, HelperService, SeniorityService, SkillService, $state, BASE_PATH, $q) {
+function HackerService($firebaseObject, $q, $state, HelperService, SeniorityService, SkillService, BASE_PATH, TEMPLATE_SENIORITIES, MAX_SENIORITY_ID) {
     'use strict';
 
     var ref = new Firebase(BASE_PATH + "hackers"),
@@ -107,7 +107,7 @@ function HackerService($firebaseObject, HelperService, SeniorityService, SkillSe
                         }
                     }
 
-                    if(this.seniority.current.id === "-Jj_DBAikma6ZDJmAUMe") {
+                    if(this.seniority.current.id === MAX_SENIORITY_ID) {
                         this.seniority.next = null;
                     }
                 }, this);
@@ -194,19 +194,19 @@ function HackerService($firebaseObject, HelperService, SeniorityService, SkillSe
         makeHackerTemplate: function makeHackerTemplate() {
             var hackerTemplate,
                 requires = [],
-                default_required_skills = SkillService.getBySeniority('-Jj_DTkfRMVNJl4qQq20');
+                default_required_skills = SkillService.getBySeniority(TEMPLATE_SENIORITIES.NEXT.ID);
 
-            angular.forEach(default_required_skills, function(val, key) {
-                requires.push(key);
+            angular.forEach(default_required_skills, function(skill_obj, skill_id) {
+                requires.push(skill_id);
             });
 
             hackerTemplate = {
                 seniority: {
                     current: {
-                        id: '-Jk8wy2M_BfCZXtagqKC'
+                        id: TEMPLATE_SENIORITIES.CURRENT.ID
                     },
                     next: {
-                        id: '-Jj_DTkfRMVNJl4qQq20',
+                        id: TEMPLATE_SENIORITIES.NEXT.ID,
                         requires: requires
                     }
                 }
@@ -298,7 +298,8 @@ function SeniorityService($firebaseObject, BASE_PATH) {
          * @return {Object.<boolean, object>}
          */
         is: function is(answers, seniority_id, skills_obj) {
-            var is = null,
+            var answers = answers || [],
+                is = null,
                 requires = [],
                 answers_skills = [];
 
