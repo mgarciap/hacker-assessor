@@ -226,7 +226,12 @@ function SkillService($firebaseObject, SeniorityService, BASE_PATH) {
             fetchSeniorities: function fetchSeniorities() {
                 angular.forEach(this, function(val, key) {
                     function success(seniority) {
-                        this[key].seniority = seniority;
+                        var id = this[key].seniority;
+
+                        this[key].seniority = {
+                            id: id,
+                            name: seniority.name
+                        };
                     }
 
                     SeniorityService.getOne(val.seniority).then(success.bind(this));
@@ -254,7 +259,15 @@ function SkillService($firebaseObject, SeniorityService, BASE_PATH) {
             var skillsBySeniority = {};
             if (this.skills) {
                 angular.forEach(this.skills, function (val, key) {
-                    if (id === val.seniority) {
+                    var seniority_id;
+
+                    if (val.seniority.id) {
+                        seniority_id = val.seniority.id;
+                    } else {
+                        seniority_id = val.seniority;
+                    }
+
+                    if (id === seniority_id) {
                         skillsBySeniority[key] = val;
                     }
                 })
@@ -318,7 +331,6 @@ function SeniorityService($q, $firebaseObject, BASE_PATH) {
          */
         is: function is(answers, seniority_id, skills_obj) {
             var answers = answers || [],
-                is = null,
                 requires = [],
                 answers_skills = [];
 
@@ -328,17 +340,23 @@ function SeniorityService($q, $firebaseObject, BASE_PATH) {
                 }
             });
 
-            angular.forEach(skills_obj, function(obj, id) {
-                var A = obj.seniority === seniority_id,
-                    B = answers_skills.indexOf(id) === -1;
+            angular.forEach(skills_obj, function(skill_obj, skill_id) {
+                var skill_seniority_id;
 
-                if(A && B) { requires.push(id) };
+                if (skill_obj.seniority.id) {
+                    skill_seniority_id = skill_obj.seniority.id;
+                } else {
+                    skill_seniority_id = skill_obj.seniority;
+                }
+
+                if ( skill_seniority_id === seniority_id &&
+                        answers_skills.indexOf(skill_id) === -1 ) {
+                    requires.push(skill_id)
+                };
             });
 
-            is = requires.length === 0;
-
             return {
-                is: is,
+                is: ( requires.length === 0 ),
                 requires: requires
             };
         }
