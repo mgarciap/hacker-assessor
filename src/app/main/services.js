@@ -283,15 +283,18 @@ function CategoryService($firebaseObject, BASE_PATH) {
     };
 }
 
-function SeniorityService($firebaseObject, BASE_PATH) {
+function SeniorityService($q, $firebaseObject, BASE_PATH) {
     'use strict';
 
     var ref = new Firebase(BASE_PATH + "seniorities");
 
     return {
-        seniorities: null,
+        seniorities: {},
 
         getOne: function getOne(id) {
+            if(this.seniorities[id]){
+                return $q.when(this.seniorities[id]);
+            }
             return $firebaseObject(ref.child(id)).$loaded();
         },
 
