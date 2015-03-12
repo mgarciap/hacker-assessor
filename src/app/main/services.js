@@ -323,7 +323,9 @@ function SeniorityService($q, $firebaseObject, BASE_PATH) {
                 answers_skills = [];
 
             answers.forEach(function(answer, index) {
-                answers_skills.push(answer.skill);
+                if(answer.experience.level === 3){
+                    answers_skills.push(answer.skill);
+                }
             });
 
             angular.forEach(skills_obj, function(obj, id) {
