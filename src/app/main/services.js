@@ -217,21 +217,37 @@ function HackerService($firebaseObject, $q, $state, HelperService, SeniorityServ
     };
 }
 
-function SkillService($firebaseObject, BASE_PATH) {
+function SkillService($firebaseObject, SeniorityService, BASE_PATH) {
     'use strict';
 
-    var ref = new Firebase(BASE_PATH + "skills");
+    var ref = new Firebase(BASE_PATH + "skills"),
+
+        Skills = $firebaseObject.$extend({
+            fetchSeniorities: function fetchSeniorities() {
+                angular.forEach(this, function(val, key) {
+                    function success(seniority) {
+                        this[key].seniority = seniority;
+                    }
+
+                    SeniorityService.getOne(val.seniority).then(success.bind(this));
+                }, this);
+
+                return this;
+            }
+        });
 
     return {
         skills: null,
 
         getAll: function getAll() {
+            var skills = new Skills(ref);
+
             function loaded(skills) {
                 this.skills = skills;
                 return this.skills;
             }
 
-            return $firebaseObject(ref).$loaded(loaded.bind(this));
+            return skills.$loaded(loaded.bind(this));
         },
 
         getBySeniority: function getBySeniority(id) {

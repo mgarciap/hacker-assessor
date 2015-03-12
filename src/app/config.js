@@ -81,7 +81,9 @@ function ConfigFn($stateProvider, $urlRouterProvider, $mdThemingProvider) {
                 },
 
                 skills: function skills(SkillService) {
-                    return SkillService.getAll();
+                    return SkillService.getAll().then(function(skills) {
+                        return skills.fetchSeniorities();
+                    });
                 },
 
                 seniorities: function seniorities(SeniorityService) {
