@@ -16,7 +16,7 @@ describe('Hacker Assessor\'s "hackerAssessor.main" module', function() {
         });
 
         it('should get all hackers', function() {
-            expect(HackerService.hackers).toBe(null);
+            expect(HackerService.hackers).toBeDefined();
 
             HackerService.getAll().then(function() {
                 expect(HackerService.hackers).not.toBe(null);
@@ -34,7 +34,7 @@ describe('Hacker Assessor\'s "hackerAssessor.main" module', function() {
         });
 
         it('should get all categories', function() {
-            expect(CategoryService.categories).toBe(null);
+            expect(CategoryService.categories).toBeDefined();
 
             CategoryService.getAll().then(function() {
                 expect(CategoryService.categories).not.toBe(null);
@@ -52,7 +52,7 @@ describe('Hacker Assessor\'s "hackerAssessor.main" module', function() {
         });
 
         it('should get all skills', function() {
-            expect(SkillService.skills).toBe(null);
+            expect(SkillService.skills).toBeDefined();
 
             SkillService.getAll().then(function() {
                 expect(SkillService.skills).not.toBe(null);
@@ -70,7 +70,7 @@ describe('Hacker Assessor\'s "hackerAssessor.main" module', function() {
         });
 
         it('should get all seniorities', function() {
-            expect(SeniorityService.seniorities).toBe(null);
+            expect(SeniorityService.seniorities).toBeDefined();
 
             SeniorityService.getAll().then(function() {
                 expect(SeniorityService.seniorities).not.toBe(null);
