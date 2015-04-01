@@ -17,37 +17,6 @@ La misma debe contar con:
 * Filtrado de categorías por nombre.
 * Filtrado de items de las categorías visibles.
 
-## Directory Structure
-```
-angular-initial/
-  |- src/
-  |  |- app/
-  |  |  |- common/
-  |  |  |  |- styles/
-  |  |  |  |  |- something.less
-  |  |  |  |- partials/
-  |  |  |  |  |- index.html
-  |  |  |  |- controllers.js
-  |  |  |  |- modules.js
-  |  |  |  `- services.js
-  |  |  |- module*/
-  |  |  |  |- styles/
-  |  |  |  |  |- something.less
-  |  |  |  |- partials/
-  |  |  |  |  |- index.html
-  |  |  |  |- controllers.js
-  |  |  |  |- modules.js
-  |  |  |  `- services.js
-  |  |- img/
-  |  `- index.html
-  |- vendor/
-  |- .bowerrc
-  |- bower.json
-  |- gulp.conf.json
-  |- gulpfile.js
-  `- package.json
-```
-
 ###Rodando
 Instale las dependencias.
 
@@ -67,21 +36,19 @@ Para rodar y extender las pruebas.
     $ webdriver-manager start
     $ npm test
 
-
-###Librerias
+### Librerias
 
 * Gulp
 * Browser Sync
 * Bower
 * Less
 
-
-####Dev
+#### Dev
 * [browser-sync](https://www.npmjs.com/package/browser-sync)
 * [protractor](https://www.npmjs.com/package/protractor)
-* [gulp-inject](https://www.npmjs.org/package/gulp-inject)  
 * [main-bower-files](https://www.npmjs.org/package/main-bower-files)
 
-####Prod
+#### Prod
 * [Angular](https://angularjs.org/)
-* [Bootstrap](http://getbootstrap.com/)
+* [AngularFire]()
+* [Angular Material]()
