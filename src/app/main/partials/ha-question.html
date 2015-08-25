@@ -1,0 +1,20 @@
+<md-item>
+  <md-item-content layout-align="space-between center" layout='row'>
+    <div class="md-tile-content" flex="50" style='padding-right: 5em;'>
+      <span>{{question.name}}
+        -
+        <small>[{{question.seniority.name}}]</small>
+      </span>
+    </div>
+    <div flex="50" layout-align="space-between center" layout='row'>
+      <div flex="45">
+        <ha-stars level="question.experience.level"></ha-stars>
+      </div>
+      <div flex='45' layout='row'>
+        <div flex="90">
+          <md-slider aria-label="" max="5" md-discrete min="0" ng-model='question.experience.years'></md-slider>
+        </div>
+      </div>
+    </div>
+  </md-item-content>
+</md-item>

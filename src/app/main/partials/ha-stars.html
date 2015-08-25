@@ -1,0 +1,29 @@
+<style>
+  .star {
+    margin-right: 2em;
+  }
+
+  .highlight {
+    border-bottom: 1px solid black;
+  }
+</style>
+
+<div layout='row'>
+  <div class='star' ng-click="setLevel(1)" title='Never heard about.'>
+    <div class="icon-toggle-black icon-toggle-black-ic_star_black_24dp" ng-show="level != 0"></div>
+
+    <div class="icon-toggle-black icon-toggle-black-ic_star_outline_black_24dp" ng-hide="level > 0"></div>
+  </div>
+
+  <div class='star' ng-click="setLevel(2)" title='Have heard but never tried.'>
+    <div class="icon-toggle-black icon-toggle-black-ic_star_black_24dp" ng-show="level > 1"></div>
+
+    <div class="icon-toggle-black icon-toggle-black-ic_star_outline_black_24dp" ng-hide="level > 1"></div>
+  </div>
+
+  <div class='star' ng-click="setLevel(3)" title='Worked with at some grade.'>
+    <div class="icon-toggle-black icon-toggle-black-ic_star_black_24dp" ng-show="level > 2"></div>
+
+    <div class="icon-toggle-black icon-toggle-black-ic_star_outline_black_24dp" ng-hide="level > 2"></div>
+  </div>
+</div>
