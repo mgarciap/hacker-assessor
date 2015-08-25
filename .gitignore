@@ -8,3 +8,4 @@
 *.commit.md
 *nohup.out
 *wiki/
+*.log
