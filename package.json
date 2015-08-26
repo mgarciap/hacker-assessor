@@ -34,6 +34,7 @@
   },
   "scripts": {
     "start": "gulp serve",
+    "pretest": "gulp clean && gulp build",
     "test": "gulp test"
   }
 }
