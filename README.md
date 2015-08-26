@@ -1,7 +1,5 @@
 # Hacker Assessor
 
-![Codeship build badge](https://codeship.com/projects/54f16f00-47a2-0132-beb3-4adcde5a863d/status?branch=v0.3.1) ![TravisCI build badge](https://travis-ci.org/n370/hacker-assessor.svg?branch=v0.3.1)
-
 ### Requerimientos
 Desarrollar una SPA que se utilizará para especificar la experiencia laboral durante entrevistas de trabajo a programadores.
 
