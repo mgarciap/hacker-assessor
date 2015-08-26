@@ -1,0 +1,22 @@
+{
+  "name": "hacker-assessor",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Altoros/hacker-assessor.git"
+  },
+  "author": "",
+  "license": "AGPL-3.0+",
+  "bugs": {
+    "url": "https://github.com/Altoros/hacker-assessor/issues"
+  },
+  "homepage": "https://github.com/Altoros/hacker-assessor#readme",
+  "dependencies": {
+    "ecstatic": "^0.8.0"
+  }
+}
