@@ -37,5 +37,8 @@
     "start": "gulp serve",
     "pretest": "gulp clean && gulp build",
     "test": "gulp test"
+  },
+  "dependencies": {
+    "gulp": "^3.9.0"
   }
 }
