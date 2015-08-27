@@ -56,9 +56,9 @@ $ npm test
 - [AngularFire]()
 - [Angular Material]()
 
-Hacker Assessor (c) by [@n370](http://www.github.com/n370) and [@leolower](http://www.github.com/leolower)
-
 ---
+
+Hacker Assessor (c) by [@n370](http://www.github.com/n370) and [@leolower](http://www.github.com/leolower)
 
 Hacker Assessor is licensed under a
 Creative Commons Attribution 4.0 International License.
