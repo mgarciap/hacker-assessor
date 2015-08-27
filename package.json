@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/Altoros/hacker-assessor#readme",
   "dependencies": {
-    "ecstatic": "^0.8.0"
+    "ecstatic": "^0.8.0",
+    "ejs": "^2.3.3"
   }
 }

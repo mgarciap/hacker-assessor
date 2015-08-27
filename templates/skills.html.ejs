@@ -1,0 +1,9 @@
+<h3><%= name %></h3>
+<p><%= description %></p>
+<p><%= levelDescription %></p>
+<h4>Lectures</h4>
+<ul>
+<% lectures.forEach(function(lecture){ -%>
+  <li><a href="<%= lecture.url %>"><%= lecture.name %></a></li>
+<% }); -%>
+</ul>
