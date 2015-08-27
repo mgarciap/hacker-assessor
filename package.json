@@ -33,6 +33,7 @@
     "main-bower-files": "^2.5.0"
   },
   "scripts": {
+    "prestart": "gulp clean && gulp build",
     "start": "gulp serve",
     "pretest": "gulp clean && gulp build",
     "test": "gulp test"
