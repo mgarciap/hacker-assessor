@@ -12,17 +12,18 @@
 
     var service = {
       categories: null,
-
-      getAll: function getAll() {
-        function loaded(categories) {
-          this.categories = categories;
-          return this.categories;
-        }
-
-        return $firebaseObject(ref).$loaded(loaded.bind(this));
-      }
+      getAll: getAll
     };
 
     return service;
+
+    function getAll() {
+      return $firebaseObject(ref).$loaded(loaded.bind(this));
+
+      function loaded(categories) {
+        this.categories = categories;
+        return this.categories;
+      }
+    }
   }
 })();

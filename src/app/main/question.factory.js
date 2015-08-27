@@ -11,7 +11,17 @@
 
     function Questions() {}
 
-    Questions.prototype.make = function make(categories, skills) {
+    Questions.prototype.make = make;
+    Questions.prototype.addAnswers = addAnswers;
+
+    var service = {
+      Questions: Questions
+    };
+
+    return service;
+
+
+    function make(categories, skills) {
       angular.forEach(categories, function(cVal, cKey) {
         var items;
 
@@ -39,9 +49,9 @@
       }, this);
 
       return this;
-    };
+    }
 
-    Questions.prototype.addAnswers = function addAnswers(hacker) {
+    function addAnswers(hacker) {
       angular.forEach(this, function(qVal, qKey) {
         angular.forEach(qVal.items, function(iVal, iKey) {
           if (hacker.answers) {
@@ -53,12 +63,6 @@
           }
         });
       });
-    };
-
-    var service = {
-      Questions: Questions
-    };
-
-    return service;
+    }
   }
 })();

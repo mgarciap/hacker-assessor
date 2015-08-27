@@ -10,36 +10,40 @@
   function HelperService($document, $mdToast, $mdDialog) {
     var service = {
       alert: {
-        show: function show(message) {
-          return $mdToast.show({
-            parent: angular.element($document[0].body),
-            template: "<md-toast>" + message + "</md-toast>",
-            hideDelay: 500
-          });
-        }
+        showToast: showToast
       },
-
       dialogs: {
         createHacker: {
-          show: function show(hackers) {
-            return $mdDialog.show({
-              parent: angular.element($document[0].body),
-              templateUrl: 'main/partials/hacker-name-dialog.html',
-              controller: 'HackerNameDialogController',
-              controllerAs: 'HackerNameDialogController',
-              locals: {
-                hackers: hackers
-              }
-            });
-          },
-
-          hide: function hide() {
-            $mdDialog.hide();
-          }
+          showDialog: showDialog,
+          hideDialog: hideDialog
         }
       }
     };
 
     return service;
+
+    function showToast(message) {
+      return $mdToast.show({
+        parent: angular.element($document[0].body),
+        template: "<md-toast>" + message + "</md-toast>",
+        hideDelay: 500
+      });
+    }
+
+    function showDialog(hackers) {
+      return $mdDialog.show({
+        parent: angular.element($document[0].body),
+        templateUrl: 'main/partials/hacker-name-dialog.html',
+        controller: 'HackerNameDialogController',
+        controllerAs: 'HackerNameDialogController',
+        locals: {
+          hackers: hackers
+        }
+      });
+    }
+
+    function hideDialog() {
+      $mdDialog.hide();
+    }
   }
 })();

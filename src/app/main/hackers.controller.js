@@ -13,18 +13,21 @@
 
     function activate() {
       this.hackers = hackers;
+      this.destroy = destroy;
+      this.logout = logout;
+      this.create = create;
 
-      this.destroy = function destroy(id) {
+      function destroy(id) {
         this.hackers.destroy(id);
-      };
+      }
 
-      this.logout = function logout() {
+      function logout() {
         AuthService.logout();
-      };
+      }
 
-      this.create = function create() {
-        HelperService.dialogs.createHacker.show(hackers);
-      };
+      function create() {
+        HelperService.dialogs.createHacker.showDialog(hackers);
+      }
     }
   }
 })();

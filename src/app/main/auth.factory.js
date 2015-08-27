@@ -9,27 +9,31 @@
 
   function AuthService($firebaseAuth, $state, BASE_PATH) {
 
-    var ref = new Firebase(BASE_PATH),
-      authObj = $firebaseAuth(ref);
+    var ref = new Firebase(BASE_PATH);
+    var authObj = $firebaseAuth(ref);
 
     var service = {
-      auth: function auth() {
-        return authObj;
-      },
-
-      login: function login() {
-        authObj.$authWithOAuthPopup("github")
-          .then(function success(authData) {
-            $state.go('list');
-          });
-      },
-
-      logout: function logout() {
-        authObj.$unauth();
-        $state.go('home');
-      }
+      auth: auth,
+      login: login,
+      logout: logout
     };
 
     return service;
+
+    function auth() {
+      return authObj;
+    }
+
+    function login() {
+      authObj.$authWithOAuthPopup("github")
+        .then(function success(authData) {
+          $state.go('list');
+        });
+    }
+
+    function logout() {
+      authObj.$unauth();
+      $state.go('home');
+    }
   }
 })();

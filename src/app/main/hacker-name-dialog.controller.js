@@ -12,20 +12,21 @@
     activate.call(this);
 
     function activate() {
-
       this.hackerTemplate = HackerService.makeHackerTemplate();
+      this.confirm = confirm;
+      this.cancel = cancel;
 
-      this.confirm = function confirm() {
+      function confirm() {
         if (this.hackerTemplate.name) {
           hackers.create(this.hackerTemplate);
         } else {
           HelperService.showAlert('Please, give a name to the new hacker!');
         }
-      };
+      }
 
-      this.cancel = function cancel() {
-        HelperService.dialogs.createHacker.hide();
-      };
+      function cancel() {
+        HelperService.dialogs.createHacker.hideDialog();
+      }
     }
   }
 })();

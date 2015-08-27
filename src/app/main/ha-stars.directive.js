@@ -32,9 +32,11 @@
           .removeClass('highlight');
       });
 
-      scope.setLevel = function setLevel(level) {
+      scope.setLevel = setLevel;
+
+      function setLevel(level) {
         scope.level = scope.level == level ? scope.level - 1 : level;
-      };
+      }
     }
   }
 })();

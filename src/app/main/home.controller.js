@@ -11,9 +11,11 @@
     activate.call(this);
 
     function activate() {
-      this.login = function login() {
+      this.login = login;
+
+      function login() {
         AuthService.login();
-      };
+      }
     }
   }
 })();

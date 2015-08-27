@@ -23,11 +23,13 @@
   QuestionController.$inject = ['$scope'];
 
   function QuestionController($scope) {
-    $scope.$watch('question', function() {
+    $scope.$watch('question', save, true);
+
+    function save() {
       $scope.save({
         states: arguments,
         id: $scope.skill
       });
-    }, true);
+    }
   }
 })();
