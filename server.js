@@ -24,27 +24,27 @@ http.createServer(function(req, res) {
 
 console.log('Listening on http://localhost:' + port );
 
-function skill(skill_name, res) {
-  var skill = require( __dirname + '/app/skills/' + skill_name + '.json');
-  fs.readFile(__dirname + '/templates/skills.html.ejs', { encoding: 'utf8' },
-      function(err, string) {
-        var template = ejs.compile(string);
-
-        res.statusCode = 200;
-        res.statusMessage = 'Success';
-        res.setHeader("Content-Type", "text/html");
-        res.end(template(skill));
-  });
-}
-
 function show_instructions(req, res, params) {
-  var lackingSkills = params.level.skills.filter(function(i) {
+  params.lackingSkills = params.level.skills.filter(function(i) {
     return params.hacker.skills.indexOf(i) < 0;
   });
 
-  res.end(lackingSkills.join('\n'));
+  template('hacker.html.ejs', function(err, file) {
+    var template = ejs.compile(file);
+
+    res.statusCode = 200;
+    res.statusMessage = 'Success';
+    res.setHeader("Content-Type", "text/html");
+    res.end(template(params));
+  });
 }
 
-function template (file, cb) {
-  fs.readFile(__dirname + '/templates/', { encoding: 'utf8' }, cb);
+/**
+ * @function template
+ * @desc
+ * @param file is a filename of a template.
+ * @param cb
+ */
+function template (fileName, cb) {
+  fs.readFile(__dirname + '/templates/' + fileName, { encoding: 'utf8' }, cb);
 }

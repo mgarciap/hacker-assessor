@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Hacker Assessor | <%= hacker.name %> Status</title>
+  </head>
+  <body>
+    <h1><%= hacker.name %> Status</h1>
+    <h2>Missing Skills for <small><%= level.name %></small></h2>
+    <ul>
+    <% lackingSkills.forEach(function(skill) { -%>
+      <li>
+        <h3><%= skill %></h3>
+        <p>JavaScript is the most popular programming language in the world. A proper understanding of it's good parts is desirable if you want to write maintainable, concise and usable code that will last forever.</p>
+        <p>You don't have to be an expert in vanilla js but your understandig should be wide enough to be able to kick out jQuery.</p>
+        <h4>Lectures</h4>
+        <ul>
+          <li><a href="https://github.com/jquery/jquery/blob/master/src/ajax.js">jQuery</a></li>
+          <li><a href="https://www.codecademy.com/tracks/javascript">Codecademy JavaScript Path</a></li>
+        </ul>
+      </li>
+    <% }); -%>
+    </ul>
+  </body>
+</html>
