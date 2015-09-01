@@ -10,13 +10,14 @@
     <ul>
     <% lackingSkills.forEach(function(skill) { -%>
       <li>
-        <h3><%= skill %></h3>
-        <p>JavaScript is the most popular programming language in the world. A proper understanding of it's good parts is desirable if you want to write maintainable, concise and usable code that will last forever.</p>
-        <p>You don't have to be an expert in vanilla js but your understandig should be wide enough to be able to kick out jQuery.</p>
+        <h3><%= skill.name %></h3>
+        <p><%= skill.description %></p>
+        <p><%= skill.levelDescription %></p>
         <h4>Lectures</h4>
         <ul>
-          <li><a href="https://github.com/jquery/jquery/blob/master/src/ajax.js">jQuery</a></li>
-          <li><a href="https://www.codecademy.com/tracks/javascript">Codecademy JavaScript Path</a></li>
+        <% skill.lectures.forEach(function(lecture) { -%>
+          <li><a href="<%= lecture.url %>"><%= lecture.name %></a></li>
+        <% }); -%>
         </ul>
       </li>
     <% }); -%>

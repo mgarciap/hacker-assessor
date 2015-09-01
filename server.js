@@ -8,6 +8,7 @@ var port = process.env["PORT"] || 8080;
 // hardcoded stuff
 var hackers = require('./hackers.json');
 var levels = require('./levels.json');
+var skills = require('./skills.json');
 
 var staticsFiles = ecstatic({ root: __dirname + '/public' });
 
@@ -29,13 +30,19 @@ function show_instructions(req, res, params) {
     return params.hacker.skills.indexOf(i) < 0;
   });
 
-  template('hacker.html.ejs', function(err, file) {
-    var template = ejs.compile(file);
+  params.lackingSkills.forEach(function(lackingSkill, index) {
+    skills.forEach(function(skill) {
+      if (lackingSkill === skill.name) {
+        params.lackingSkills[index] = skill;
+      }
+    });
+  });
 
+  template('hacker.html.ejs', function(err, file) {
     res.statusCode = 200;
     res.statusMessage = 'Success';
     res.setHeader("Content-Type", "text/html");
-    res.end(template(params));
+    res.end(ejs.compile(file)(params));
   });
 }
 
