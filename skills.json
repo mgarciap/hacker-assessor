@@ -14,11 +14,11 @@
   "description": "JavaScript is the most popular programming language in the world. A proper understanding of it's good parts is desirable if you want to write maintainable, concise and usable code that will last forever.",
   "levelDescription": "You don't have to be an expert in vanilla js but your understandig should be wide enough to be able to kick out jQuery.",
   "lectures": [{
-    "name": "some name",
-    "url": "some url"
+    "name": "jQuery",
+    "url": "https://github.com/jquery/jquery/blob/master/src/ajax.js"
   }, {
-    "name": "some other name",
-    "url": "some other url"
+    "name": "Codecademy JavaScript Path",
+    "url": "https://www.codecademy.com/tracks/javascript"
   }]
 }, {
   "name": "Node",
