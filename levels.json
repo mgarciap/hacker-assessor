@@ -8,5 +8,15 @@
       "Angular",
       "VanillaJS"
     ]
+  },
+  "Senior Full Stack JS": {
+    "name": "Senior Full Stack JS",
+    "skills": [
+      "skill",
+      "skill",
+      "skill",
+      "skill",
+      "skill"
+    ]
   }
 }
