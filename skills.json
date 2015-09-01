@@ -20,4 +20,15 @@
     "name": "some other name",
     "url": "some other url"
   }]
+}, {
+  "name": "Node",
+  "description": "Node.js contributions, releases, and contributorship are under an open governance model. We intend to land, with increasing regularity, releases which are compatible with the npm ecosystem that has been built to date for Node.js.",
+  "levelDescription": "Your current expertice is not enough",
+  "lectures": [{
+    "name": "Node docs",
+    "url": "https://nodejs.org/documentation/"
+  }, {
+    "name": "Github Node.js",
+    "url": "https://github.com/nodejs/node"
+  }]
 }]

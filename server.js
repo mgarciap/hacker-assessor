@@ -7,7 +7,7 @@ var port = process.env["PORT"] || 8080;
 
 // hardcoded stuff
 var hackers = require('./hackers.json');
-var levels = require('./levels.json');
+var seniorities = require('./seniorities.json');
 var skills = require('./skills.json');
 
 var staticsFiles = ecstatic({ root: __dirname + '/public' });
@@ -16,7 +16,12 @@ http.createServer(function(req, res) {
   if (req.url === '/become/senior-frontend.html') {
     show_instructions(req, res, {
       hacker: hackers['Jorge'],
-      level: levels['Senior Frontend']
+      level: seniorities['Senior Frontend']
+    });
+  } else if (req.url === '/become/senior-full-stack-js.html') {
+    show_instructions(req, res, {
+      hacker: hackers['Jorge'],
+      level: seniorities['Senior Full Stack JS']
     });
   } else {
     staticsFiles(req, res);
