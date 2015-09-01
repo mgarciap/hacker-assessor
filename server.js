@@ -18,6 +18,11 @@ http.createServer(function(req, res) {
       hacker: hackers['Jorge'],
       level: seniorities['Senior Frontend']
     });
+  } else if (req.url === '/become/senior-full-stack-js.html') {
+    show_instructions(req, res, {
+      hacker: hackers['Jorge'],
+      level: seniorities['Senior Full Stack JS']
+    });
   } else {
     staticsFiles(req, res);
   }
