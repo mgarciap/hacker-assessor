@@ -13,12 +13,14 @@
         <h3><%= skill.name %></h3>
         <p><%= skill.description %></p>
         <p><%= skill.levelDescription %></p>
+      <% if (skill.lectures) { -%>
         <h4>Lectures</h4>
         <ul>
         <% skill.lectures.forEach(function(lecture) { -%>
           <li><a href="<%= lecture.url %>"><%= lecture.name %></a></li>
         <% }); -%>
         </ul>
+      <% } -%>
       </li>
     <% }); -%>
     </ul>
