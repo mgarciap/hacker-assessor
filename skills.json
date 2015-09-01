@@ -31,4 +31,12 @@
     "name": "Github Node.js",
     "url": "https://github.com/nodejs/node"
   }]
+}, {
+  "name": "Discuss Dependencies",
+  "description": "Frontend modules are awesome, but they can make the app really slow, so it is important to keep only the esentials.",
+  "levelDescription": "At this level, you are expected to be able to discuss in a respectfull way with the client and with other devs the importance of each module.",
+  "lectures": [{
+    "name": "Manage those dependencies (slide)",
+    "url": "https://speakerdeck.com/jakobmattsson/manage-those-dependencies"
+  }]
 }]
