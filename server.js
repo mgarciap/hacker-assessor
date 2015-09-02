@@ -35,12 +35,20 @@ function show_instructions(req, res, params) {
     return params.hacker.skills.indexOf(i) < 0;
   });
 
-  params.lackingSkills.forEach(function(lackingSkill, index) {
-    skills.forEach(function(skill) {
-      if (lackingSkill === skill.name) {
-        params.lackingSkills[index] = skill;
+  params.lackingSkills = params.lackingSkills.map(function(skillName, index) {
+    return findSkill(skillName);
+
+    function findSkill (skillName) {
+      for (var i=0; i < skills.length; i++) {
+        if (skills[i].name === skillName) {
+          return skills[i];
+        }
       }
-    });
+      return {
+        name: skillName,
+        description: "This skill isn't registered yet in our database."
+      };
+    }
   });
 
   template('hacker.html.ejs', function(err, file) {
