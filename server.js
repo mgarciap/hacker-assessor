@@ -1,3 +1,5 @@
+const SKILL_LEVELS=["Nice to have", "Required", "Experience", "Advanced"]
+
 var ecstatic = require("ecstatic");
 var http = require('http');
 var ejs = require('ejs');
@@ -39,27 +41,32 @@ http.createServer(function(req, res) {
 console.log('Listening on http://localhost:' + port );
 
 function show_instructions(req, res, params) {
-  params.lackingSkills = params.level.skills.filter(function(i) {
-    return params.hacker.skills.indexOf(i) < 0;
-  });
-
-  params.lackingSkills = params.lackingSkills.map(function(skillName, index) {
-    return findSkill(skillName);
-
-    function findSkill (skillName) {
-      for (var i=0; i < skills.length; i++) {
-        if (skills[i].name === skillName.name) {
-          skills[i].level = skillName.level;
-          return skills[i];
-        }
+  params.lackingSkills = [];
+  params.level.requirements.forEach(function(needed_skill) {
+    var found = false;
+    params.hacker.skills.forEach(function(skill) {
+      if(!found && needed_skill.name === skill.name && needed_skill.level <= skill.level) {
+        found = true;
       }
-      return {
-        name: skillName.name,
-	level: skillName.level,
-        description: "This skill isn't registered yet in our database."
-      };
+    });
+    if(!found) {
+      params.lackingSkills.push(getSkill(needed_skill));
     }
   });
+
+  function getSkill (skill) {
+    for (var i=0; i < skills.length; i++) {
+      if (skills[i].name === skill.name) {
+        skills[i].level = SKILL_LEVELS[skill.level];
+        return skills[i];
+      }
+    }
+    return {
+      name: skill.name,
+      level: SKILL_LEVELS[skill.level],
+      description: "This skill isn't registered yet in our database."
+    };
+  }
 
   template('hacker.html.ejs', function(err, file) {
     res.statusCode = 200;

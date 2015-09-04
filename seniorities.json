@@ -1,34 +1,24 @@
 {
   "Senior Frontend": {
     "name": "Senior Frontend",
-    "skills": [
-      { "name": "Discuss Dependencies",
-	"level": "nice to have" },
-      { "name": "TDD",
-	"level": "required" },
-      { "name": "JavaScript",
-	"level": "advanced" },
-      { "name": "DevTools",
-	"level": "experience" },
-      { "name": "Angular",
-	"level": "experience" },
-      { "name": "VanillaJS",
-	"level": "required" }
+    "requirements": [
+      { "name": "Discuss Dependencies", "level": 2 },
+      { "name": "TDD",	"level": 2 },
+      { "name": "JavaScript", "level": 3 },
+      { "name": "DevTools", "level": 1 },
+      { "name": "Angular", "level": 3 },
+      { "name": "VanillaJS", "level": 2 },
+      { "name": "Scrum Master", "level": 0 }
     ]
   },
   "Senior Full Stack JS": {
     "name": "Senior Full Stack JS",
-    "skills": [
-      { "name": "JavaScript",
-	"level": "advanced" },
-      { "name": "Angular",
-	"level": "advanced" },
-      { "name": "DevTools",
-	"level": "experience" },
-      { "name": "Meditation",
-	"level": "nice to have" },
-      { "name": "Node",
-	"level": "required" }
+    "requirements": [
+      { "name": "JavaScript", "level": 3 },
+      { "name": "Angular", "level": 3 },
+      { "name": "DevTools", "level": 2 },
+      { "name": "Meditation", "level": 0 },
+      { "name": "Node", "level": 3 }
     ]
   }
 }
