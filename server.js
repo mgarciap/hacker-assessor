@@ -48,12 +48,14 @@ function show_instructions(req, res, params) {
 
     function findSkill (skillName) {
       for (var i=0; i < skills.length; i++) {
-        if (skills[i].name === skillName) {
+        if (skills[i].name === skillName.name) {
+          skills[i].level = skillName.level;
           return skills[i];
         }
       }
       return {
-        name: skillName,
+        name: skillName.name,
+	level: skillName.level,
         description: "This skill isn't registered yet in our database."
       };
     }
