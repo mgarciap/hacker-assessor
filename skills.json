@@ -12,7 +12,7 @@
 }, {
   "name": "VanillaJS",
   "description": "JavaScript is the most popular programming language in the world. A proper understanding of it's good parts is desirable if you want to write maintainable, concise and usable code that will last forever.",
-  "levelDescription": "You don't have to be an expert in vanilla js but your understandig should be wide enough to be able to kick out jQuery.",
+  "levelDescription": "You don't have to be an expert in VanillaJS but your understandig should be wide enough to be able to kick out jQuery.",
   "lectures": [{
     "name": "jQuery",
     "url": "https://github.com/jquery/jquery/blob/master/src/ajax.js"
@@ -38,5 +38,24 @@
   "lectures": [{
     "name": "Manage those dependencies (slide)",
     "url": "https://speakerdeck.com/jakobmattsson/manage-those-dependencies"
+  }]
+}, {
+  "name": "Angular",
+  "description": "AngularJS lets you write client-side web applications as if you had a smarter browser. It lets you use good old HTML as your template language and lets you extend HTML’s syntax to express your application’s components clearly and succinctly.",
+  "levelDescription": "At this point is expected that you be able to work with Angular without difficulties and with an advanced understanding of the framework.",
+  "lectures": [{
+    "name": "Angular docs",
+    "url": "https://docs.angularjs.org/guide"
+  }, {
+    "name": "Github AngularJS",
+    "url": "https://github.com/angular/angular.js"
+  }]
+}, {
+  "name": "Scrum Master",
+  "description": "Is an iterative and incremental agile software development methodology for managing product development. Scrum adopts an empirical approach—accepting that the problem cannot be fully understood or defined, focusing instead on maximizing the team's ability to deliver quickly and respond to emerging requirements.",
+  "levelDescription": "This ability is not required for this position, but it will not hurt you if you read something about this skill.",
+  "lectures": [{
+    "name": "Wikipedia Scrum",
+    "url": "https://en.wikipedia.org/wiki/Scrum_%28software_development%29"
   }]
 }]
