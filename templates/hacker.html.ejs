@@ -10,9 +10,9 @@
     <ul>
     <% lackingSkills.forEach(function(skill) { -%>
       <li>
-        <h3><%= skill.name %> - <%= skill.level %></h3>
+        <h3><%= skill.name %></h3>
         <p><%= skill.description %></p>
-        <p><%= skill.levelDescription %></p>
+        <p><%= skill.pathDescription %></p>
       <% if (skill.lectures) { -%>
         <h4>Lectures</h4>
         <ul>
