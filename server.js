@@ -2,8 +2,9 @@ var ecstatic = require("ecstatic");
 var http = require('http');
 var ejs = require('ejs');
 var fs = require('fs');
+var connection = require("./connection");
 
-var port = process.env["PORT"] || 8080;
+var port = process.env.PORT || 8080;
 
 // hardcoded stuff
 var hackers = require('./hackers.json');
@@ -68,3 +69,36 @@ function show_instructions(req, res, params) {
 function template (fileName, cb) {
   fs.readFile(__dirname + '/templates/' + fileName, { encoding: 'utf8' }, cb);
 }
+
+/**
+ * Put inside here all the code that uses the template file.
+ * @callback templateCallback
+ * @param {object} error
+ * @param {string} file
+ */
+
+
+
+
+/**
+ * Retrieve a named seniority from the database.
+ * @param {string} name - A seniority name to be retrieved from the database.
+ * @param {getSeniorityCallback} callback - A callback to work with the query result.
+ */
+function getSeniority(name, callback) {
+  var query = seniorities
+    .select(seniorities.star())
+    .where(seniorities.name.equals(name))
+    .toQuery();
+
+  connection().query(query.text, query.values, callback);
+}
+
+/**
+ * @callback getSeniorityCallback
+ * @param {object} error - An error object.
+ * @param {rows: array,
+ *        fields: array,
+ *        rowCount: number,
+ *        lastInsertId: {(undefined|number)}} result - The query result.
+ */

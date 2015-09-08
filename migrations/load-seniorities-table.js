@@ -1,7 +1,6 @@
-var data = require('../seniorities.json');
+var connection = require("../connection");
 var seniorities = require("../models/seniorities");
-var anyDB = require('any-db');
-var conn = anyDB.createConnection('sqlite3://hackerassessor.sqlite3');
+var data = require('../seniorities.json');
 var query;
 
 for (item in data) {
@@ -12,11 +11,5 @@ for (item in data) {
     skills: item.skills.join(",")
   }).toQuery();
 
-  conn.query(query.text, query.values, function(error, result) {
-    if (error) {
-      console.dir(error);
-    } else {
-      console.dir(result);
-    }
-  });
+  connection().query(query.text, query.values, connection.logger);
 }
