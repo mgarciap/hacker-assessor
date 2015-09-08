@@ -67,30 +67,30 @@ function show_instructions(req, res, params) {
   });
 }
 
-/**
- * @function template
- * @desc
- * @param file is a filename of a template.
- * @param cb
- */
-function template (fileName, cb) {
-  fs.readFile(__dirname + '/templates/' + fileName, { encoding: 'utf8' }, cb);
-}
 
 /**
- * Put inside here all the code that uses the template file.
+ * Make a template file available to work with.
+ * @param {string} fileName Is a filename of a template inside the templates folder.
+ * @param {templateCallback} callback A callback to work with the template file.
+ *
  * @callback templateCallback
+ * @summary Put inside here all the code that uses the template file.
  * @param {object} error
  * @param {string} file
  */
-
-
+function template (fileName, callback) {
+  fs.readFile(__dirname + '/templates/' + fileName, { encoding: 'utf8' }, callback);
+}
 
 
 /**
  * Retrieve a named seniority from the database.
- * @param {string} name - A seniority name to be retrieved from the database.
- * @param {getSeniorityCallback} callback - A callback to work with the query result.
+ * @param {string} name A seniority name to be retrieved from the database.
+ * @param {getSeniorityCallback} callback A callback to work with the successful query result.
+ *
+ * @callback getSeniorityCallback
+ * @param {object} error An error object.
+ * @param {object} result The successful query result.
  */
 function getSeniority(name, callback) {
   var query = seniorities
@@ -100,12 +100,3 @@ function getSeniority(name, callback) {
 
   connection().query(query.text, query.values, callback);
 }
-
-/**
- * @callback getSeniorityCallback
- * @param {object} error - An error object.
- * @param {rows: array,
- *        fields: array,
- *        rowCount: number,
- *        lastInsertId: {(undefined|number)}} result - The query result.
- */
