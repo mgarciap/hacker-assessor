@@ -6,26 +6,33 @@ var connection = require("./connection");
 
 var port = process.env.PORT || 8080;
 
+var seniorities = require('./models/seniorities');
+
 // hardcoded stuff
 var hackers = require('./hackers.json');
-var seniorities = require('./seniorities.json');
 var skills = require('./skills.json');
 
 var staticsFiles = ecstatic({ root: __dirname + '/public' });
 
 http.createServer(function(req, res) {
   if (req.url === '/become/senior-frontend.html') {
-    show_instructions(req, res, {
-      hacker: hackers['Jorge'],
-      level: seniorities['Senior Frontend']
-    });
+    getSeniority('Senior Frontend', getSeniorityCallback);
   } else if (req.url === '/become/senior-full-stack-js.html') {
-    show_instructions(req, res, {
-      hacker: hackers['Jorge'],
-      level: seniorities['Senior Full Stack JS']
-    });
+    getSeniority('Senior Full Stack JS', getSeniorityCallback);
   } else {
     staticsFiles(req, res);
+  }
+
+  function getSeniorityCallback(error, result) {
+    if (error) { console.error(error); }
+
+    var seniority = result.rows[0];
+    seniority.skills = seniority.skills.split(",");
+
+    show_instructions(req, res, {
+      hacker: hackers['Jorge'],
+      level: seniority
+    });
   }
 }).listen(port);
 
