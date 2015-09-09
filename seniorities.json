@@ -1,22 +1,24 @@
 {
   "Senior Frontend": {
     "name": "Senior Frontend",
-    "skills": [
-      "Discuss Dependencies",
-      "TDD",
-      "JavaScript",
-      "DevTools",
-      "Angular",
-      "VanillaJS"
+    "requirements": [
+      { "name": "Discuss Dependencies", "level": 2 },
+      { "name": "TDD",	"level": 2 },
+      { "name": "JavaScript", "level": 3 },
+      { "name": "DevTools", "level": 1 },
+      { "name": "Angular", "level": 3 },
+      { "name": "VanillaJS", "level": 2 },
+      { "name": "Scrum Master", "level": 0 }
     ]
   },
   "Senior Full Stack JS": {
     "name": "Senior Full Stack JS",
-    "skills": [
-      "Meditation",
-      "JavaScript",
-      "Angular",
-      "Node"
+    "requirements": [
+      { "name": "JavaScript", "level": 3 },
+      { "name": "Angular", "level": 3 },
+      { "name": "DevTools", "level": 2 },
+      { "name": "Meditation", "level": 0 },
+      { "name": "Node", "level": 3 }
     ]
   }
 }

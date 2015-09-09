@@ -10,7 +10,7 @@ module.exports = sql.define({
     name: 'name',
     dataType: 'text',
   }, {
-    name: 'skills',
+    name: 'requirements',
     dataType: 'text'
   }]
 });
