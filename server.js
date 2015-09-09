@@ -30,8 +30,9 @@ http.createServer(function(req, res) {
 
     var seniority = result.rows[0];
 
-    show_instructions(req, res, {
     seniority.requirements = JSON.parse("[" + seniority.requirements + "]");
+
+    showInstructions(req, res, {
       hacker: hackers['Jorge'],
       level: seniority
     });
@@ -40,8 +41,20 @@ http.createServer(function(req, res) {
 
 console.log('Listening on http://localhost:' + port );
 
-function show_instructions(req, res, params) {
+function showInstructions(req, res, params) {
   params.lackingSkills = [];
+
+  hackerHaveNeededSkill(params);
+
+  template('hacker.html.ejs', function(err, file) {
+    res.statusCode = 200;
+    res.statusMessage = 'Success';
+    res.setHeader("Content-Type", "text/html");
+    res.end(ejs.compile(file)(params));
+  });
+}
+
+function hackerHaveNeededSkill(params) {
   params.level.requirements.forEach(function(needed_skill) {
     var found = false;
     params.hacker.skills.forEach(function(skill) {
@@ -53,33 +66,27 @@ function show_instructions(req, res, params) {
       params.lackingSkills.push(getSkill(needed_skill));
     }
   });
+}
 
-  function getSkill (skill) {
-    for (var i=0; i < skills.length; i++) {
-      if (skills[i].name === skill.name) {
-        skills[i].level = SKILL_LEVELS[skill.level];
-        skills[i].pathDescription = buildLevelDescription(skills[i]);
-        return skills[i];
-      }
+function getSkill(skill) {
+  for (var i=0; i < skills.length; i++) {
+    if (skills[i].name === skill.name) {
+      skills[i].level = SKILL_LEVELS[skill.level];
+      skills[i].pathDescription = buildLevelDescription(skills[i]);
+      return skills[i];
     }
-    return {
-      name: skill.name,
-      level: SKILL_LEVELS[skill.level],
-      description: "This skill isn't registered yet in our database.",
-      pathDescription: buildLevelDescription(skill)
-    };
   }
-
-  template('hacker.html.ejs', function(err, file) {
-    res.statusCode = 200;
-    res.statusMessage = 'Success';
-    res.setHeader("Content-Type", "text/html");
-    res.end(ejs.compile(file)(params));
-  });
+  return {
+    name: skill.name,
+    level: SKILL_LEVELS[skill.level],
+    description: "This skill isn't registered yet in our database.",
+    pathDescription: buildLevelDescription(skill)
+  };
 }
 
 function buildLevelDescription(skill) {
   level = hackerSkillLevel(skill.name)
+
   if (level > -1) {
     if ((SKILL_LEVELS.indexOf(skill.level) - level) === 1) {
       return "Almost! You are so close to have this skill. " + skill.levelDescription +
