@@ -29,9 +29,9 @@ http.createServer(function(req, res) {
     if (error) { console.error(error); }
 
     var seniority = result.rows[0];
-    seniority.skills = seniority.skills.split(",");
 
     show_instructions(req, res, {
+    seniority.requirements = JSON.parse("[" + seniority.requirements + "]");
       hacker: hackers['Jorge'],
       level: seniority
     });
