@@ -1,12 +1,12 @@
 var ejs = require('ejs');
 var fs = require('fs');
 
-exports.make = function(req, res, params) {
-  template('hacker.html.ejs', function(err, file) {
+exports.make = function(req, res, data, template) {
+  getTemplate(template, function(err, file) {
     res.statusCode = 200;
     res.statusMessage = 'Success';
     res.setHeader("Content-Type", "text/html");
-    res.end(ejs.compile(file)(params));
+    res.end(ejs.compile(file)(data));
   });
 }
 
@@ -20,6 +20,6 @@ exports.make = function(req, res, params) {
  * @param {object} error
  * @param {string} file
  */
-function template (fileName, callback) {
+function getTemplate (fileName, callback) {
   fs.readFile(__dirname + '/templates/' + fileName, { encoding: 'utf8' }, callback);
 }

@@ -13,6 +13,6 @@ var utils = require('./utils');
  */
 exports.pathSeniority = function(name, req, res) {
   db.getSeniority(name, function(error, result) {
-    respond.make(req, res, utils.hackerNeededSkills(result.rows[0]));
+    respond.make(req, res, utils.hackerNeededSkills(result.rows[0]), 'hacker.html.ejs');
   });
 }
