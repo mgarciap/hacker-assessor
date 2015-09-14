@@ -7,6 +7,9 @@
   <body>
     <h2>What a hacker will you become?</h2>
     <ul>
+      <% hackers.forEach(function(hacker){ -%>
+        <li><a href="<%= hacker.id %>"><%= hacker.name %></a></li>
+      <% }); -%>
       <li>
         <a href="/become/senior-frontend.html">Senior Frontend</a>
       </li>
