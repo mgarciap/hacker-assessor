@@ -2,10 +2,10 @@
   "Jorge": {
     "name": "Jorge",
     "skills": [
-      { "name": "TDD", "level": 2 },
+      { "name": "TDD", "level": 1 },
       { "name": "JavaScript", "level": 3 },
       { "name": "DevTools", "level": 3 },
-      { "name": "Angular", "level": 2 }
+      { "name": "Angular", "level": 1 }
     ]
   }
 }

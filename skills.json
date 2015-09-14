@@ -1,7 +1,7 @@
 [{
   "name": "TDD",
   "description": "TDD is an art, do, not write a line of code before you have a failing test. This will help you make code that is better for your friends to live with.",
-  "levelDescription": "Your current expertice is not enough, your tests should be lighter, faster and more stable, may be it is time to learn \"tape\"",
+  "levelDescription": "Your current expertice is not enough, your tests should be lighter, faster and more stable, may be it is time to learn \"tape\".",
   "lectures": [{
     "name": "optimus",
     "url": "http://hackersome.com/p/vitorbritto/optimus"
@@ -23,7 +23,7 @@
 }, {
   "name": "Node",
   "description": "Node.js contributions, releases, and contributorship are under an open governance model. We intend to land, with increasing regularity, releases which are compatible with the npm ecosystem that has been built to date for Node.js.",
-  "levelDescription": "Your current expertice is not enough",
+  "levelDescription": "Your current expertice is not enough.",
   "lectures": [{
     "name": "Node docs",
     "url": "https://nodejs.org/documentation/"
