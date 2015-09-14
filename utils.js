@@ -1,8 +1,8 @@
 const SKILL_LEVELS=['Nice to have', 'Required', 'Experience', 'Advanced']
 
 // hardcoded stuff
-var hackers = require('./hackers.json');
-var skills = require('./skills.json');
+var hackers = require('./data/json/hackers.json');
+var skills = require('./data/json/skills.json');
 
 module.exports = {
   hackerNeededSkills: hackerNeededSkills,

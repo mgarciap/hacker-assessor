@@ -1,6 +1,6 @@
 var connection = require("../connection");
 var seniorities = require("../models/seniorities");
-var data = require('../seniorities.json');
+var data = require('../data/json/seniorities.json');
 var query;
 
 for (item in data) {

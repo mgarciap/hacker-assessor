@@ -1,7 +1,7 @@
 var tap = require('tap');
 var app = require('../app');
 var utils = require('../utils');
-var skills = require('../skills.json');
+var skills = require('../data/json/skills.json');
 
 var seniority = { id: 1,
   name: 'Senior Frontend',
