@@ -1,8 +1,6 @@
 {
   "name": "hacker-assessor",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
   "scripts": {
     "test": "tap test/*.js"
   },
@@ -10,12 +8,14 @@
     "type": "git",
     "url": "git+https://github.com/Altoros/hacker-assessor.git"
   },
-  "author": "",
   "license": "AGPL-3.0+",
   "bugs": {
     "url": "https://github.com/Altoros/hacker-assessor/issues"
   },
   "homepage": "https://github.com/Altoros/hacker-assessor#readme",
+  "engines" : {
+    "node" : ">=4"
+  },
   "dependencies": {
     "ecstatic": "^0.8.0",
     "ejs": "^2.3.3"
@@ -23,6 +23,8 @@
   "devDependencies": {
     "any-db": "^2.1.0",
     "any-db-sqlite3": "^2.1.4",
+    "csv-parse": "^1.0.0",
+    "read-glob": "^2.1.0",
     "sql": "^0.58.0",
     "tap": "^1.4.1"
   }
