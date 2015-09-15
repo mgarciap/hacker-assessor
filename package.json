@@ -18,7 +18,8 @@
   },
   "dependencies": {
     "ecstatic": "^0.8.0",
-    "ejs": "^2.3.3"
+    "ejs": "^2.3.3",
+    "routes": "^2.1.0"
   },
   "devDependencies": {
     "any-db": "^2.1.0",
