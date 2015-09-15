@@ -1,8 +1,8 @@
-var ecstatic = require('ecstatic');
 var http = require('http');
 var db = require('./db-query')
 var response = require('./response');
 var port = process.env.PORT || 8080;
+var ecstatic = require('ecstatic');
 var staticsFiles = ecstatic({ root: __dirname + '/public' });
 var router = require('routes')();
 
