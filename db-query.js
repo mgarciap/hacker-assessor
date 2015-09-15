@@ -3,6 +3,7 @@ var seniorities = require('./models/seniorities');
 var hackers = require('./models/hackers');
 
 exports.getSeniority = getOne(seniorities);
+exports.getSeniorities = getAll(seniorities);
 exports.getHacker = getOne(hackers);
 exports.getHackers = getAll(hackers);
 
