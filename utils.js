@@ -6,76 +6,74 @@ var skills = require('./data/json/skills.json');
 
 module.exports = {
   hackerNeededSkills: hackerNeededSkills,
-  parseSeniority: parseSeniority,
-  getSkill: getSkill,
   buildLevelDescription: buildLevelDescription,
-  hackerSkillLevel: hackerSkillLevel
+  getSkill: getSkill
 }
 
-function hackerNeededSkills(seniority) {
-  var needed = parseSeniority(seniority);
+function hackerNeededSkills(hacker, seniority) {
+  hacker.skills.forEach(function(skill) {
+    var requirement, i = seniority.requirements.length - 1;
 
-  needed.lackingSkills = [];
+    while (i--) {
+      requirement = seniority.requirements[i];
 
-  needed.level.requirements.forEach(function(needed_skill) {
-    var found = false;
-    needed.hacker.skills.forEach(function(skill) {
-      if(!found && needed_skill.name === skill.name && needed_skill.level <= skill.level) {
-        found = true;
+      if (skill.name === requirement.name) {
+        if (skill.level >= requirement.level) {
+          seniority.requirements.splice(i, 1);
+        } else {
+          requirement.level = {
+            necessary: requirement.level,
+            achieved: skill.level
+          };
+        }
       }
-    });
-    if(!found) {
-      needed.lackingSkills.push(getSkill(needed_skill));
     }
   });
 
-  return needed;
-}
+  seniority.requirements = seniority.requirements.map(function(requirement) {
+    if (typeof requirement.level === 'number') {
+      requirement.level = {
+        necessary: requirement.level,
+        achieved: -1
+      };
+    }
 
-function parseSeniority(seniority) {
-  seniority.requirements = JSON.parse('[' + seniority.requirements + ']');
-  return { hacker: hackers['Jorge'], level: seniority }
+    return getSkill(requirement);
+  });
+
+  return {
+    hacker: hacker,
+    seniority: seniority
+  };
 }
 
 function getSkill(skill) {
   for (var i=0; i < skills.length; i++) {
     if (skills[i].name === skill.name) {
-      skills[i].level = SKILL_LEVELS[skill.level];
+      skills[i].level = skill.level;
       skills[i].pathDescription = buildLevelDescription(skills[i]);
       return skills[i];
     }
   }
   return {
     name: skill.name,
-    level: SKILL_LEVELS[skill.level],
+    level: skill.level,
     description: 'This skill isn\'t registered yet in our database.',
     pathDescription: buildLevelDescription(skill)
   };
 }
 
 function buildLevelDescription(skill) {
-  level = hackerSkillLevel(skill.name)
-
-  if (level > -1) {
-    if ((SKILL_LEVELS.indexOf(skill.level) - level) === 1) {
+  if (skill.level.achieved > -1) {
+    if ((skill.level.necessary - skill.level.achieved) === 1) {
       return 'Almost! You are so close to have this skill. ' + skill.levelDescription +
-        ' Your actual level is ' + SKILL_LEVELS[level] + ' and you need ' + skill.level + '.'
+        ' Your actual level is ' + SKILL_LEVELS[skill.level.achieved] + ' and you need ' + SKILL_LEVELS[skill.level.necessary] + '.'
     } else {
       return skill.levelDescription +
         ' You need to improve this skill because you actual level is ' +
-        SKILL_LEVELS[level] + ' and you need ' + skill.level + '.'
+        SKILL_LEVELS[skill.level.achieved] + ' and you need ' + SKILL_LEVELS[skill.level.necessary] + '.'
     }
   }
   return 'You don\'t have any knowledge on this skill. ' + skill.levelDescription +
     ' You can start reading the lectures below.'
-};
-
-function hackerSkillLevel(name) {
-  var skills = hackers['Jorge'].skills;
-  for (var i=0; i < skills.length; i++) {
-    if (skills[i].name === name) {
-      return skills[i].level;
-    }
-  }
-  return -1;
 };

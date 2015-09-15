@@ -1,6 +1,7 @@
 var http = require('http');
 var db = require('./db-query')
 var response = require('./response');
+var utils = require('./utils');
 var port = process.env.PORT || 8080;
 var ecstatic = require('ecstatic');
 var staticsFiles = ecstatic({ root: __dirname + '/public' });
@@ -52,18 +53,7 @@ router.addRoute('/hackers/:hacker_id/become/seniority/:seniority_id', function(r
       seniority = result.rows[0];
       seniority.requirements = JSON.parse(seniority.requirements);
 
-      hacker.skills.forEach(function(skill) {
-        seniority.requirements.forEach(function(requirement, index) {
-          if (skill.name === requirement.name) {
-            seniority.requirements.splice(index, 1);
-          }
-        });
-      });
-
-      templateData = {
-        hacker: hacker,
-        seniority: seniority
-      };
+      templateData = utils.hackerNeededSkills(hacker, seniority);
 
       response.make(req, res, templateData, 'seniority.html.ejs');
     });

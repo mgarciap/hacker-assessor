@@ -9,9 +9,16 @@
     <h2>Lacking Skills</h2>
     <ul>
     <% seniority.requirements.forEach(function(requirement) { -%>
-      <li>
-        <h3><%= requirement.name %></h3>
-      </li>
+      <h3><%= requirement.name %></h3>
+      <p><%= requirement.description %></p>
+      <p><%= requirement.levelDescription %></p>
+      <p><%= requirement.pathDescription %></p>
+      <h4>Lectures</h4>
+      <ul>
+      <% requirement.lectures.forEach(function(lecture){ -%>
+        <li><a href="<%= lecture.url %>"><%= lecture.name %></a></li>
+      <% }); -%>
+      </ul>
     <% }); -%>
     </ul>
   </body>
