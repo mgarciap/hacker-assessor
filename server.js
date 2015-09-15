@@ -41,6 +41,35 @@ router.addRoute('/hackers/:hacker_id', function(req, res, params) {
   });
 });
 
+router.addRoute('/hackers/:hacker_id/become/seniority/:seniority_id', function(req, res, params) {
+  var templateData, hacker, seniority;
+
+  db.getHacker(params.hacker_id, function(error, result) {
+    hacker = result.rows[0];
+    hacker.skills = JSON.parse(hacker.skills);
+
+    db.getSeniority(params.seniority_id, function(error, result) {
+      seniority = result.rows[0];
+      seniority.requirements = JSON.parse(seniority.requirements);
+
+      hacker.skills.forEach(function(skill) {
+        seniority.requirements.forEach(function(requirement, index) {
+          if (skill.name === requirement.name) {
+            seniority.requirements.splice(index, 1);
+          }
+        });
+      });
+
+      templateData = {
+        hacker: hacker,
+        seniority: seniority
+      };
+
+      response.make(req, res, templateData, 'seniority.html.ejs');
+    });
+  });
+});
+
 http.createServer(function(req, res) {
   var matched = router.match(req.url);
 

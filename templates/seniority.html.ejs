@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Hacker Assessor | <%= hacker.name %> Status</title>
+  </head>
+  <body>
+    <h1>For <%= hacker.name %> to become <%= seniority.name %> he needs the following skills:</h1>
+    <h2>Lacking Skills</h2>
+    <ul>
+    <% seniority.requirements.forEach(function(requirement) { -%>
+      <li>
+        <h3><%= requirement.name %></h3>
+      </li>
+    <% }); -%>
+    </ul>
+  </body>
+</html>
