@@ -13,8 +13,8 @@
     "url": "https://github.com/Altoros/hacker-assessor/issues"
   },
   "homepage": "https://github.com/Altoros/hacker-assessor#readme",
-  "engines" : {
-    "node" : ">=4"
+  "engines": {
+    "node": ">=4"
   },
   "dependencies": {
     "ecstatic": "^0.8.0",
