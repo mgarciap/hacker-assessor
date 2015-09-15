@@ -1,19 +1,32 @@
 var ecstatic = require('ecstatic');
 var http = require('http');
-var app = require('./app')
-var respond = require('./response');
+var db = require('./db-query')
+var response = require('./response');
 var port = process.env.PORT || 8080;
 var staticsFiles = ecstatic({ root: __dirname + '/public' });
+var router = require('routes')();
+
+router.addRoute('/', function(req, res) {
+  var templateData, hackers;
+
+  db.getHackers(function(error, result) {
+    hackers = result.rows;
+
+    templateData = {
+      hackers: hackers
+    };
+
+    response.make(req, res, templateData, 'index.html.ejs');
+  });
+});
 
 http.createServer(function(req, res) {
-  if (req.url === '/') {
-    respond.make(req, res, {}, 'index.html.ejs')
-  } else if (req.url === '/become/senior-frontend.html') {
-    app.pathSeniority('Senior Frontend', req, res);
-  } else if (req.url === '/become/senior-full-stack-js.html') {
-    app.pathSeniority('Senior Full Stack JS', req, res);
+  var matched = router.match(req.url);
+
+  if (matched) {
+    matched.fn(req, res, matched.params);
   } else {
-    staticsFiles(req, res);
+    staticsFiles(req, res)
   }
 }).listen(port);
 
