@@ -6,21 +6,19 @@
   </head>
   <body>
     <h1><%= hacker.name %> Status</h1>
-    <h2>Missing Skills for <small><%= level.name %></small></h2>
+    <h2>Skills</h2>
     <ul>
-    <% lackingSkills.forEach(function(skill) { -%>
+    <% hacker.skills.forEach(function(skill) { -%>
       <li>
         <h3><%= skill.name %></h3>
-        <p><%= skill.description %></p>
-        <p><%= skill.pathDescription %></p>
-      <% if (skill.lectures) { -%>
-        <h4>Lectures</h4>
-        <ul>
-        <% skill.lectures.forEach(function(lecture) { -%>
-          <li><a href="<%= lecture.url %>"><%= lecture.name %></a></li>
-        <% }); -%>
-        </ul>
-      <% } -%>
+      </li>
+    <% }); -%>
+    </ul>
+    <h2>Available Seniorities</h2>
+    <ul>
+    <% seniorities.forEach(function(seniority) { -%>
+      <li>
+        <a href="/hackers/<%= hacker.id %>/become/seniority/<%= seniority.id %>"><%= seniority.name %></a>
       </li>
     <% }); -%>
     </ul>

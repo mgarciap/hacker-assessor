@@ -20,6 +20,27 @@ router.addRoute('/', function(req, res) {
   });
 });
 
+router.addRoute('/hackers/:hacker_id', function(req, res, params) {
+  var templateData, hacker, seniorities;
+
+  db.getHacker(params.hacker_id, function(error, result) {
+    hacker = result.rows[0];
+
+    hacker.skills = JSON.parse(hacker.skills);
+
+    db.getSeniorities(function(error, result) {
+      seniorities = result.rows;
+
+      templateData = {
+        hacker: hacker,
+        seniorities: seniorities
+      };
+
+      response.make(req, res, templateData, 'hacker.html.ejs');
+    });
+  });
+});
+
 http.createServer(function(req, res) {
   var matched = router.match(req.url);
 
