@@ -1,5 +1,5 @@
 var tap = require('tap');
-var template = require('../buildTemplateView');
+var template = require('../lib/template');
 
 var dbResult = { rows:
                  [ { id: 1,

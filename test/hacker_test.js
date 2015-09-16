@@ -1,5 +1,5 @@
 var tap = require('tap');
-var utils = require('../utils');
+var utils = require('../lib/utils');
 
 var hacker = { id: 1,
                name: 'Jorge',

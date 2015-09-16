@@ -1,12 +1,12 @@
+var db = require('./lib/query')
+var response = require('./lib/response');
+var utils = require('./lib/utils');
+var template = require('./lib/template');
 var http = require('http');
-var db = require('./db-query')
-var response = require('./response');
-var utils = require('./utils');
 var port = process.env.PORT || 8080;
 var ecstatic = require('ecstatic');
 var staticsFiles = ecstatic({ root: __dirname + '/public' });
 var router = require('routes')();
-var template = require('./buildTemplateView');
 
 router.addRoute('/', function(req, res) {
   var templateData, hackers;
