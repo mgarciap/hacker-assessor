@@ -1,16 +1,14 @@
 var tap = require('tap');
-var respond = require('../response');
-var hackers = require('../data/json/hackers.json');
-var fs = require('fs');
+var template = require('../buildTemplateView');
 
-var req = {}
-var res = {}
-res.setHeader = function(){}
+var dbResult = { rows:
+                 [ { id: 1,
+                     name: 'Jorge',
+                     skills: '[{"name":"TDD","level":1},{"name":"JavaScript","level":3},{"name":"DevTools","level":3},{"name":"Angular","level":1}]' }
+                 ] };
 
 tap.test('Response for a single hacker', function(t) {
-  res.end = function (response) {
-    t.equal(response, fs.readFileSync(__dirname + '/index_test.html', { encoding: 'utf8' }));
-    t.end();
-  }
-  respond.make(req, res, { hackers: [{ id: 1, name: 'Jorge' }] }, 'index.html.ejs');
+  var templateData = template.prepareTemplateData(dbResult);
+  t.equal('Jorge', templateData.hackers[0].name);
+  t.end();
 });

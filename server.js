@@ -6,17 +6,13 @@ var port = process.env.PORT || 8080;
 var ecstatic = require('ecstatic');
 var staticsFiles = ecstatic({ root: __dirname + '/public' });
 var router = require('routes')();
+var template = require('./buildTemplateView');
 
 router.addRoute('/', function(req, res) {
   var templateData, hackers;
 
   db.getHackers(function(error, result) {
-    hackers = result.rows;
-
-    templateData = {
-      hackers: hackers
-    };
-
+    templateData = template.prepareTemplateData(result);
     response.make(req, res, templateData, 'index.html.ejs');
   });
 });
