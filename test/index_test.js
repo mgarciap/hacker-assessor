@@ -8,7 +8,7 @@ var dbResult = { rows:
                  ] };
 
 tap.test('Response for a single hacker', function(t) {
-  var templateData = template.prepareTemplateData(dbResult);
+  var templateData = template.prepareTemplateData(['hackers'], [dbResult]);
   t.equal('Jorge', templateData.hackers[0].name);
   t.end();
 });

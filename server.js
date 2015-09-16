@@ -12,7 +12,7 @@ router.addRoute('/', function(req, res) {
   var templateData, hackers;
 
   db.getHackers(function(error, result) {
-    templateData = template.prepareTemplateData(result);
+    templateData = template.prepareTemplateData(['hackers'], [result]);
     response.make(req, res, templateData, 'index.html.ejs');
   });
 });
