@@ -22,11 +22,10 @@ var seniority = { id: 1,
 
 tap.test('Get all the needed skills for a single hacker', function(t) {
   var neededSkills = utils.hackerNeededSkills(hacker, seniority);
-  t.equal('Jorge', neededSkills.hacker.name);
-  t.equal('Senior Frontend', neededSkills.seniority.name);
+  t.equal('Senior Frontend', neededSkills.name);
 
   tap.test('If the hacker don\'t have the skill', function(tt) {
-    var requirement = neededSkills.seniority.requirements[0]
+    var requirement = neededSkills.requirements[0]
     tt.equal('Discuss Dependencies', requirement.name);
     tt.equal(2, requirement.level.necessary);
     tt.equal(-1, requirement.level.achieved);
@@ -36,7 +35,7 @@ tap.test('Get all the needed skills for a single hacker', function(t) {
   tap.test('If the hacker have the skill', function(tt) {
 
     tap.test('But don\'t have the necessary level', function(ttt) {
-      var requirement = neededSkills.seniority.requirements[1]
+      var requirement = neededSkills.requirements[1]
       ttt.equal('TDD', requirement.name);
       ttt.equal(2, requirement.level.necessary);
       ttt.equal(1, requirement.level.achieved);
@@ -44,7 +43,7 @@ tap.test('Get all the needed skills for a single hacker', function(t) {
     })
 
     tap.test('And achieved the necessary level', function(ttt) {
-      var requirement = neededSkills.seniority.requirements[2]
+      var requirement = neededSkills.requirements[2]
       ttt.notEqual('JavaScript', requirement.name);
       ttt.end();
     })

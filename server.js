@@ -18,10 +18,8 @@ router.addRoute('/', function(req, res) {
 router.addRoute('/hackers/:hacker_id', function(req, res, params) {
   resources.getHacker(params.hacker_id, function(hacker) {
     resources.getSeniorities(function(seniorities) {
-      var templateData = {
-        hacker: hacker,
-        seniorities: seniorities
-      };
+      templateData = template.prepareTemplateData(['hacker', 'seniorities'], [hacker, seniorities]);
+      templateData.hacker = templateData.hacker[0];
       response.make(req, res, templateData, 'hacker.html.ejs');
     });
   });
@@ -30,7 +28,10 @@ router.addRoute('/hackers/:hacker_id', function(req, res, params) {
 router.addRoute('/hackers/:hacker_id/become/seniority/:seniority_id', function(req, res, params) {
   resources.getHacker(params.hacker_id, function(hacker) {
     resources.getSeniority(params.seniority_id, function(seniority) {
-      var templateData = utils.hackerNeededSkills(hacker, seniority);
+      seniority.rows[0] = utils.hackerNeededSkills(hacker.rows[0], seniority.rows[0]);
+      templateData = template.prepareTemplateData(['hacker', 'seniority'], [hacker, seniority]);
+      templateData.hacker = templateData.hacker[0];
+      templateData.seniority = templateData.seniority[0];
       response.make(req, res, templateData, 'seniority.html.ejs');
     });
   });
