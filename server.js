@@ -1,7 +1,7 @@
-var db = require('./lib/query')
+var resources = require('./lib/resources');
 var response = require('./lib/response');
-var utils = require('./lib/utils');
 var template = require('./lib/template');
+var utils = require('./lib/utils');
 var http = require('http');
 var port = process.env.PORT || 8080;
 var ecstatic = require('ecstatic');
@@ -9,48 +9,28 @@ var staticsFiles = ecstatic({ root: __dirname + '/public' });
 var router = require('routes')();
 
 router.addRoute('/', function(req, res) {
-  var templateData, hackers;
-
-  db.getHackers(function(error, result) {
-    templateData = template.prepareTemplateData(['hackers'], [result]);
+  resources.getHackers(function(hackers) {
+    var templateData = template.prepareTemplateData(['hackers'], [hackers]);
     response.make(req, res, templateData, 'index.html.ejs');
   });
 });
 
 router.addRoute('/hackers/:hacker_id', function(req, res, params) {
-  var templateData, hacker, seniorities;
-
-  db.getHacker(params.hacker_id, function(error, result) {
-    hacker = result.rows[0];
-
-    hacker.skills = JSON.parse(hacker.skills);
-
-    db.getSeniorities(function(error, result) {
-      seniorities = result.rows;
-
-      templateData = {
+  resources.getHacker(params.hacker_id, function(hacker) {
+    resources.getSeniorities(function(seniorities) {
+      var templateData = {
         hacker: hacker,
         seniorities: seniorities
       };
-
       response.make(req, res, templateData, 'hacker.html.ejs');
     });
   });
 });
 
 router.addRoute('/hackers/:hacker_id/become/seniority/:seniority_id', function(req, res, params) {
-  var templateData, hacker, seniority;
-
-  db.getHacker(params.hacker_id, function(error, result) {
-    hacker = result.rows[0];
-    hacker.skills = JSON.parse(hacker.skills);
-
-    db.getSeniority(params.seniority_id, function(error, result) {
-      seniority = result.rows[0];
-      seniority.requirements = JSON.parse(seniority.requirements);
-
-      templateData = utils.hackerNeededSkills(hacker, seniority);
-
+  resources.getHacker(params.hacker_id, function(hacker) {
+    resources.getSeniority(params.seniority_id, function(seniority) {
+      var templateData = utils.hackerNeededSkills(hacker, seniority);
       response.make(req, res, templateData, 'seniority.html.ejs');
     });
   });
