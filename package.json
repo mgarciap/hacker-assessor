@@ -2,7 +2,7 @@
   "name": "hacker-assessor",
   "version": "1.0.0",
   "scripts": {
-    "test": "tap test/*.js"
+    "test": "tap test/specs/*.js"
   },
   "repository": {
     "type": "git",
