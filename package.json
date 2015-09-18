@@ -2,7 +2,7 @@
   "name": "hacker-assessor",
   "version": "1.0.0",
   "scripts": {
-    "test": "tap test/*.js"
+    "test": "tap test/specs/*.js"
   },
   "repository": {
     "type": "git",
@@ -13,12 +13,13 @@
     "url": "https://github.com/Altoros/hacker-assessor/issues"
   },
   "homepage": "https://github.com/Altoros/hacker-assessor#readme",
-  "engines" : {
-    "node" : ">=4"
+  "engines": {
+    "node": ">=4"
   },
   "dependencies": {
     "ecstatic": "^0.8.0",
-    "ejs": "^2.3.3"
+    "ejs": "^2.3.3",
+    "routes": "^2.1.0"
   },
   "devDependencies": {
     "any-db": "^2.1.0",

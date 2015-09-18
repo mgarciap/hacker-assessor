@@ -1,12 +1,12 @@
 var connection = require("../connection");
-var seniorities = require("../models/seniorities");
-var data = require('../data/json/seniorities.json');
+var seniorities = require("../models/hackers");
+var data = require('../data/json/hackers.json');
 var query;
 
 for (item in data) {
   query = seniorities.insert({
     name: data[item].name,
-    requirements: JSON.stringify(data[item].requirements)
+    skills: JSON.stringify(data[item].skills)
   }).toQuery();
 
   connection().query(query.text, query.values, connection.logger);
