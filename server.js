@@ -7,6 +7,8 @@ var routes = require('./lib/routes')
 
 router.addRoute('/', routes.indexPage);
 
+router.addRoute('/login', routes.loginPage);
+
 router.addRoute('/hackers/:hacker_id', routes.singleHackerPage);
 
 router.addRoute('/hackers/:hacker_id/become/seniority/:seniority_id', routes.becomeSeniority);
