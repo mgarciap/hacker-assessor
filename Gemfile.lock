@@ -1,0 +1,35 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    coderay (1.1.0)
+    cuba (3.4.0)
+      rack
+    hiredis (0.6.0)
+    json (1.8.3)
+    method_source (0.8.2)
+    msgpack (0.5.12)
+    nido (1.0.0)
+    ohm (2.3.0)
+      msgpack (~> 0.5.0)
+      nido
+      redic (~> 1.5.0)
+      stal
+    pry (0.10.1)
+      coderay (~> 1.1.0)
+      method_source (~> 0.8.1)
+      slop (~> 3.4)
+    rack (1.6.4)
+    redic (1.5.0)
+      hiredis
+    slop (3.6.0)
+    stal (0.1.0)
+      redic
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  cuba
+  json
+  ohm
+  pry
