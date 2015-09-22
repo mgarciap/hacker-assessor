@@ -1,2 +1,8 @@
 # Ignore Redis dump files
 *.rdb
+
+# Ignore compiled stylesheets
+*css/
+
+# Ignore stuff Sass caches
+.sass-cache/
