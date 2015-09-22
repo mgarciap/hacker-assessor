@@ -1,3 +1,10 @@
+task default: 'test'
+
+desc 'Run all the tests'
+task :test do
+  ruby 'test.rb'
+end
+
 namespace 'seed' do
   require_relative './app'
   require_relative './lib/migration'
