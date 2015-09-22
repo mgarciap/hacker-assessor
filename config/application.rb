@@ -18,3 +18,8 @@ Cuba.use Sass::Plugin::Rack
 Cuba.use Rack::Static,
   :urls => ["/css"],
   :root => 'public'
+
+Cuba.use Rack::Static,
+  :urls => "/",
+  :root => 'public',
+  :index => 'index.html'
