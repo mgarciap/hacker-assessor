@@ -1,8 +1,9 @@
 task default: 'test'
 
-desc 'Run all the tests'
 task :test do
-  ruby 'test.rb'
+  require 'cutest'
+  require './tests/test_helper'
+  Cutest.run Dir['tests/models_relations.rb']
 end
 
 namespace 'seed' do
