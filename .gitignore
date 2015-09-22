@@ -1,0 +1,2 @@
+# Ignore Redis dump files
+*.rdb
