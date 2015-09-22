@@ -1,0 +1,15 @@
+namespace 'seed' do
+  require_relative './app'
+  require_relative './lib/migration'
+
+  desc 'Load Hacker, Skill and Seniority into the DB'
+  task :all do
+    puts '==> Loading data into the DB'
+    Migrations.all
+  end
+
+  desc 'Delete all data in the DB'
+  task :delete_all do
+    Ohm.flush
+  end
+end
