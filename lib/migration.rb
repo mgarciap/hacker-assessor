@@ -1,6 +1,6 @@
 module Migrations
   def self.hacker
-    Hacker.create name: 'Jorge'
+    @hacker ||= Hacker.create name: 'Jorge'
   end
 
   def self.skills
@@ -38,13 +38,29 @@ EOS
     skills.each { |skill| Skill.create skill.first }
   end
 
-  def self.seniorities
-    Seniority.create name: 'Senior Frontend'
+  def self.seniority
+    @seniority ||= Seniority.create name: 'Senior Frontend'
+  end
+
+  def self.acquirements
+    Skill.all.to_a[2..-1].each do |skill|
+      Acquirement.create hacker: hacker,
+                         skill: skill
+    end
+  end
+
+  def self.requirements
+    Skill.all.to_a.each do |skill|
+      Requirement.create seniority: seniority,
+                         skill: skill
+    end
   end
 
   def self.all
     hacker
     skills
-    seniorities
+    seniority
+    requirements
+    acquirements
   end
 end
