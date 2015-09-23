@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="103px" height="45px" viewBox="0 0 103 45" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <!-- Generator: Sketch 3.3.3 (12072) - http://www.bohemiancoding.com/sketch -->
+    <title>Logo</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Screens" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="Desktop" sketch:type="MSArtboardGroup" transform="translate(-24.000000, -27.000000)" font-family="Share Tech Mono" fill="#BEBEBE" font-weight="normal">
+            <g id="Sidebar" sketch:type="MSLayerGroup">
+                <g id="Logo" transform="translate(24.000000, 22.000000)" sketch:type="MSTextLayer">
+                    <text id="ASSESSOR" font-size="24">
+                        <tspan x="0" y="50">ASSESSOR</tspan>
+                    </text>
+                    <text id="HACKER" font-size="32">
+                        <tspan x="0" y="28">HACKER</tspan>
+                    </text>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
