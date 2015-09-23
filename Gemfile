@@ -5,7 +5,8 @@ gem 'ohm'
 gem 'json'
 gem 'cutest'
 gem 'sass'
-gem 'susy'
+gem 'bourbon'
+gem 'neat'
 
 group :development, :test do
   gem 'pry'

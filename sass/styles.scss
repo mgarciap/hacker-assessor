@@ -1,7 +1,7 @@
-@import "susy";
+@import "bourbon";
+@import "neat";
 
 body {
-  @include container(80em);
   background: #000;
   font-family: sans-serif;
   color: silver;

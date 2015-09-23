@@ -3,7 +3,8 @@ require 'cuba'
 require 'ohm'
 require 'json'
 require 'sass/plugin/rack'
-require 'susy'
+require 'bourbon'
+require 'neat'
 
 Dir["./models/*.rb"].each { |rb| require rb }
 
