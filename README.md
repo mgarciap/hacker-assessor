@@ -42,7 +42,7 @@ Everyone is encouraged to help improve this project.
 Please submit pull requests against the **master branch**.
 
 ## Submitting an Issue
-We use the [GitHub issue tracker](https://github.com/cAltoros/hacker-assessor/issues) to track bugs and features.
+We use the [GitHub issue tracker](https://github.com/Altoros/hacker-assessor/issues) to track bugs and features.
 When submitting a bug report, please include a [Gist](http://gist.github.com/) that includes a stack trace and any
 details that may be necessary to reproduce the bug including the Lattice version.
 
