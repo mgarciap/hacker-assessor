@@ -11,10 +11,6 @@ end
 Cuba.define do
   res.headers['Content-Type'] = 'application/json'
 
-  on root do
-    render 'index.html'
-  end
-
   on 'signup' do
     on get do
     end
@@ -26,22 +22,47 @@ Cuba.define do
   on post, 'login' do
   end
 
-  on 'hackers/:id' do |id|
-    hacker = Hacker[id]
-
+  on 'hackers' do
     on get, root do
-      res.write hacker.attributes.to_json
+      hackers = merge_id_in_attr Hacker.all.to_a
+      res.write hackers.to_json
     end
 
-    on 'seniorities' do
-      on get, ':id' do |id|
-        # muestra que falta para un seniority
-        seniority = Seniority[id]
+    on ':id' do |id|
+      hacker = Hacker[id]
+
+      on 'acquirements' do
+        on post do
+          acquirements = json_body[:acquirements]
+          acquirements.each do |reqmts|
+            Acquirement.create hacker: hacker,
+              skill: Skill[reqmts[:skill]]
+          end
+          res.status = 201
+        end
+
+        on get do
+          acquirement = merge_id_in_attr Acquirement.all.to_a
+          res.write acquirement.to_json
+        end
       end
 
-      on post do
-        # carga skills y level de un hacker
-        hacker.update seniority: seniority
+      on 'seniorities' do
+        on get, root do
+          # TODO: This need to be modify to return a list of seniorities to
+          # reach by a hacker.
+
+          seniorities = merge_id_in_attr Seniority.all.to_a
+          res.write seniorities.to_json
+        end
+
+        on get, ':id' do |id|
+          seniority = Seniority[id]
+
+          # TODO: Return the difference between the acquirementes for a hacker
+          # and the requirementes for a selected seniority.
+          # i.e. The "Skills" that a hacker need to reach for the next seniority.
+        end
       end
     end
   end
