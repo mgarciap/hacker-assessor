@@ -18,7 +18,7 @@ Sass::Plugin.options[:template_location] = './sass'
 Cuba.use Sass::Plugin::Rack
 
 Cuba.use Rack::Static,
-  :urls => ["/css", "/images"],
+  :urls => ["/css", "/images", "/js"],
   :root => 'public'
 
 Cuba.use Rack::Static,

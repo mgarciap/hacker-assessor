@@ -6,3 +6,9 @@
 
 # Ignore stuff Sass caches
 .sass-cache/
+
+# Ignore NPM stuff
+node_modules/
+
+# Ignore bundled js
+*js/

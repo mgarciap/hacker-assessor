@@ -1,0 +1,31 @@
+{
+  "name": "hacker-assessor",
+  "version": "0.4.0",
+  "scripts": {
+    "prestart": "bundle install && npm install",
+    "start": "bundle exec rackup & gulp watch",
+    "test": "rake test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Altoros/hacker-assessor.git"
+  },
+  "license": "AGPL-3.0+",
+  "bugs": {
+    "url": "https://github.com/Altoros/hacker-assessor/issues"
+  },
+  "homepage": "https://github.com/Altoros/hacker-assessor#readme",
+  "engines": {
+    "node": ">=4",
+    "npm": ">=3"
+  },
+  "devDependencies": {
+    "babelify": "^6.3.0",
+    "browserify": "^11.2.0",
+    "gulp": "^3.9.0",
+    "vinyl-source-stream": "^1.1.0"
+  },
+  "dependencies": {
+    "react": "^0.13.3"
+  }
+}
