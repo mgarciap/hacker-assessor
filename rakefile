@@ -2,8 +2,9 @@ task default: 'test'
 
 task :test do
   require 'cutest'
+  require 'cuba/test'
   require './tests/test_helper'
-  Cutest.run Dir['tests/models_relations.rb']
+  Cutest.run Dir['tests/*_test.rb']
 end
 
 namespace 'seed' do
