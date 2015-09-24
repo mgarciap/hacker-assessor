@@ -8,6 +8,10 @@ def merge_id_in_attr attrs
   attrs.to_a.map { |attr| attr.attributes.merge id: attr.id }
 end
 
+def get_skills lists
+  lists.to_a.map { |list| list.skill }
+end
+
 Cuba.define do
   res.headers['Content-Type'] = 'application/json'
 
@@ -42,24 +46,22 @@ Cuba.define do
         end
 
         on get do
-          acquirement = merge_id_in_attr Acquirement.all.to_a
-          res.write acquirement.to_json
+          acqmts = get_skills hacker.acquirements
+          acquirements = merge_id_in_attr acqmts
+          res.write acquirements.to_json
         end
       end
 
       on 'seniorities' do
         on get, root do
-          # TODO: This need to be modify to return a list of seniorities to
-          # reach by a hacker.
-
-          seniorities = merge_id_in_attr Seniority.all.to_a
-          res.write seniorities.to_json
+          # TODO: This need to return a list of seniorities or "careers"
+          # to reach by a hacker.
         end
 
         on get, ':id' do |id|
           seniority = Seniority[id]
 
-          # TODO: Return the difference between the acquirementes for a hacker
+          # TODO: Return the difference between the acquirements for a hacker
           # and the requirementes for a selected seniority.
           # i.e. The "Skills" that a hacker need to reach for the next seniority.
         end
@@ -94,8 +96,9 @@ Cuba.define do
         end
 
         on get do
-          requirement = merge_id_in_attr Requirement.all.to_a
-          res.write requirement.to_json
+          reqmts = get_skills seniority.requirements
+          requirements = merge_id_in_attr reqmts
+          res.write requirements.to_json
         end
       end
     end

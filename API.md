@@ -30,9 +30,12 @@ None
 * Code: 200
 * Content:
 ```
-[ { level: "3", hacker_id: "1", skill_id: "1", id: "1" },
-  { level: "2", hacker_id: "1", skill_id: "3", id: "1" } ]
+[ { name: "TDD", description: "Cool description", id: "1" },
+  { name: "JavaScript", description: "Cool description", id: "2" } ]
 ```
+
+#### Notes
+**TODO**: Add the level that the hacker know about each skill.
 ___
 
 #### URL
@@ -76,7 +79,7 @@ None
 
 #### Success Response
 * Code: 200
-* Content: TODO. Return the requirementes to reach a seniority.
+* Content: TODO. Return the requirements to reach a seniority.
 ___
 
 #### URL
@@ -92,7 +95,7 @@ None
 * Code: 200
 * Content:
 ```
-[ { name: "Senior Frontend", id: "1" }, { name: "TDD", id: "2" } ]
+[ { name: "Senior Frontend", id: "1" }, { name: "Full Stack", id: "2" } ]
 ```
 ___
 
@@ -104,7 +107,7 @@ POST
 
 #### Data Params
 ```
-{ "seniority": { "name": "Seniro Ruby" } }
+{ "seniority": { "name": "Senior Ruby" } }
 ```
 
 #### Success Response
@@ -125,9 +128,12 @@ None
 * Code: 200
 * Content:
 ```
-[ { level: "3", seniority_id: "1", skill_id: "1", id: "1" },
-  { level: "2", seniority_id: "1", skill_id: "3", id: "1" } ]
+[ { name: "TDD", description: "Cool description", id: "1" },
+  { name: "JavaScript", description: "Cool description", id: "2" } ]
 ```
+
+#### Notes
+**TODO**: Add the level that is required for a specific seniority.
 ___
 
 #### URL
@@ -172,7 +178,7 @@ POST
 
 #### Data Params
 ```
-{ "skill": { "name": "Time Travel", "description": "The best wat to travel" } }
+{ "skill": { "name": "Time Traveler", "description": "The best way to travel" } }
 ```
 
 #### Success Response
