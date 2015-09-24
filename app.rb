@@ -24,6 +24,13 @@ Cuba.define do
   end
 
   on post, 'login' do
+    hacker = Hacker.login json_body[:hacker]
+    if hacker
+      res.write hacker.attributes.to_json
+    else
+      res.write errors: 'Your name or password was incorrect.'
+      res.status = 302
+    end
   end
 
   on 'hackers' do

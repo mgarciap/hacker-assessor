@@ -1,6 +1,6 @@
 module Migrations
   def self.hacker
-    @hacker ||= Hacker.create name: 'Jorge'
+    @hacker ||= Hacker.create name: 'Jorge', password: 'jorge'
   end
 
   def self.skills
