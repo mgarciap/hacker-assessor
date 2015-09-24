@@ -40,7 +40,7 @@ input {
   color: $text-color;
   display: block;
 
-  &[type='text'] {
+  &[type='text'], &[type='password'] {
     @include placeholder {
       color: $text-input-placeholder-color;
     }
