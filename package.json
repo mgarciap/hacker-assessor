@@ -4,7 +4,8 @@
   "scripts": {
     "prestart": "bundle install && npm install",
     "start": "bundle exec rackup & gulp watch",
-    "test": "rake test"
+    "test": "babel-node jsx/specs/** | faucet",
+    "test-backend": "rake seed:delete_all && rake seed:all && rake test"
   },
   "repository": {
     "type": "git",
@@ -20,9 +21,12 @@
     "npm": ">=3"
   },
   "devDependencies": {
+    "babel": "^5.8.23",
     "babelify": "^6.3.0",
     "browserify": "^11.2.0",
+    "faucet": "0.0.1",
     "gulp": "^3.9.0",
+    "tape": "^4.2.0",
     "vinyl-source-stream": "^1.1.0"
   },
   "dependencies": {
