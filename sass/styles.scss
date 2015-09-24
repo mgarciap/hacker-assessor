@@ -13,23 +13,27 @@ $link-color: #8F8F8F;
 $text-color: $link-color;
 
 body {
-  @include outer-container(100%);
   font-family: 'Share Tech Mono', sans-serif;
   height: 100vh;
+}
+
+section {
+  @include outer-container(100%);
+  height: 100%;
 }
 
 aside {
   @include span-columns(4, 'block-collapse');
   @include pad();
   background: $background-dark;
-  height: 100%;
+  height: inherit;
 }
 
-section {
+article {
   @include span-columns(8, 'block-collapse');
   @include pad();
   background: $background-ligth;
-  height: 100%;
+  height: inherit;
 }
 
 input {
