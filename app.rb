@@ -67,10 +67,9 @@ Cuba.define do
 
         on get, ':id' do |id|
           seniority = Seniority[id]
-
-          # TODO: Return the difference between the acquirements for a hacker
-          # and the requirementes for a selected seniority.
-          # i.e. The "Skills" that a hacker need to reach for the next seniority.
+          acq_skills = get_skills hacker.acquirements
+          req_skills = get_skills seniority.requirements
+          res.write req_skills - acq_skills
         end
       end
     end

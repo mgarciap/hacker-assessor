@@ -15,6 +15,16 @@ def skills
   Skill.create name: 'JavaScript', description: 'Cool description'
 end
 
+def acquirements
+  Acquirement.create hacker: Hacker[1], skill: Skill[1]
+  Acquirement.create hacker: Hacker[1], skill: Skill[2]
+end
+
+def requirements
+  Requirement.create seniority: Seniority[1], skill: Skill[1]
+  Requirement.create seniority: Seniority[1], skill: Skill[2]
+end
+
 def acquirements_body
   { acquirements: [ { skill: '1' }, { skill: '2' } ] }.to_json
 end
@@ -86,12 +96,15 @@ scope '/hackers' do
   #   get "/hackers/#{ hacker.id }/seniorities"
   # end
 
-  # TODO: Missing logic in the endpoint.
-  # test 'Return the skills that a hacker need to reach the next seniority' do |hacker|
-  #   get "/hackers/#{ hacker.id }/seniorities/#{ seniority.id }"
-  #   assert_equal 200, last_response.status
-  #   assert_equal 'TDD', body_json.first[:name]
-  # end
+  test 'Return the skills that a hacker need to reach the next seniority' do |hacker|
+    skills
+    sen = seniority
+    acquirements
+    requirements
+    get "/hackers/#{ hacker.id }/seniorities/#{ sen.id }"
+    assert_equal 200, last_response.status
+    assert_equal 0, body_json.count
+  end
 end
 
 scope '/seniotities' do
