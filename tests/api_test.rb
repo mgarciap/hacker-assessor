@@ -51,14 +51,17 @@ def invalid_login_body
 end
 
 scope '/login' do
-  test 'login a hacker with valid credentials' do
+  setup do
     hacker
-    post '/login', login_body
-    assert_equal 'Jorge', body_json[:name]
   end
 
-  test 'fail to login a hacker with invalid credentials' do
-    hacker
+  test 'login a hacker with valid credentials' do |hacker|
+    post '/login', login_body
+    assert_equal 200, last_response.status
+    assert_equal hacker.id, last_request.session["hacker_id"]
+  end
+
+  test 'fail to login a hacker with invalid credentials' do |hacker|
     post '/login', invalid_login_body
     assert_equal 302, last_response.status
     # TODO: match the error response
