@@ -36,6 +36,7 @@ None
 
 #### Notes
 **TODO**: Add the level that the hacker know about each skill.
+
 ___
 
 #### URL
@@ -52,6 +53,7 @@ POST
 #### Success Response
 * Code: 201
 * Content: None
+
 ___
 
 #### URL
@@ -66,6 +68,7 @@ None
 #### Success Response
 * Code: 200
 * Content: TODO. Return a list of seniorities to reach by a hacker.
+
 ___
 
 #### URL
@@ -79,7 +82,13 @@ None
 
 #### Success Response
 * Code: 200
-* Content: TODO. Return the requirements to reach a seniority.
+* Content:
+```
+[ ]
+```
+
+#### Notes
+The acquirements and requirements are equal for that the response is an empty array.
 ___
 
 #### URL
@@ -113,6 +122,7 @@ POST
 #### Success Response
 * Code: 201
 * Content: None
+
 ___
 
 #### URL
@@ -134,6 +144,7 @@ None
 
 #### Notes
 **TODO**: Add the level that is required for a specific seniority.
+
 ___
 
 #### URL
@@ -150,6 +161,7 @@ POST
 #### Success Response
 * Code: 201
 * Content: None
+
 ___
 
 #### URL
@@ -184,6 +196,7 @@ POST
 #### Success Response
 * Code: 201
 * Content: None
+
 ___
 
 #### URL
