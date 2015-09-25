@@ -1,8 +1,11 @@
 {
   "name": "hacker-assessor",
-  "version": "1.0.0",
+  "version": "0.4.0",
   "scripts": {
-    "test": "tap test/specs/*.js"
+    "prestart": "bundle install && npm install",
+    "start": "bundle exec rackup & gulp watch",
+    "test": "babel-node jsx/specs/** | faucet",
+    "test-backend": "rake seed:delete_all && rake seed:all && rake test"
   },
   "repository": {
     "type": "git",
@@ -14,19 +17,19 @@
   },
   "homepage": "https://github.com/Altoros/hacker-assessor#readme",
   "engines": {
-    "node": ">=4"
-  },
-  "dependencies": {
-    "ecstatic": "^0.8.0",
-    "ejs": "^2.3.3",
-    "routes": "^2.1.0"
+    "node": ">=4",
+    "npm": ">=3"
   },
   "devDependencies": {
-    "any-db": "^2.1.0",
-    "any-db-sqlite3": "^2.1.4",
-    "csv-parse": "^1.0.0",
-    "read-glob": "^2.1.0",
-    "sql": "^0.58.0",
-    "tap": "^1.4.1"
+    "babel": "^5.8.23",
+    "babelify": "^6.3.0",
+    "browserify": "^11.2.0",
+    "faucet": "0.0.1",
+    "gulp": "^3.9.0",
+    "tape": "^4.2.0",
+    "vinyl-source-stream": "^1.1.0"
+  },
+  "dependencies": {
+    "react": "^0.13.3"
   }
 }

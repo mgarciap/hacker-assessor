@@ -1,2 +1,14 @@
-node_modules/*
-*.sqlite3
+# Ignore Redis dump files
+*.rdb
+
+# Ignore compiled stylesheets
+*css/
+
+# Ignore stuff Sass caches
+.sass-cache/
+
+# Ignore NPM stuff
+node_modules/
+
+# Ignore bundled js
+*js/
