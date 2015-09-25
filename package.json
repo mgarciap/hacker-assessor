@@ -3,7 +3,7 @@
   "version": "0.4.0",
   "scripts": {
     "prestart": "bundle install && npm install",
-    "start": "bundle exec rackup & gulp watch",
+    "start": "bundle exec rackup",
     "test": "babel-node jsx/specs/** | faucet",
     "test-backend": "rake seed:delete_all && rake seed:all && rake test"
   },
