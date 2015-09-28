@@ -9,4 +9,8 @@ class Hacker < Ohm::Model
     hacker = Hacker.find(name: credentials[:name]).to_a.first
     return hacker if hacker.password == credentials[:password]
   end
+
+  def skills
+    Skill.fetch(acquirements.map { |a| a.skill_id })
+  end
 end

@@ -8,10 +8,6 @@ def merge_id_in_attr attrs
   attrs.to_a.map { |attr| attr.attributes.merge id: attr.id }
 end
 
-def get_skills lists
-  lists.to_a.map { |list| list.skill }
-end
-
 Cuba.define do
   res.headers['Content-Type'] = 'application/json'
 
@@ -55,8 +51,7 @@ Cuba.define do
         end
 
         on get do
-          acqmts = get_skills hacker.acquirements
-          acquirements = merge_id_in_attr acqmts
+          acquirements = merge_id_in_attr hacker.skills
           res.write acquirements.to_json
         end
       end
@@ -69,9 +64,7 @@ Cuba.define do
 
         on get, ':id' do |id|
           seniority = Seniority[id]
-          acq_skills = get_skills hacker.acquirements
-          req_skills = get_skills seniority.requirements
-          res.write req_skills - acq_skills
+          res.write seniority.skills - hacker.skills
         end
       end
     end
@@ -104,8 +97,7 @@ Cuba.define do
         end
 
         on get do
-          reqmts = get_skills seniority.requirements
-          requirements = merge_id_in_attr reqmts
+          requirements = merge_id_in_attr seniority.skills
           res.write requirements.to_json
         end
       end
