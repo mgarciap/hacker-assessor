@@ -1,24 +1,25 @@
-task default: 'test'
+task default: :test
 
+desc 'Run all test'
 task :test do
-  require 'cutest'
-  require 'cuba/test'
-  require './tests/test_helper'
+  require_relative './tests/test_helper'
   Cutest.run Dir['tests/*_test.rb']
 end
 
 namespace 'seed' do
-  require_relative './app'
-  require_relative './lib/migration'
-
   desc 'Load Hacker, Skill and Seniority into the DB'
   task :all do
-    puts '==> Loading data into the DB'
+    require_relative './app'
+    require_relative './lib/migration'
+    puts '==> Loading data into the DB.'
     Migrations.all
+    puts '==> OK! DB was loaded.'
   end
 
   desc 'Delete all data in the DB'
   task :delete_all do
+    require_relative './app'
     Ohm.flush
+    puts '==> OK! DB was deleted.'
   end
 end
