@@ -7,4 +7,8 @@ class Seniority < Ohm::Model
   def skills
     Skill.fetch(requirements.map { |a| a.skill_id })
   end
+
+  def to_hash
+    super.merge attributes
+  end
 end

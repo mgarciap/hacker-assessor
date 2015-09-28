@@ -1,6 +1,7 @@
 require "./config/#{ ENV['RACK_ENV'] || 'development' }"
 require 'cuba'
 require 'ohm'
+require 'ohm/json'
 require 'json'
 require 'sass/plugin/rack'
 require 'bourbon'

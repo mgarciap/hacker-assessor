@@ -4,10 +4,6 @@ def json_body
   JSON.parse req.body.read, symbolize_names: true
 end
 
-def merge_id_in_attr attrs
-  attrs.to_a.map { |attr| attr.attributes.merge id: attr.id }
-end
-
 Cuba.define do
   res.headers['Content-Type'] = 'application/json'
 
@@ -23,7 +19,7 @@ Cuba.define do
     hacker = Hacker.login json_body[:hacker]
     if hacker
       session[:hacker_id] = hacker.id
-      res.status = 200
+      res.write hacker.to_json
     else
       error = { error: 'Your name or password was incorrect.' }.to_json
       res.write error
@@ -33,8 +29,7 @@ Cuba.define do
 
   on 'hackers' do
     on get, root do
-      hackers = merge_id_in_attr Hacker.all.to_a
-      res.write hackers.to_json
+      res.write Hacker.all.to_json
     end
 
     on ':id' do |id|
@@ -51,8 +46,7 @@ Cuba.define do
         end
 
         on get do
-          acquirements = merge_id_in_attr hacker.skills
-          res.write acquirements.to_json
+          res.write hacker.skills.to_json
         end
       end
 
@@ -63,8 +57,7 @@ Cuba.define do
         end
 
         on get, ':id' do |id|
-          seniority = Seniority[id]
-          res.write seniority.skills - hacker.skills
+          res.write Seniority[id].skills - hacker.skills
         end
       end
     end
@@ -78,8 +71,7 @@ Cuba.define do
       end
 
       on get do
-        seniorities = merge_id_in_attr Seniority.all.to_a
-        res.write seniorities.to_json
+        res.write Seniority.all.to_json
       end
     end
 
@@ -97,8 +89,7 @@ Cuba.define do
         end
 
         on get do
-          requirements = merge_id_in_attr seniority.skills
-          res.write requirements.to_json
+          res.write seniority.skills.to_json
         end
       end
     end
@@ -112,8 +103,7 @@ Cuba.define do
       end
 
       on get do
-        skills = merge_id_in_attr Skill.all.to_a
-        res.write skills.to_json
+        res.write Skill.all.to_json
       end
     end
 
