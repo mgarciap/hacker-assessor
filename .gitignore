@@ -1,14 +1,15 @@
 # Ignore Redis dump files
 *.rdb
 
-# Ignore compiled stylesheets
-*css/
-
 # Ignore stuff Sass caches
 .sass-cache/
 
 # Ignore NPM stuff
 node_modules/
+npm-debug.log
 
-# Ignore bundled js
-*js/
+# Ignore public
+public/
+
+# Ignore template cache
+js/templates/

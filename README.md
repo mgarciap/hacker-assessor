@@ -14,22 +14,22 @@ by growing on an individual hacker level basis.
 # How to run it
 First install the dependencies
 ```
-bundle
+npm install
 ```
 
-Preload data to the DB
+Preload data to the DB and start the server
 ```
-rake seed:all
-```
-
-To start the server run
-```
-rackup
+npm start
 ```
 
-To run the tests
+Run the back end tests with
 ```
-ruby test.rb
+npm run test-backend
+```
+
+Run the front end tests with
+```
+npm test
 ```
 
 ## Requirements

@@ -2,9 +2,10 @@
   "name": "hacker-assessor",
   "version": "0.4.0",
   "scripts": {
-    "prestart": "bundle install && npm install",
-    "start": "bundle exec rackup",
-    "test": "babel-node jsx/specs/** | faucet",
+    "preinstall": "bundle install",
+    "postinstall": "rake seed:all && gulp",
+    "start": "gulp && bundle exec rackup",
+    "test": "gulp test",
     "test-backend": "rake seed:delete_all && rake seed:all && rake test"
   },
   "repository": {
@@ -16,20 +17,33 @@
     "url": "https://github.com/Altoros/hacker-assessor/issues"
   },
   "homepage": "https://github.com/Altoros/hacker-assessor#readme",
-  "engines": {
-    "node": ">=4",
-    "npm": ">=3"
+  "dependencies": {
+    "angular": "^1.3.12",
+    "angular-ui-router": "^0.2.15"
   },
   "devDependencies": {
-    "babel": "^5.8.23",
-    "babelify": "^6.3.0",
-    "browserify": "^11.2.0",
-    "faucet": "0.0.1",
-    "gulp": "^3.9.0",
-    "tape": "^4.2.0",
+    "angular-mocks": "^1.3.12",
+    "angular-route": "^1.3.12",
+    "browserify": "^9.0.7",
+    "browserify-ngannotate": "^0.7.1",
+    "del": "^1.1.1",
+    "gulp": "^3.8.11",
+    "gulp-cachebust": "0.0.5",
+    "gulp-concat": "^2.5.2",
+    "gulp-install": "^0.4.0",
+    "gulp-jshint": "^1.10.0",
+    "gulp-karma": "0.0.4",
+    "gulp-ng-html2js": "^0.2.0",
+    "gulp-sourcemaps": "^1.5.1",
+    "gulp-uglify": "^1.1.0",
+    "gulp-util": "^3.0.4",
+    "jasmine-core": "^2.2.0",
+    "karma": "^0.12.31",
+    "karma-chrome-launcher": "^0.1.7",
+    "karma-firefox-launcher": "^0.1.4",
+    "karma-jasmine": "^0.3.5",
+    "karma-phantomjs-launcher": "^0.1.4",
+    "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0"
-  },
-  "dependencies": {
-    "react": "^0.13.3"
   }
 }
