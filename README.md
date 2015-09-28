@@ -12,7 +12,7 @@ and money on real and concrete resources you need in order to grow as an organiz
 by growing on an individual hacker level basis.
 
 # How to run it
-First install the dependencies
+First install the dependencies and preload data to the DB
 ```
 npm install
 ```
@@ -24,7 +24,7 @@ npm start
 
 Run the back end tests with
 ```
-npm run test-backend
+rake
 ```
 
 Run the front end tests with

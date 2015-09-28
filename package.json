@@ -6,7 +6,7 @@
     "postinstall": "rake seed:all && gulp",
     "start": "gulp && bundle exec rackup",
     "test": "gulp test",
-    "test-backend": "rake seed:delete_all && rake seed:all && rake test"
+    "test-backend": "rake"
   },
   "repository": {
     "type": "git",
