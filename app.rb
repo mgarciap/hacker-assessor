@@ -4,14 +4,6 @@ def json_body
   JSON.parse req.body.read, symbolize_names: true
 end
 
-def merge_id_in_attr attrs
-  attrs.to_a.map { |attr| attr.attributes.merge id: attr.id }
-end
-
-def get_skills lists
-  lists.to_a.map { |list| list.skill }
-end
-
 Cuba.define do
   res.headers['Content-Type'] = 'application/json'
 
@@ -27,17 +19,17 @@ Cuba.define do
     hacker = Hacker.login json_body[:hacker]
     if hacker
       session[:hacker_id] = hacker.id
-      res.status = 200
+      res.write hacker.to_json
     else
-      res.write errors: 'Your name or password was incorrect.'
+      error = { error: 'Your name or password was incorrect.' }.to_json
+      res.write error
       res.status = 302
     end
   end
 
   on 'hackers' do
     on get, root do
-      hackers = merge_id_in_attr Hacker.all.to_a
-      res.write hackers.to_json
+      res.write Hacker.all.to_json
     end
 
     on ':id' do |id|
@@ -54,9 +46,7 @@ Cuba.define do
         end
 
         on get do
-          acqmts = get_skills hacker.acquirements
-          acquirements = merge_id_in_attr acqmts
-          res.write acquirements.to_json
+          res.write hacker.skills.to_json
         end
       end
 
@@ -67,10 +57,7 @@ Cuba.define do
         end
 
         on get, ':id' do |id|
-          seniority = Seniority[id]
-          acq_skills = get_skills hacker.acquirements
-          req_skills = get_skills seniority.requirements
-          res.write req_skills - acq_skills
+          res.write Seniority[id].skills - hacker.skills
         end
       end
     end
@@ -84,8 +71,7 @@ Cuba.define do
       end
 
       on get do
-        seniorities = merge_id_in_attr Seniority.all.to_a
-        res.write seniorities.to_json
+        res.write Seniority.all.to_json
       end
     end
 
@@ -103,9 +89,7 @@ Cuba.define do
         end
 
         on get do
-          reqmts = get_skills seniority.requirements
-          requirements = merge_id_in_attr reqmts
-          res.write requirements.to_json
+          res.write seniority.skills.to_json
         end
       end
     end
@@ -119,8 +103,7 @@ Cuba.define do
       end
 
       on get do
-        skills = merge_id_in_attr Skill.all.to_a
-        res.write skills.to_json
+        res.write Skill.all.to_json
       end
     end
 
