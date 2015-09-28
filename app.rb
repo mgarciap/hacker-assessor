@@ -29,7 +29,8 @@ Cuba.define do
       session[:hacker_id] = hacker.id
       res.status = 200
     else
-      res.write errors: 'Your name or password was incorrect.'
+      error = { error: 'Your name or password was incorrect.' }.to_json
+      res.write error
       res.status = 302
     end
   end

@@ -64,7 +64,7 @@ scope '/login' do
   test 'fail to login a hacker with invalid credentials' do |hacker|
     post '/login', invalid_login_body
     assert_equal 302, last_response.status
-    # TODO: match the error response
+    assert body_json[:error].include? "incorrect"
   end
 end
 
