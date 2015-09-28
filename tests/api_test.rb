@@ -2,29 +2,6 @@ def body_json
   JSON.parse last_response.body, symbolize_names: true
 end
 
-def hacker
-  Hacker.create name: 'Jorge', password: 'jorge'
-end
-
-def seniority
-  Seniority.create name: 'Senior Frontend'
-end
-
-def skills
-  Skill.create name: 'TDD', description: 'Cool description'
-  Skill.create name: 'JavaScript', description: 'Cool description'
-end
-
-def acquirements
-  Acquirement.create hacker: Hacker[1], skill: Skill[1]
-  Acquirement.create hacker: Hacker[1], skill: Skill[2]
-end
-
-def requirements
-  Requirement.create seniority: Seniority[1], skill: Skill[1]
-  Requirement.create seniority: Seniority[1], skill: Skill[2]
-end
-
 def acquirements_body
   { acquirements: [ { skill: '1' }, { skill: '2' } ] }.to_json
 end
@@ -51,17 +28,13 @@ def invalid_login_body
 end
 
 scope '/login' do
-  setup do
-    hacker
-  end
-
-  test 'login a hacker with valid credentials' do |hacker|
+  test 'login a hacker with valid credentials' do
     post '/login', login_body
     assert_equal 200, last_response.status
     assert_equal hacker.id, last_request.session["hacker_id"]
   end
 
-  test 'fail to login a hacker with invalid credentials' do |hacker|
+  test 'fail to login a hacker with invalid credentials' do
     post '/login', invalid_login_body
     assert_equal 302, last_response.status
     assert body_json[:error].include? "incorrect"
@@ -73,21 +46,16 @@ scope '/signup' do
 end
 
 scope '/hackers' do
-  setup do
-    hacker
-  end
-
-  test 'get a list of hackers' do |hacker|
+  test 'get a list of hackers' do
     get '/hackers'
     assert_equal 200, last_response.status
     assert_equal hacker.name, body_json.first[:name]
   end
 
-  test 'Create a list of Acquirements for a hacker and get the acquirements' do |hacker|
-    skills
+  test 'Create a list of Acquirements for a hacker and get the acquirements' do
     post "/hackers/#{ hacker.id }/acquirements", acquirements_body
     assert_equal 201, last_response.status
-    assert_equal 2, hacker.acquirements.count
+    assert_equal 4, hacker.acquirements.count
 
     get "/hackers/#{ hacker.id }/acquirements"
     assert_equal 200, last_response.status
@@ -99,23 +67,15 @@ scope '/hackers' do
   #   get "/hackers/#{ hacker.id }/seniorities"
   # end
 
-  test 'Return the skills that a hacker need to reach the next seniority' do |hacker|
-    skills
-    sen = seniority
-    acquirements
-    requirements
-    get "/hackers/#{ hacker.id }/seniorities/#{ sen.id }"
+  test 'Return the skills that a hacker need to reach the next seniority' do
+    get "/hackers/#{ hacker.id }/seniorities/#{ seniority.id }"
     assert_equal 200, last_response.status
     assert_equal 0, body_json.count
   end
 end
 
 scope '/seniotities' do
-  setup do
-    seniority
-  end
-
-  test 'Get all the seniorities' do |seniority|
+  test 'Get all the seniorities' do
     get '/seniorities'
     assert_equal 200, last_response.status
     assert_equal seniority.name, body_json.first[:name]
@@ -123,17 +83,16 @@ scope '/seniotities' do
 
   test 'Create a seniority' do
     post '/seniorities', seniority_body
-    seniority = Seniority.all
+    seniorities = Seniority.all
     assert_equal 201, last_response.status
-    assert_equal 2, seniority.count
-    assert_equal 'Senior Ruby', seniority.to_a[1].attributes[:name]
+    assert_equal 2, seniorities.count
+    assert_equal 'Senior Ruby', seniorities.to_a[1].attributes[:name]
   end
 
-  test 'Create a list of Requirements for a seniority and get the requirements' do |seniority|
-    skills
+  test 'Create a list of Requirements for a seniority and get the requirements' do
     post "/seniorities/#{ seniority.id }/requirements", requirements_body
     assert_equal 201, last_response.status
-    assert_equal 2, seniority.requirements.count
+    assert_equal 4, seniority.requirements.count
 
     get "/seniorities/#{ seniority.id }/requirements"
     assert_equal 200, last_response.status
@@ -142,11 +101,7 @@ scope '/seniotities' do
 end
 
 scope '/skills' do
-  setup do
-    skills
-  end
-
-  test 'Get all the skills' do |skills|
+  test 'Get all the skills' do
     get '/skills'
     assert_equal 200, last_response.status
     assert_equal Skill.all.count, body_json.count
@@ -161,7 +116,8 @@ scope '/skills' do
 
   end
 
-  test 'Get a single skill' do |skill|
+  test 'Get a single skill' do
+    skill = Skill[1]
     get "/skills/#{ skill.id }"
     assert_equal 200, last_response.status
     assert_equal skill.name, body_json[:name]
