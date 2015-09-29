@@ -1,7 +1,6 @@
 var gulp = require('gulp'),
   del = require('del'),
   karma = require('gulp-karma'),
-  jshint = require('gulp-jshint'),
   sourcemaps = require('gulp-sourcemaps'),
   browserify = require('browserify'),
   source = require('vinyl-source-stream'),
@@ -13,35 +12,16 @@ var gulp = require('gulp'),
 var CacheBuster = require('gulp-cachebust');
 var cachebust = new CacheBuster();
 
-/////////////////////////////////////////////////////////////////////////////////////
-//
-// cleans the build output
-//
-/////////////////////////////////////////////////////////////////////////////////////
-
 gulp.task('clean', function(cb) {
   del([
     './public/js'
   ], cb);
 });
 
-/////////////////////////////////////////////////////////////////////////////////////
-//
-// move images to public folder
-//
-/////////////////////////////////////////////////////////////////////////////////////
-
 gulp.task('move-images', function() {
   return gulp.src('./images/**')
     .pipe(gulp.dest('./public/images'));
 });
-
-/////////////////////////////////////////////////////////////////////////////////////
-//
-// fills in the Angular template cache, to prevent loading the html templates via
-// separate http requests
-//
-/////////////////////////////////////////////////////////////////////////////////////
 
 gulp.task('build-template-cache', ['clean'], function() {
 
@@ -56,24 +36,6 @@ gulp.task('build-template-cache', ['clean'], function() {
     .pipe(concat("app.templates.js"))
     .pipe(gulp.dest("./js/templates"));
 });
-
-/////////////////////////////////////////////////////////////////////////////////////
-//
-// runs jshint
-//
-/////////////////////////////////////////////////////////////////////////////////////
-
-gulp.task('jshint', function() {
-  gulp.src('./js/*.js')
-    .pipe(jshint())
-    .pipe(jshint.reporter('default'));
-});
-
-/////////////////////////////////////////////////////////////////////////////////////
-//
-// runs karma tests
-//
-/////////////////////////////////////////////////////////////////////////////////////
 
 gulp.task('test', ['build-js'], function() {
   var testFiles = [
@@ -90,13 +52,6 @@ gulp.task('test', ['build-js'], function() {
       throw err;
     });
 });
-
-/////////////////////////////////////////////////////////////////////////////////////
-//
-// Build a minified Javascript bundle - the order of the js files is determined
-// by browserify
-//
-/////////////////////////////////////////////////////////////////////////////////////
 
 gulp.task('build-js', ['clean'], function() {
   var b = browserify({
@@ -119,22 +74,10 @@ gulp.task('build-js', ['clean'], function() {
     .pipe(gulp.dest('./public/js/'));
 });
 
-/////////////////////////////////////////////////////////////////////////////////////
-//
-// full build (except sprites), applies cache busting to the main page css and js bundles
-//
-/////////////////////////////////////////////////////////////////////////////////////
-
-gulp.task('build', ['clean', 'build-template-cache', 'jshint', 'build-js', 'move-images'], function() {
+gulp.task('build', ['clean', 'build-template-cache', 'build-js', 'move-images'], function() {
   return gulp.src('index.html')
     .pipe(cachebust.references())
     .pipe(gulp.dest('public'));
 });
-
-/////////////////////////////////////////////////////////////////////////////////////
-//
-// installs and builds everything, including sprites
-//
-/////////////////////////////////////////////////////////////////////////////////////
 
 gulp.task('default', ['build']);

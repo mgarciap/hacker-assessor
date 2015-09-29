@@ -31,7 +31,6 @@
     "gulp-cachebust": "0.0.5",
     "gulp-concat": "^2.5.2",
     "gulp-install": "^0.4.0",
-    "gulp-jshint": "^1.10.0",
     "gulp-karma": "0.0.4",
     "gulp-ng-html2js": "^0.2.0",
     "gulp-sourcemaps": "^1.5.1",
