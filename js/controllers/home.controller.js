@@ -1,13 +1,20 @@
+'use strict';
+
 angular
   .module('hackerAssessor')
   .controller('HomeController', HomeController);
 
-HomeController.$inject = [];
+HomeController.$inject = ['authService'];
 
-function HomeController() {
-  activate.call(this);
+function HomeController(authService) {
+  this.login = login.bind(this);
 
-  function activate() {
-    this.world = 'world';
+  function login() {
+    var credentials = {
+      username: this.username,
+      password: this.password
+    };
+
+    authService.login(credentials);
   }
 }
