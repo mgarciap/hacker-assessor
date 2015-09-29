@@ -1,0 +1,21 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+senior_frontend_tdd:
+  level: 3
+  seniority: senior_frontend
+  skill: tdd
+
+senior_frontend_js:
+  level: 3
+  seniority: senior_frontend
+  skill: javascript
+
+full_stack_tdd:
+  level: 3
+  seniority: full_stack
+  skill: tdd
+
+full_stack_js:
+  level: 3
+  seniority: full_stack
+  skill: javascript

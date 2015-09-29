@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :requirements
   resources :seniorities
   resources :acquirements
   resources :hackers

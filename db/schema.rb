@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150929172836) do
+ActiveRecord::Schema.define(version: 20150929173146) do
 
   create_table "acquirements", force: :cascade do |t|
     t.integer  "level"
@@ -33,6 +33,17 @@ ActiveRecord::Schema.define(version: 20150929172836) do
   end
 
   add_index "hackers", ["email"], name: "index_hackers_on_email", unique: true
+
+  create_table "requirements", force: :cascade do |t|
+    t.integer  "level"
+    t.integer  "seniority_id"
+    t.integer  "skill_id"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
+  add_index "requirements", ["seniority_id"], name: "index_requirements_on_seniority_id"
+  add_index "requirements", ["skill_id"], name: "index_requirements_on_skill_id"
 
   create_table "seniorities", force: :cascade do |t|
     t.string   "name"

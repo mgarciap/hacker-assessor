@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Level:</strong>
+  <%= @requirement.level %>
+</p>
+
+<p>
+  <strong>Seniority:</strong>
+  <%= @requirement.seniority %>
+</p>
+
+<p>
+  <strong>Skill:</strong>
+  <%= @requirement.skill %>
+</p>
+
+<%= link_to 'Edit', edit_requirement_path(@requirement) %> |
+<%= link_to 'Back', requirements_path %>

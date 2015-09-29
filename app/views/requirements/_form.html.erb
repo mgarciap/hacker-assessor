@@ -1,0 +1,29 @@
+<%= form_for(@requirement) do |f| %>
+  <% if @requirement.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@requirement.errors.count, "error") %> prohibited this requirement from being saved:</h2>
+
+      <ul>
+      <% @requirement.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :level %><br>
+    <%= f.number_field :level %>
+  </div>
+  <div class="field">
+    <%= f.label :seniority_id %><br>
+    <%= f.text_field :seniority_id %>
+  </div>
+  <div class="field">
+    <%= f.label :skill_id %><br>
+    <%= f.text_field :skill_id %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
