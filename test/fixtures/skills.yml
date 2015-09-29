@@ -1,0 +1,9 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+tdd:
+  name: $LABEL
+  description: Cool Description
+
+javascript:
+  name: $LABEL
+  description: Cool Description
