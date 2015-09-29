@@ -15,6 +15,11 @@ function config($stateProvider, $urlRouterProvider) {
     })
     .state('hacker', {
       url: '/hacker',
+      resolve: {
+        hacker: function resolveHacker(hackerService, authService) {
+          return hackerService.getHacker(authService.user.id);
+        }
+      },
       templateUrl: '/templates/hacker.template.html',
       controller: 'HackerController as HackerController'
     });
