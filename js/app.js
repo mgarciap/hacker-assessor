@@ -1,3 +1,5 @@
+'use strict';
+
 angular = require('angular');
 require('angular-ui-router');
 
@@ -7,3 +9,5 @@ angular
 require('app.templates');
 require('app.config');
 require('home.controller');
+require('hacker.controller');
+require('hacker.service');
