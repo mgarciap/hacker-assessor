@@ -1,0 +1,16 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+jorge_tdd:
+  level: 2
+  hacker: jorge
+  skill: tdd
+
+jorge_js:
+  level: 3
+  hacker: jorge
+  skill: javascript
+
+rodri_js:
+  level: 3
+  hacker: rodrigo
+  skill: javascript
