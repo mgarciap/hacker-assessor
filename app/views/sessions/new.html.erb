@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8">
@@ -9,18 +8,21 @@
     <title>Hacker Assessor</title>
   </head>
   <body>
+    <% flash.each do |name, msg| -%>
+      <%= content_tag :div, msg, class: name %>
+    <% end -%>
     <section>
       <aside>
-        <img src="assets/logo.svg" alt="Hacker Assessor" class="logo">
-        <form>
-          <input type="text" placeholder="username" />
-          <input type="password" placeholder="password"/>
+        <!-- img src="assets/logo.svg" alt="Hacker Assessor" class="logo" -->
+        <%= form_tag login_path do |f| %>
+          <%= text_field_tag :email %>
+          <%= password_field_tag :password %>
           <a href="#"><small>Forgot your password?</small></a>
-          <input type="submit" value="LOG IN"/>
-        </form>
+          <%= submit_tag 'LOG IN' %>
+        <% end %>
       </aside>
       <article ></article>
     </section>
-    <script src="/js/bundle.js" charset="utf-8"></script>
+    <!-- script src="/js/bundle.js" charset="utf-8"></script -->
   </body>
 </html>
