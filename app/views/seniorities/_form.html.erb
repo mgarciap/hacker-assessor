@@ -15,6 +15,22 @@
     <%= f.label :name %><br>
     <%= f.text_field :name %>
   </div>
+
+  <fieldset>
+    <leyend>Requirements</leyend>
+    <%= f.fields_for :requirements do |rf| %>
+      <div class="field">
+        <%= rf.label :skill %>
+        <%= rf.collection_select :skill_id, Skill.all, :id, :name, prompt: true %>
+      </div>
+
+      <div class="field">
+        <%= rf.label :level %>
+        <%= rf.collection_select :level, SkillLevel.all, :id, :name %>
+      </div>
+    <% end %>
+  </fieldset>
+
   <div class="actions">
     <%= f.submit %>
   </div>

@@ -15,6 +15,7 @@ class SenioritiesController < ApplicationController
   # GET /seniorities/new
   def new
     @seniority = Seniority.new
+    @seniority.requirements.build
   end
 
   # GET /seniorities/1/edit
@@ -69,6 +70,6 @@ class SenioritiesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def seniority_params
-      params.require(:seniority).permit(:name)
+      params.require(:seniority).permit(:name, { requirements_attributes: [:skill_id, :level] } )
     end
 end

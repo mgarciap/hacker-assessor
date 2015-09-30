@@ -24,9 +24,10 @@ class SenioritiesControllerTest < ActionController::TestCase
 
   test "should create seniority" do
     assert_difference('Seniority.count') do
-      post :create, seniority: { name: 'Time Traveler' }
+      post :create, seniority: { name: 'Time Traveler',
+                                 requirements_attributes: [{ skill_id: skills(:tdd), level: 2 }] }
     end
-
+    assert !Seniority.find_by(name: 'Time Traveler').requirements.empty?, 'Requirement was not created'
     assert_redirected_to seniority_path(assigns(:seniority))
   end
 
