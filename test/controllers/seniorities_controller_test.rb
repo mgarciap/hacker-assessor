@@ -5,6 +5,12 @@ class SenioritiesControllerTest < ActionController::TestCase
     @seniority = seniorities(:senior_frontend)
   end
 
+  test "requires being logged in" do
+    session.clear
+    get :index
+    assert_redirected_to root_url
+  end
+
   test "should get index" do
     get :index
     assert_response :success

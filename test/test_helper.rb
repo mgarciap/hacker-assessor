@@ -8,3 +8,8 @@ class ActiveSupport::TestCase
 
   # Add more helper methods to be used by all tests here...
 end
+
+# be logged by default
+ActionController::TestCase.setup do
+  session[:hacker_id] = hackers(:jorge)
+end
