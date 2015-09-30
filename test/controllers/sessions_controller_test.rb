@@ -2,27 +2,27 @@ require 'test_helper'
 
 class SessionsControllerTest < ActionController::TestCase
   setup do
-    session[:hacker_id] = nil
+    session.clear
   end
 
-  test "should get new" do
+  test "get new without session" do
     get :new
     assert_response :success
   end
 
-  test "should try to login and fail" do
-    post :create, { email: 'rodri@altoros.com', password: 'fail' }
+  test "fail login with invalid credentials" do
+    post :create, { email: hackers(:jorge), password: 'fail' }
     assert_not session[:hacker_id]
     assert_equal 'Invalid email or password', flash.alert
   end
 
-  test "should try to login and success" do
-    post :create, { email: 'rodri@altoros.com', password: 'rodrigo' }
-    assert_equal session[:hacker_id], Hacker.first.id
+  test "success login with valid credentials" do
+    post :create, { email: hackers(:jorge).email, password: 'jorge' }
+    assert_equal session[:hacker_id], hackers(:jorge).id
     assert_equal 'Successfully logged in', flash.notice
   end
 
-  test "should logout from the session" do
+  test "logout from the session" do
     delete :destroy
     assert_not session[:hacker_id]
     assert_equal 'Logged out', flash.notice
