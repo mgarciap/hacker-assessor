@@ -11,6 +11,11 @@
     <% flash.each do |name, msg| -%>
       <%= content_tag :div, msg, class: name %>
     <% end -%>
+
+    <% if session[:hacker_id] %>
+      <%= link_to 'LOG OUT', signout_path, method: :delete %>
+    <% end %>
+
     <section>
       <aside>
         <!-- img src="assets/logo.svg" alt="Hacker Assessor" class="logo" -->
