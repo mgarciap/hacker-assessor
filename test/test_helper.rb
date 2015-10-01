@@ -11,5 +11,5 @@ end
 
 # be logged by default
 ActionController::TestCase.setup do
-  session[:hacker_id] = hackers(:jorge)
+  session[:hacker_id] = hackers(:jorge).id
 end

@@ -5,13 +5,8 @@ class SessionsControllerTest < ActionController::TestCase
     session.clear
   end
 
-  test "get new without session" do
-    get :new
-    assert_response :success
-  end
-
   test "fail login with invalid credentials" do
-    post :create, { email: hackers(:jorge), password: 'fail' }
+    post :create, { email: hackers(:jorge).email, password: 'fail' }
     assert_not session[:hacker_id]
     assert_equal 'Invalid email or password', flash.alert
   end
