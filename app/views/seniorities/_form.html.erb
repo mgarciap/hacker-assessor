@@ -16,7 +16,6 @@
     <%= f.text_field :name %>
   </div>
 
-
   <fieldset>
     <leyend>Requirements</leyend>
     <%= f.fields_for :requirements, child_index: '' do |rf| %>
@@ -32,6 +31,7 @@
         </div>
       </fieldset>
     <% end %>
+    <button id="addMore" type="button">Add more requirements</button>
   </fieldset>
 
   <div class="actions">
