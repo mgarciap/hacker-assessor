@@ -16,18 +16,21 @@
     <%= f.text_field :name %>
   </div>
 
+
   <fieldset>
     <leyend>Requirements</leyend>
-    <%= f.fields_for :requirements do |rf| %>
-      <div class="field">
-        <%= rf.label :skill %>
-        <%= rf.collection_select :skill_id, Skill.all, :id, :name, prompt: true %>
-      </div>
+    <%= f.fields_for :requirements, child_index: '' do |rf| %>
+      <fieldset>
+        <div class="field">
+          <%= rf.label :skill %>
+          <%= rf.collection_select :skill_id, Skill.all, :id, :name, prompt: true %>
+        </div>
 
-      <div class="field">
-        <%= rf.label :level %>
-        <%= rf.collection_select :level, SkillLevel.all, :id, :name %>
-      </div>
+        <div class="field">
+          <%= rf.label :level %>
+          <%= rf.collection_select :level, SkillLevel.all, :id, :name %>
+        </div>
+      </fieldset>
     <% end %>
   </fieldset>
 
