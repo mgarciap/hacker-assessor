@@ -10,11 +10,11 @@ class SessionsController < ApplicationController
       .try(:authenticate, params[:password])
     if hacker
       session[:hacker_id] = hacker.id
-      redirect_to root_url, notice: 'Successfully logged in'
+      flash.notice = 'Successfully logged in'
     else
-      flash.now.alert = 'Invalid email or password'
-      render 'new'
+      flash.alert = 'Invalid email or password'
     end
+    redirect_to root_url
   end
 
   def destroy
