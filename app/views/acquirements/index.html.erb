@@ -2,16 +2,18 @@
 
 <h1>Listing Acquirements</h1>
 
-<% @acquirements.each do |acquirement| %>
-  <div class="acquirement">
-    <h3><%= acquirement.skill.name %></h3>
-    <p>Current Level: <%= acquirement.level %></p>
-    <%= link_to 'Show', acquirement %>
-    <%= link_to 'Edit', edit_acquirement_path(acquirement) %>
-    <%= link_to 'Destroy', acquirement, method: :delete, data: { confirm: 'Are you sure?' } %>
-  </div>
-<% end %>
+<ul class="acquirements">
+  <% @acquirements.each do |acquirement| %>
+    <li>
+      <h3><%= acquirement.skill.name %></h3>
+      <p>Current Level: <%= acquirement.level %></p>
+      <%= link_to 'Show', acquirement %>
+      <%= link_to 'Edit', edit_acquirement_path(acquirement) %>
+      <%= link_to 'Destroy', acquirement, method: :delete, data: { confirm: 'Are you sure?' } %>
+    </li>
+  <% end %>
 
-<br>
-
-<%= link_to 'New Acquirement', new_acquirement_path %>
+  <li>
+    <%= link_to 'New Acquirement', new_acquirement_path %>
+  </li>
+</ul>
