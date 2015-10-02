@@ -4,7 +4,7 @@ class AcquirementsController < ApplicationController
   # GET /acquirements
   # GET /acquirements.json
   def index
-    @acquirements = Acquirement.all
+    @acquirements = current_hacker.acquirements
   end
 
   # GET /acquirements/1

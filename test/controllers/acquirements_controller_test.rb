@@ -5,10 +5,13 @@ class AcquirementsControllerTest < ActionController::TestCase
     @acquirement = acquirements(:jorge_tdd)
   end
 
-  test "should get index" do
+  test "index the current hacker acquirements" do
     get :index
     assert_response :success
     assert_not_nil assigns(:acquirements)
+    assert_includes assigns(:acquirements), acquirements(:jorge_tdd)
+    refute_includes assigns(:acquirements), acquirements(:rodri_js),
+      'Rodri acquirements are not listed'
   end
 
   test "should get new" do
