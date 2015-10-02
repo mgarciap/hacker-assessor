@@ -22,7 +22,7 @@
       <fieldset>
         <div class="field">
           <%= rf.label :skill %>
-          <%= rf.collection_select :skill_id, Skill.all, :id, :name, prompt: true %>
+          <%= rf.skill_select %>
         </div>
 
         <div class="field">
