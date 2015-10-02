@@ -97,7 +97,7 @@ a {
   margin-bottom: 30px;
 }
 
-.acquirements {
+.requirements , .seniorities , .acquirements {
   @include outer-container;
 
   li {

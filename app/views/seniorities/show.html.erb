@@ -1,9 +1,19 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Name:</strong>
-  <%= @seniority.name %>
-</p>
+<h1><%= @seniority.name %></h1>
 
-<%= link_to 'Edit', edit_seniority_path(@seniority) %> |
+<p>This you need to become a <%= @seniority.name %>.</p>
+
+<ul class="requirements">
+  <% @seniority.requirements.each do |requirement| %>
+    <li>
+      <h3><%= requirement.skill.name %></h3>
+      <p>Required level: <%= requirement.level %></p>
+      <% if acquirement = current_hacker.acquirements.find_by(skill: requirement.skill) %>
+        <p>Your level: <%= acquirement.level %></p>
+      <% end %>
+    </li>
+  <% end %>
+</ul>
+
 <%= link_to 'Back', seniorities_path %>
