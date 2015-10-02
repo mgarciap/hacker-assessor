@@ -1,15 +1,10 @@
 class AcquirementsController < ApplicationController
-  before_action :set_acquirement, only: [:show, :edit, :update, :destroy]
+  before_action :set_acquirement, only: [:edit, :update, :destroy]
 
   # GET /acquirements
   # GET /acquirements.json
   def index
     @acquirements = current_hacker.acquirements
-  end
-
-  # GET /acquirements/1
-  # GET /acquirements/1.json
-  def show
   end
 
   # GET /acquirements/new
@@ -28,7 +23,7 @@ class AcquirementsController < ApplicationController
 
     respond_to do |format|
       if @acquirement.save
-        format.html { redirect_to @acquirement, notice: 'Acquirement was successfully created.' }
+        format.html { redirect_to new_acquirement_path, notice: 'Acquirement was successfully created.' }
         format.json { render :show, status: :created, location: @acquirement }
       else
         format.html { render :new }
@@ -42,7 +37,7 @@ class AcquirementsController < ApplicationController
   def update
     respond_to do |format|
       if @acquirement.update(acquirement_params)
-        format.html { redirect_to @acquirement, notice: 'Acquirement was successfully updated.' }
+        format.html { redirect_to acquirements_path, notice: 'Acquirement was successfully updated.' }
         format.json { render :show, status: :ok, location: @acquirement }
       else
         format.html { render :edit }

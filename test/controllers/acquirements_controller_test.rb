@@ -24,12 +24,7 @@ class AcquirementsControllerTest < ActionController::TestCase
       post :create, acquirement: { hacker_id: @acquirement.hacker_id, level: @acquirement.level, skill_id: @acquirement.skill_id }
     end
 
-    assert_redirected_to acquirement_path(assigns(:acquirement))
-  end
-
-  test "should show acquirement" do
-    get :show, id: @acquirement
-    assert_response :success
+    assert_redirected_to new_acquirement_path
   end
 
   test "should get edit" do
@@ -39,7 +34,7 @@ class AcquirementsControllerTest < ActionController::TestCase
 
   test "should update acquirement" do
     patch :update, id: @acquirement, acquirement: { hacker_id: @acquirement.hacker_id, level: @acquirement.level, skill_id: @acquirement.skill_id }
-    assert_redirected_to acquirement_path(assigns(:acquirement))
+    assert_redirected_to acquirements_path
   end
 
   test "should destroy acquirement" do

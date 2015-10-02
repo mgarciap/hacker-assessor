@@ -7,7 +7,6 @@
     <li>
       <h3><%= acquirement.skill.name %></h3>
       <p>Current Level: <%= acquirement.level %></p>
-      <%= link_to 'Show', acquirement %>
       <%= link_to 'Edit', edit_acquirement_path(acquirement) %>
       <%= link_to 'Destroy', acquirement, method: :delete, data: { confirm: 'Are you sure?' } %>
     </li>
