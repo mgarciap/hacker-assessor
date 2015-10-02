@@ -12,17 +12,15 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :level %><br>
-    <%= f.number_field :level %>
+    <%= f.label :skill %>
+    <%= f.skill_select %>
   </div>
+
   <div class="field">
-    <%= f.label :hacker_id %><br>
-    <%= f.text_field :hacker_id %>
+    <%= f.label :level %>
+    <%= f.skill_level_select %>
   </div>
-  <div class="field">
-    <%= f.label :skill_id %><br>
-    <%= f.text_field :skill_id %>
-  </div>
+
   <div class="actions">
     <%= f.submit %>
   </div>

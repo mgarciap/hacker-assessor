@@ -14,7 +14,7 @@ class AcquirementsController < ApplicationController
 
   # GET /acquirements/new
   def new
-    @acquirement = Acquirement.new
+    @acquirement = acquirements.new
   end
 
   # GET /acquirements/1/edit
@@ -24,7 +24,7 @@ class AcquirementsController < ApplicationController
   # POST /acquirements
   # POST /acquirements.json
   def create
-    @acquirement = Acquirement.new(acquirement_params)
+    @acquirement = current_hacker.acquirements.create acquirement_params
 
     respond_to do |format|
       if @acquirement.save
@@ -62,9 +62,13 @@ class AcquirementsController < ApplicationController
   end
 
   private
+    def acquirements
+      current_hacker.acquirements
+    end
+
     # Use callbacks to share common setup or constraints between actions.
     def set_acquirement
-      @acquirement = Acquirement.find(params[:id])
+      @acquirement = acquirements.find(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
