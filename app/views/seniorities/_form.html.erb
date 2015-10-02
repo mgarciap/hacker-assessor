@@ -27,7 +27,7 @@
 
         <div class="field">
           <%= rf.label :level %>
-          <%= rf.collection_select :level, SkillLevel.all, :id, :name %>
+          <%= rf.skill_level_select %>
         </div>
       </fieldset>
     <% end %>
