@@ -96,3 +96,25 @@ a {
 .logo {
   margin-bottom: 30px;
 }
+
+.acquirement {
+  background-color: $text-input-background;
+  @include span-columns(2.6 of 8);
+  min-height: 12em;
+  @include pad();
+  text-align: center;
+
+  a {
+    background: $button-background;
+    box-shadow: 0px 2px 0px 0px $button-outter-shadow;
+    border-radius: 2px;
+    border-width: 0;
+    font-size: 21px;
+    color: $button-color;
+    line-height: 24px;
+    padding: 8px;
+    display: inline-block;
+    margin: 2px;
+    text-decoration: none;
+  }
+}
