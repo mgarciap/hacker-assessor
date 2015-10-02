@@ -1,8 +1,8 @@
 <aside>
   <!-- img src="assets/logo.svg" alt="Hacker Assessor" class="logo" -->
-  <% if current_user %>
+  <% if current_hacker %>
     <%= link_to 'LOG OUT', signout_path, method: :delete %>
-    <img src="http://www.gravatar.com/avatar/<%= md5 current_user.email %>" />
+    <img src="http://www.gravatar.com/avatar/<%= md5 current_hacker.email %>" />
     <%= link_to 'Acquirements', acquirements_path %>
     <%= link_to 'Skills', skills_path %>
     <%= link_to 'Seniorities', seniorities_path %>
