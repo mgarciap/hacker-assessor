@@ -30,7 +30,8 @@ REQUIREMENTS_FOR_SENIORJS = {
     ruby.csv ].each do |f|
   CSV.open Rails.root.join('db', 'seeds', f), headers: true do |t|
     t.each do |s|
-      p Skill.find_or_create_by! name: s[0] if s[0]
+      skill = Skill.find_or_create_by! name: s[0] if s[0]
+      Rails.logger.info { skill.inspect }
     end
   end
 end
@@ -43,13 +44,15 @@ end if Hacker.all.empty? || Rails.env.development?
 hacker = Hacker.find_by email: 'test@hacker.com'
 if hacker
   TEST_USER_ACQUIREMENTS.map do |s, l|
-    p hacker.acquirements.create_with(level: l).
+    acquirement = hacker.acquirements.create_with(level: l).
       find_or_create_by! skill: Skill.find_by(name: s)
+    Rails.logger.info { acquirement.inspect }
   end
 end
 
 senior_js = Seniority.find_or_create_by name: 'Senior JS'
 REQUIREMENTS_FOR_SENIORJS.map do |s, l|
-  p senior_js.requirements.create_with(level: l).
+  requirement = senior_js.requirements.create_with(level: l).
     find_or_create_by! skill: Skill.find_by(name: s)
+  Rails.logger.info { requirement.inspect }
 end
