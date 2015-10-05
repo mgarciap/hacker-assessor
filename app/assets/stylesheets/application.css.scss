@@ -43,8 +43,8 @@ body {
   padding: 8px;
   margin: 10px 2px;
   text-decoration: none;
-  @include transition( all 0.1s ); 
-  @include transition( box-shadow 0.3s ); 
+  @include transition( all 0.1s );
+  @include transition( box-shadow 0.3s );
 
   &:hover {
     color: lighten($button-color, 20);
@@ -63,6 +63,7 @@ nav {
   @include pad();
   background: $background-dark;
   height: inherit;
+  overflow: auto;
 
   a {
     @include button();
@@ -74,6 +75,7 @@ main {
   @include pad();
   background: $background-ligth;
   height: inherit;
+  overflow: auto;
 }
 
 input {
