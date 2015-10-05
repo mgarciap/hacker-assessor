@@ -6,10 +6,11 @@
 
 <ul class="requirements">
   <% @seniority.requirements.each do |requirement| %>
-    <li>
+    <% acquirement = current_hacker.acquirements.find_by(skill: requirement.skill) %>
+    <li class="<%= assign_class requirement, acquirement %>">
       <h3><%= requirement.skill.name %></h3>
       <p>Required level: <%= requirement.level %></p>
-      <% if acquirement = current_hacker.acquirements.find_by(skill: requirement.skill) %>
+      <% if acquirement %>
         <p>Your level: <%= acquirement.level %></p>
       <% end %>
     </li>

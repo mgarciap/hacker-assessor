@@ -135,6 +135,18 @@ a {
     text-align: center;
     margin-bottom: 2%;
 
+    &.accomplished {
+      background-color: #859900;
+    }
+
+    &.almost-accomplished {
+      background-color: #B58900;
+    }
+
+    &.not-accomplished {
+      background-color: #DC322F;
+    }
+
     a {
       background: $button-background;
       box-shadow: 0px 2px 0px 0px $button-outter-shadow;
