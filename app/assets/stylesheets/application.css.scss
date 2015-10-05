@@ -20,6 +20,8 @@ $background-ligth: #D8D8D8;
 $background-dark: #616161;
 $button-background: #4A4A4A;
 $button-color: #BEBEBE;
+$button-padding: 8px;
+$button-height: 16px;
 $button-outter-shadow: #4B4B4B;
 $text-input-background: #6B6B6B;
 $text-input-placeholder-color: #7E7E7E;
@@ -59,19 +61,19 @@ section {
 }
 
 nav {
-  @include span-columns(3, 'block-collapse');
+  @include span-columns(2, 'block-collapse');
   @include pad();
   background: $background-dark;
   height: inherit;
   overflow: auto;
 
-  a {
+  a.button {
     @include button();
   }
 }
 
 main {
-  @include span-columns(9, 'block-collapse');
+  @include span-columns(10, 'block-collapse');
   @include pad();
   background: $background-ligth;
   height: inherit;
