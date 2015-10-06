@@ -21,7 +21,7 @@ class AcquirementsControllerTest < ActionController::TestCase
 
   test "should create acquirement" do
     assert_difference('Acquirement.count') do
-      post :create, acquirement: { hacker_id: @acquirement.hacker_id, level: @acquirement.level, skill_id: @acquirement.skill_id }
+      post :create, acquirement: { level: 2, skill_id: Skill.create(name: 'jQuery') }
     end
 
     assert_redirected_to new_acquirement_path
@@ -33,8 +33,9 @@ class AcquirementsControllerTest < ActionController::TestCase
   end
 
   test "should update acquirement" do
-    patch :update, id: @acquirement, acquirement: { hacker_id: @acquirement.hacker_id, level: @acquirement.level, skill_id: @acquirement.skill_id }
-    assert_redirected_to acquirements_path
+    patch :update, id: @acquirement, acquirement: { level: 0,
+                                                    skill_id: @acquirement.skill_id }
+    assert_equal Acquirement.find(@acquirement.id).level, 0
   end
 
   test "should destroy acquirement" do
