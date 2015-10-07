@@ -1,7 +1,9 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-senior_frontend:
+js:
   name: $LABEL
+  description: javascript developer
 
-full_stack:
+ruby:
   name: $LABEL
+  description: ruby developer

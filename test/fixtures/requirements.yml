@@ -1,21 +1,19 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-senior_frontend_tdd:
+senior_js_tdd:
   level: 3
-  seniority: senior_frontend
+  seniority: 3
+  career: js
   skill: tdd
 
-senior_frontend_js:
+semisenior_js_js:
   level: 3
-  seniority: senior_frontend
+  seniority: 2
+  career: js
   skill: javascript
 
-full_stack_tdd:
+junior_ruby_tdd:
   level: 3
-  seniority: full_stack
+  seniority: 1
+  career: ruby
   skill: tdd
-
-full_stack_js:
-  level: 3
-  seniority: full_stack
-  skill: javascript

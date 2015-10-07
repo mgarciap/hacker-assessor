@@ -17,15 +17,6 @@ TEST_USER_ACQUIREMENTS = {
   "jQuery" => 3
 }
 
-REQUIREMENTS_FOR_SENIORJS = {
-  "TDD"    => 2,
-  "JS"     => 3,
-  "NodeJS" => 3,
-  "JSON"   => 3,
-  "jQuery" => 3,
-  "SCRUM"  => 2
-}
-
 %w[ applies_to_all_areas.csv devops.csv front_end.csv non_mesurable.csv
     ruby.csv ].each do |f|
   CSV.open Rails.root.join('db', 'seeds', f), headers: true do |t|
@@ -36,10 +27,15 @@ REQUIREMENTS_FOR_SENIORJS = {
   end
 end
 
+career = Career.find_or_create_by! name: 'javascript' do |c|
+  c.description = 'Javascript developers start with jQuery, then they use node.'
+end
+
 # Lets make tests simplier
-Hacker.find_or_create_by email: 'test@hacker.com' do |hacker|
+Hacker.find_or_create_by! email: 'test@hacker.com' do |hacker|
   hacker.password = 'password'
-end if Hacker.all.empty? || Rails.env.development?
+  hacker.career = career
+end if Hacker.all.empty? || Rails.env.development? || Rails.env.test?
 
 hacker = Hacker.find_by email: 'test@hacker.com'
 if hacker
@@ -50,9 +46,14 @@ if hacker
   end
 end
 
-senior_js = Seniority.find_or_create_by name: 'Senior JS'
-REQUIREMENTS_FOR_SENIORJS.map do |s, l|
-  requirement = senior_js.requirements.create_with(level: l).
-    find_or_create_by! skill: Skill.find_by(name: s)
+[
+  { skill: 'TDD', seniority: 2, level: 2 },
+  { skill: 'TDD', seniority: 3, level: 3 }
+].each do |requirement|
+  requirement = career.requirements.find_or_create_by!(
+    skill: Skill.find_by!(name: requirement[:skill]),
+    seniority: requirement[:seniority],
+    level: requirement[:level]
+  )
   Rails.logger.info { requirement.inspect }
 end

@@ -2,7 +2,7 @@ require 'test_helper'
 
 class RequirementsControllerTest < ActionController::TestCase
   setup do
-    @requirement = requirements(:senior_frontend_tdd)
+    @requirement = requirements(:senior_js_tdd)
   end
 
   test "should get index" do
@@ -18,7 +18,9 @@ class RequirementsControllerTest < ActionController::TestCase
 
   test "should create requirement" do
     assert_difference('Requirement.count') do
-      post :create, requirement: { level: @requirement.level, seniority_id: @requirement.seniority_id, skill_id: @requirement.skill_id }
+      post :create, requirement: { level: @requirement.level,
+                                   seniority: @requirement.seniority,
+                                   skill_id: @requirement.skill_id }
     end
 
     assert_redirected_to requirement_path(assigns(:requirement))
@@ -35,7 +37,9 @@ class RequirementsControllerTest < ActionController::TestCase
   end
 
   test "should update requirement" do
-    patch :update, id: @requirement, requirement: { level: @requirement.level, seniority_id: @requirement.seniority_id, skill_id: @requirement.skill_id }
+    patch :update, id: @requirement, requirement: { level: @requirement.level,
+                                                    seniority: @requirement.seniority,
+                                                    skill_id: @requirement.skill_id }
     assert_redirected_to requirement_path(assigns(:requirement))
   end
 

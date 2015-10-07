@@ -42,6 +42,7 @@ class HackersController < ApplicationController
     end
 
     def hacker_params
-      params.require(:hacker).permit(:name, :email, :password, :password_confirmation)
+      params.require(:hacker).permit(:name, :email, :career_id, :password,
+                                     :password_confirmation)
     end
 end

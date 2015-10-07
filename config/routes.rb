@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
+  resources :careers
   resources :requirements
-  resources :seniorities
   resources :acquirements, except: [:show]
   resources :hackers
   resources :skills
