@@ -5,7 +5,7 @@
   <% end %>
 
   <% if current_hacker %>
-    <%= link_to image_tag(gravatar_link, class: 'avatar') + 'LOGOUT',
+    <%= link_to current_hacker_gravatar + 'LOGOUT',
                 signout_path, method: :delete, class: 'button' %>
     <%= link_to 'Acquirements', acquirements_path, class: 'button' %>
     <%= link_to 'Skills', skills_path, class: 'button' %>

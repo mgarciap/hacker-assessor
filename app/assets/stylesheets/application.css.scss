@@ -41,8 +41,8 @@ body {
   border-width: 0;
   font-size: 21px;
   color: $button-color;
-  line-height: 24px;
-  padding: 8px;
+  line-height: $button-height;
+  padding: $button-padding;
   margin: 10px 2px;
   text-decoration: none;
   @include transition( all 0.1s );
@@ -69,6 +69,14 @@ nav {
 
   a.button {
     @include button();
+
+    .avatar {
+      height: $button-height + 2*$button-padding;
+      float: right;
+      margin-left: 5px;
+      margin-top: -$button-padding;
+      margin-right: -$button-padding;
+    }
   }
 }
 
