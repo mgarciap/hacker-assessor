@@ -158,6 +158,12 @@ a {
       background-color: #DC322F;
     }
 
+    &.content-center {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
     a {
       background: $button-background;
       box-shadow: 0px 2px 0px 0px $button-outter-shadow;
