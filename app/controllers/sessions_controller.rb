@@ -2,9 +2,6 @@ class SessionsController < ApplicationController
 
   skip_before_action :require_authentication
 
-  def new
-  end
-
   def create
     hacker = Hacker.find_by(email: params[:email])
       .try(:authenticate, params[:password])
