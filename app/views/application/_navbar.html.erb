@@ -1,5 +1,8 @@
 <nav>
   <!-- img src="assets/logo.svg" alt="Hacker Assessor" class="logo" -->
+  <%= link_to root_path, class: 'button' do %>
+    <h1 class="logo">Hacker Assessor</h1>
+  <% end %>
   <% flash.each do |name, msg| %>
     <%= content_tag :div, msg, class: name %>
   <% end %>

@@ -48,7 +48,9 @@ end
 
 [
   { skill: 'TDD', seniority: 2, level: 2 },
-  { skill: 'TDD', seniority: 3, level: 3 }
+  { skill: 'TDD', seniority: 3, level: 3 },
+  { skill: 'JS', seniority: 2, level: 2 },
+  { skill: 'JS', seniority: 3, level: 3 }
 ].each do |requirement|
   requirement = career.requirements.find_or_create_by!(
     skill: Skill.find_by!(name: requirement[:skill]),

@@ -1,0 +1,8 @@
+<% acquirement = current_hacker.acquirements.find_by(skill: requirement.skill) %>
+<li class="<%= assign_class requirement, acquirement %>">
+  <h3><%= requirement.skill.name %></h3>
+  <p>Required level: <%= requirement.level %></p>
+  <% if acquirement %>
+    <p>Your level: <%= acquirement.level %></p>
+  <% end %>
+</li>

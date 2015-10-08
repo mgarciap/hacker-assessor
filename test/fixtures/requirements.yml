@@ -1,5 +1,11 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
+supersenior_js_js:
+  level: 5
+  seniority: 4
+  career: js
+  skill: js
+
 senior_js_tdd:
   level: 3
   seniority: 3
