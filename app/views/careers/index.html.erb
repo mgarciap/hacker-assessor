@@ -2,28 +2,17 @@
 
 <h1>Listing Careers</h1>
 
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Description</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
+<ul class="careers">
+  <% @careers.each do |career| %>
+    <li>
+      <%= link_to career do %>
+        <h2><%= career.name %></h2>
+        <%= career.description %>
+      <% end %>
+    </li>
+  <% end %>
 
-  <tbody>
-    <% @careers.each do |career| %>
-      <tr>
-        <td><%= career.name %></td>
-        <td><%= career.description %></td>
-        <td><%= link_to 'Show', career %></td>
-        <td><%= link_to 'Edit', edit_career_path(career) %></td>
-        <td><%= link_to 'Destroy', career, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<br>
-
-<%= link_to 'New Career', new_career_path %>
+  <li class="content-center">
+    <%= link_to 'New Career', new_career_path %>
+  </li>
+</ul>
