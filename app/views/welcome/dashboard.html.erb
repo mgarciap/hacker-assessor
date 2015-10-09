@@ -1,6 +1,8 @@
-<h1>This is your current seniority <%= current_hacker.seniority %> for your carrer <%= current_hacker.career.name %></h1>
-<h1>To reach next level <%= current_hacker.seniority + 1 %> this are the missing skills:</h1>
+<h1>Welcome</h1>
+<p><strong>Your current seniority is</strong>:
+   <%= @assessor.current_seniority %> in the career <%= @assessor.career %></p>
+<h1>To reach next level <%= @assessor.next_seniority %> this are the missing skills:</h1>
 
 <ul class="requirements">
-  <%= render current_hacker.missing_requirements_for_next_level %>
+  <%= render @assessor.missing_requirements_for_next_seniority %>
 </ul>

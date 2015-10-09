@@ -1,7 +1,12 @@
+require 'assessor'
+
 class WelcomeController < ApplicationController
   skip_before_action :require_authentication
 
   def index
-    render :dashboard if current_hacker
+    if current_hacker
+      @assessor = Assessor.new current_hacker
+      render :dashboard
+    end
   end
 end
