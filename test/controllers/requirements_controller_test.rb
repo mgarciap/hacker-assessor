@@ -5,49 +5,40 @@ class RequirementsControllerTest < ActionController::TestCase
     @requirement = requirements(:senior_js_tdd)
   end
 
-  test "should get index" do
-    get :index
-    assert_response :success
-    assert_not_nil assigns(:requirements)
-  end
-
   test "should get new" do
-    get :new
+    get :new, career_id: careers(:js)
     assert_response :success
   end
 
   test "should create requirement" do
     assert_difference('Requirement.count') do
-      post :create, requirement: { level: @requirement.level,
-                                   seniority: @requirement.seniority,
-                                   skill_id: @requirement.skill_id }
+      post :create, career_id: @requirement.career,
+        requirement: { level: @requirement.level,
+                       seniority: @requirement.seniority,
+                       skill_id: @requirement.skill_id }
     end
 
-    assert_redirected_to requirement_path(assigns(:requirement))
-  end
-
-  test "should show requirement" do
-    get :show, id: @requirement
-    assert_response :success
+    assert_redirected_to career_path(assigns(:career))
   end
 
   test "should get edit" do
-    get :edit, id: @requirement
+    get :edit, id: @requirement, career_id: @requirement.career
     assert_response :success
   end
 
   test "should update requirement" do
-    patch :update, id: @requirement, requirement: { level: @requirement.level,
-                                                    seniority: @requirement.seniority,
-                                                    skill_id: @requirement.skill_id }
-    assert_redirected_to requirement_path(assigns(:requirement))
+    patch :update, id: @requirement, career_id: @requirement.career,
+      requirement: { level: @requirement.level,
+                     seniority: @requirement.seniority,
+                     skill_id: @requirement.skill_id }
+    assert_redirected_to career_path(assigns(:career))
   end
 
   test "should destroy requirement" do
     assert_difference('Requirement.count', -1) do
-      delete :destroy, id: @requirement
+      delete :destroy, id: @requirement, career_id: @requirement.career
     end
 
-    assert_redirected_to requirements_path
+    assert_redirected_to career_path(assigns(:career))
   end
 end
