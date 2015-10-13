@@ -12,7 +12,7 @@ class Hacker < ActiveRecord::Base
 
   def missing_requirements_for_next_level
     career.missing_requirements(acquirements).keep_if do |r|
-      r.seniority == seniority + 1
+      r.seniority == seniority.next
     end
   end
 end

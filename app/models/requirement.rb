@@ -10,4 +10,8 @@ class Requirement < ActiveRecord::Base
   def level
     ExperienceLevel.new(super)
   end
+
+  def seniority
+    Seniority.new(super)
+  end
 end

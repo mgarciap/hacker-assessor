@@ -1,9 +1,11 @@
+require 'seniority'
+
 class Career < ActiveRecord::Base
   has_many :hackers
   has_many :requirements
 
   def get_seniority acquirements
-    missing_requirements(acquirements).map(&:seniority).min - 1
+    missing_requirements(acquirements).map(&:seniority).min.previous
   end
 
   def missing_requirements acquirements
