@@ -27,7 +27,7 @@ TEST_USER_ACQUIREMENTS = {
   end
 end
 
-career = Career.find_or_create_by! name: 'javascript' do |c|
+career = Career.find_or_create_by! name: 'Javascript' do |c|
   c.description = 'Javascript developers start with jQuery, then they use node.'
 end
 
