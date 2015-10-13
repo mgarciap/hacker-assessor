@@ -1,10 +1,6 @@
-<p id="notice"><%= notice %></p>
-
 <h2><%= @career.name %></h2>
 
-<p>
-  <%= @career.description %>
-</p>
+<p><%= @career.description %></p>
 
 <ul class="requirements">
   <% @career.requirements.each do |requirement| %>
