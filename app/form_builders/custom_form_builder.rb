@@ -1,6 +1,7 @@
 class CustomFormBuilder < ActionView::Helpers::FormBuilder
-  def skill_level_select attribute = :level
-    collection_select attribute, SkillLevel.all, :id, :name
+  def experience_level_select attribute = :level
+    select attribute, ExperienceLevel.options,
+      selected: object.public_send(attribute).to_i
   end
 
   def skill_select attribute = :skill_id
