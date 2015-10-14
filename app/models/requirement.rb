@@ -5,7 +5,7 @@ class Requirement < ActiveRecord::Base
   belongs_to :skill
 
   validates :level, presence: true
-  validates :skill_id, presence: true
+  validates :skill_id, presence: true, uniqueness: { scope: :seniority }
 
   def level
     ExperienceLevel.new(super)

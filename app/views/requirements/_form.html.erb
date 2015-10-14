@@ -12,16 +12,16 @@
   <% end %>
 
   <div class="field">
+    <%= f.label :skill_id %>
+    <%= f.skill_select %>
+  </div>
+  <div class="field">
     <%= f.label :level %>
     <%= f.experience_level_select %>
   </div>
   <div class="field">
     <%= f.label :seniority %>
     <%= f.seniority_select %>
-  </div>
-  <div class="field">
-    <%= f.label :skill_id %>
-    <%= f.skill_select %>
   </div>
   <div class="actions">
     <%= f.submit %>
