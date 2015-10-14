@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class HackerTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
+  test "have a seniority" do
+    assert_equal 2, hackers(:jorge).seniority
+  end
 end

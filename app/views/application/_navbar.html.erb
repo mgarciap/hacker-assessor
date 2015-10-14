@@ -1,5 +1,8 @@
 <nav>
   <!-- img src="assets/logo.svg" alt="Hacker Assessor" class="logo" -->
+  <%= link_to root_path, class: 'button' do %>
+    <h1 class="logo">Hacker Assessor</h1>
+  <% end %>
   <% flash.each do |name, msg| %>
     <%= content_tag :div, msg, class: name %>
   <% end %>
@@ -9,7 +12,7 @@
                 signout_path, method: :delete, class: 'button' %>
     <%= link_to 'Acquirements', acquirements_path, class: 'button' %>
     <%= link_to 'Skills', skills_path, class: 'button' %>
-    <%= link_to 'Seniorities', seniorities_path, class: 'button' %>
+    <%= link_to 'Careers', careers_path, class: 'button' %>
   <% else %>
     <%= form_tag login_path do |f| %>
       <%= text_field_tag :email, nil, placeholder: 'Email' %>

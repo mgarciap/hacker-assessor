@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150929173146) do
+ActiveRecord::Schema.define(version: 20151008154022) do
 
   create_table "acquirements", force: :cascade do |t|
     t.integer  "level"
@@ -24,34 +24,39 @@ ActiveRecord::Schema.define(version: 20150929173146) do
   add_index "acquirements", ["hacker_id"], name: "index_acquirements_on_hacker_id"
   add_index "acquirements", ["skill_id"], name: "index_acquirements_on_skill_id"
 
+  create_table "careers", force: :cascade do |t|
+    t.string   "name"
+    t.text     "description"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "careers", ["name"], name: "index_careers_on_name", unique: true
+
   create_table "hackers", force: :cascade do |t|
     t.string   "name"
     t.string   "email"
     t.string   "password_digest"
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
+    t.integer  "career_id"
   end
 
+  add_index "hackers", ["career_id"], name: "index_hackers_on_career_id"
   add_index "hackers", ["email"], name: "index_hackers_on_email", unique: true
 
   create_table "requirements", force: :cascade do |t|
     t.integer  "level"
-    t.integer  "seniority_id"
     t.integer  "skill_id"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+    t.integer  "seniority",  default: 0, null: false
+    t.integer  "career_id"
   end
 
-  add_index "requirements", ["seniority_id"], name: "index_requirements_on_seniority_id"
+  add_index "requirements", ["career_id"], name: "index_requirements_on_career_id"
+  add_index "requirements", ["seniority"], name: "index_requirements_on_seniority"
   add_index "requirements", ["skill_id"], name: "index_requirements_on_skill_id"
-
-  create_table "seniorities", force: :cascade do |t|
-    t.string   "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  add_index "seniorities", ["name"], name: "index_seniorities_on_name", unique: true
 
   create_table "skills", force: :cascade do |t|
     t.string   "name"

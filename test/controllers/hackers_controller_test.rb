@@ -18,7 +18,11 @@ class HackersControllerTest < ActionController::TestCase
 
   test "should create hacker" do
     assert_difference('Hacker.count') do
-      post :create, hacker: { email: 'eloy@altoros.com', name: 'eloy' , password: 'eloy', password_confirmation: 'eloy' }
+      post :create, hacker: { email: 'eloy@altoros.com',
+                              name: 'eloy',
+                              career_id: careers(:ruby),
+                              password: 'eloy',
+                              password_confirmation: 'eloy' }
     end
 
     assert_redirected_to hacker_path(assigns(:hacker))
@@ -35,7 +39,11 @@ class HackersControllerTest < ActionController::TestCase
   end
 
   test "should update hacker" do
-    patch :update, id: @hacker, hacker: { email: @hacker.email, name: @hacker.name, password: 'secret', password_confirmation: 'secret' }
+    patch :update, id: @hacker, hacker: { email: @hacker.email,
+                                          name: @hacker.name,
+                                          career_id: careers(:js),
+                                          password: 'secret',
+                                          password_confirmation: 'secret' }
     assert_redirected_to hacker_path(assigns(:hacker))
   end
 

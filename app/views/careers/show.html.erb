@@ -1,0 +1,23 @@
+<h2><%= @career.name %></h2>
+
+<p><%= @career.description %></p>
+
+<ul class="requirements">
+  <% @career.requirements.each do |requirement| %>
+    <li>
+      <h3><%= requirement.skill.name %></h3>
+      <p>Required level: <%= requirement.level %></p>
+      <p>For seniority: <%= requirement.seniority %></p>
+      <%= link_to 'Edit', edit_career_requirement_path(@career, requirement) %>
+      <%= link_to 'Destroy', [@career, requirement], method: :delete, data: { confirm: 'Are you sure?' } %>
+    </li>
+  <% end %>
+
+  <li class="content-center">
+    <%= link_to 'New requirement', new_career_requirement_path(@career) %>
+  </li>
+</ul>
+
+<%= link_to 'Edit', edit_career_path(@career) %> |
+<%= link_to 'Destroy', career_path(@career), method: :delete, data: { confirm: 'Are you sure?' } %> |
+<%= link_to 'Back', careers_path %>

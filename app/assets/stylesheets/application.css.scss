@@ -60,6 +60,10 @@ section {
   height: 100%;
 }
 
+.logo {
+  line-height: 1em;
+}
+
 nav {
   @include span-columns(2, 'block-collapse');
   @include pad();
@@ -134,7 +138,7 @@ a {
   margin-bottom: 30px;
 }
 
-.requirements , .seniorities , .acquirements {
+.requirements , .careers , .acquirements {
   @include outer-container;
 
   li {
@@ -145,10 +149,6 @@ a {
     text-align: center;
     margin-bottom: 2%;
     border: 2px solid black;
-
-    &.accomplished {
-      background-color: #859900;
-    }
 
     &.almost-accomplished {
       background-color: #B58900;

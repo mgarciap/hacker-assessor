@@ -2,10 +2,12 @@
 
 jorge:
   name: $LABEL
+  career: js
   email: jorge@altoros.com
   password_digest: <%= BCrypt::Password.create('jorge') %>
 
 rodrigo:
   name: $LABEL
+  career: js
   email: rodri@altoros.com
   password_digest: <%= BCrypt::Password.create('rodrigo') %>

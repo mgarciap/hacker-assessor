@@ -1,0 +1,16 @@
+<h1>Listing Careers</h1>
+
+<ul class="careers">
+  <% @careers.each do |career| %>
+    <li>
+      <%= link_to career do %>
+        <h2><%= career.name %></h2>
+        <%= career.description %>
+      <% end %>
+    </li>
+  <% end %>
+
+  <li class="content-center">
+    <%= link_to 'New Career', new_career_path %>
+  </li>
+</ul>
