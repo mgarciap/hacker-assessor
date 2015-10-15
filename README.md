@@ -1,5 +1,6 @@
 [![CodeClimate](https://img.shields.io/codeclimate/github/Altoros/hacker-assessor.svg)](https://codeclimate.com/github/Altoros/hacker-assessor)
 [![BuildStatus](https://img.shields.io/codeship/0b7b7050-4291-0133-fbf8-7680bc2f6412/master.svg)](https://codeship.com/projects/103764)
+[![License: AGPL-3.0+](https://img.shields.io/badge/license-AGPL--3.0+-643464.svg)](https://www.gnu.org/licenses/agpl)
 
 The ultimate Hacker Assessor
 ============================
@@ -60,3 +61,20 @@ version.
   [GitHub issue tracker]: https://github.com/Altoros/hacker-assessor/issues
   [Gist]: http://gist.github.com/
   [GitHub Flow]: https://guides.github.com/introduction/flow/
+
+LICENSE
+=======
+
+Copyright (C) 2015 Altoros
+
+This program is free software: you can redistribute it and/or modify it under
+the terms of the GNU Affero General Public License as published by the Free
+Software Foundation, either version 3 of the License, or (at your option) any
+later version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+PARTICULAR PURPOSE. See the GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License along
+with this program. If not, see <http://www.gnu.org/licenses/>.
