@@ -1,3 +1,5 @@
+require 'hacker_inviter'
+
 class HackersController < ApplicationController
   before_action :set_hacker, only: [:show, :edit, :update, :destroy]
 
@@ -21,8 +23,7 @@ class HackersController < ApplicationController
   end
 
   def create
-    @hacker = Hacker.new(hacker_params)
-    @hacker.save
+    @hacker = HackerInviter.new(hacker_params).hacker
     respond_with(@hacker)
   end
 
@@ -42,7 +43,7 @@ class HackersController < ApplicationController
     end
 
     def hacker_params
-      params.require(:hacker).permit(:name, :email, :career_id, :password,
-                                     :password_confirmation)
+      params.require(:hacker).permit(:name, :email, :career_id, :seniority,
+                                     :password, :password_confirmation)
     end
 end

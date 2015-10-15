@@ -12,20 +12,28 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :name %><br>
+    <%= f.label :name %>
     <%= f.text_field :name %>
   </div>
   <div class="field">
-    <%= f.label :email %><br>
+    <%= f.label :email %>
     <%= f.text_field :email %>
   </div>
   <div class="field">
-    <%= f.label :password %><br>
+    <%= f.label :password %>
     <%= f.password_field :password %>
   </div>
   <div class="field">
-    <%= f.label :password_confirmation %><br>
+    <%= f.label :password_confirmation %>
     <%= f.password_field :password_confirmation %>
+  </div>
+  <div class="field">
+    <%= f.label :career_id %>
+    <%= f.select :career_id, Career.all.collect { |p| [ p.name, p.id  ] } %>
+  </div>
+  <div class="field">
+    <%= f.label :seniority %>
+    <%= f.seniority_select %>
   </div>
   <div class="actions">
     <%= f.submit %>
