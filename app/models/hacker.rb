@@ -7,7 +7,7 @@ class Hacker < ActiveRecord::Base
   validates :career_id, presence: true
 
   def seniority
-    career.get_seniority acquirements
+    career.get_seniority acquirements unless id.nil?
   end
 
   def missing_requirements_for_next_seniority

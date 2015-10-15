@@ -13,6 +13,7 @@
     <%= link_to 'Acquirements', acquirements_path, class: 'button' %>
     <%= link_to 'Skills', skills_path, class: 'button' %>
     <%= link_to 'Careers', careers_path, class: 'button' %>
+    <%= link_to 'Invite', new_hacker_path, class: 'button' %>
   <% else %>
     <%= form_tag login_path do |f| %>
       <%= text_field_tag :email, nil, placeholder: 'Email' %>

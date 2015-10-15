@@ -11,18 +11,19 @@ class HackersControllerTest < ActionController::TestCase
     assert_not_nil assigns(:hackers)
   end
 
-  test "should get new" do
+  test "should get invite" do
     get :new
     assert_response :success
   end
 
-  test "should create hacker" do
+  test "should invite a hacker" do
     assert_difference('Hacker.count') do
       post :create, hacker: { email: 'eloy@altoros.com',
                               name: 'eloy',
                               career_id: careers(:ruby),
                               password: 'eloy',
-                              password_confirmation: 'eloy' }
+                              password_confirmation: 'eloy',
+                              seniority: '1' }
     end
 
     assert_redirected_to hacker_path(assigns(:hacker))
