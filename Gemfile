@@ -31,6 +31,7 @@ gem 'bcrypt', '~> 3.1.7'
 
 gem 'bourbon', '~> 4.2'
 gem 'neat', '~> 1.7'
+gem 'newrelic_rpm', '~> 3.13'
 gem 'responders', '~> 2.1'
 gem 'rollbar', '~> 2.4'
 
