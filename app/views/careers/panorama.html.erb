@@ -1,0 +1,25 @@
+<h1><%= @career.name %> career</h1>
+
+<table class="panorama">
+  <thead>
+    <tr>
+      <th>Skill</th>
+      <% Seniority::NAMES.each do |seniority| %>
+        <th><%= seniority %></th>
+      <% end %>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @panorama.each_skill do |requirement| %>
+      <tr>
+        <td><%= Skill.find(requirement[:skill_id]).name %></td>
+        <% requirement[:requirements_levels].each do |level| %>
+          <td><%= level %></td>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= link_to 'Back', careers_path %>

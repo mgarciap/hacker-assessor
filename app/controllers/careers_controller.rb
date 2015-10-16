@@ -1,5 +1,7 @@
+require 'panorama'
+
 class CareersController < ApplicationController
-  before_action :set_career, only: [:show, :edit, :update, :destroy]
+  before_action :set_career, only: [:show, :edit, :update, :destroy, :panorama]
 
   respond_to :html
 
@@ -34,6 +36,11 @@ class CareersController < ApplicationController
   def destroy
     @career.destroy
     respond_with(@career)
+  end
+
+  def panorama
+    @panorama = Panorama.new @career
+    respond_with(@panorama)
   end
 
   private

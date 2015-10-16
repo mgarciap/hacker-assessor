@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   resources :careers do
     resources :requirements, except: [:index, :show]
+    get 'panorama', on: :member
   end
   resources :acquirements, except: [:show]
   resources :hackers
